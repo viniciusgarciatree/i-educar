@@ -6,7 +6,6 @@ require_once 'include/clsBanco.inc.php';
 require_once 'include/public/geral.inc.php';
 require_once 'include/public/clsPublicSetorBai.inc.php';
 require_once 'include/pmieducar/geral.inc.php';
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
 
 class clsIndexBase extends clsBase
 {
@@ -72,11 +71,6 @@ class indice extends clsCadastro
 
         $cadastrou = $obj->cadastra();
         if ($cadastrou) {
-            $enderecamento = new clsPublicSetorBai($cadastrou);
-            $enderecamento = $enderecamento->detalhe();
-            $auditoria = new clsModulesAuditoriaGeral('Endereçamento de Setor', $this->pessoa_logada, $cadastrou);
-            $auditoria->inclusao($enderecamento);
-
             $this->mensagem = 'Cadastro efetuado com sucesso.<br>';
             $this->simpleRedirect('public_setor_lst.php');
         }
@@ -90,16 +84,11 @@ class indice extends clsCadastro
     {
         $enderecamentoDetalhe = new clsPublicSetorBai($this->idsetorbai);
         $enderecamentoDetalhe->cadastrou = $this->idsetorbai;
-        $enderecamentoDetalheAntes = $enderecamentoDetalhe->detalhe();
 
         $obj = new clsPublicSetorBai($this->idsetorbai, $this->nome);
 
         $editou = $obj->edita();
         if ($editou) {
-            $enderecamentoDetalheDepois = $enderecamentoDetalhe->detalhe();
-            $auditoria = new clsModulesAuditoriaGeral('Endereçamento de Setor', $this->pessoa_logada, $this->idsetorbai);
-            $auditoria->alteracao($enderecamentoDetalheAntes, $enderecamentoDetalheDepois);
-
             $this->mensagem = 'Edição efetuada com sucesso.<br>';
             $this->simpleRedirect('public_setor_lst.php');
         }

@@ -6,7 +6,6 @@ require_once 'include/clsBanco.inc.php';
 require_once 'include/public/geral.inc.php';
 require_once 'include/urbano/clsUrbanoTipoLogradouro.inc.php';
 require_once 'include/pmieducar/geral.inc.php';
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
 
 class clsIndexBase extends clsBase
 {
@@ -188,11 +187,6 @@ class indice extends clsCadastro
 
         $cadastrou = $obj->cadastra();
         if ($cadastrou) {
-            $enderecamento = new clsPublicLogradouro($cadastrou);
-            $enderecamento = $enderecamento->detalhe();
-            $auditoria = new clsModulesAuditoriaGeral('Endereçamento de Logradouro', $this->pessoa_logada, $cadastrou);
-            $auditoria->inclusao($enderecamento);
-
             $this->mensagem = 'Cadastro efetuado com sucesso.<br>';
             $this->simpleRedirect('public_logradouro_lst.php');
         }

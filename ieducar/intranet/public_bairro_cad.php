@@ -7,7 +7,6 @@ require_once 'include/public/geral.inc.php';
 require_once 'include/public/clsPublicDistrito.inc.php';
 require_once 'include/public/clsPublicSetorBai.inc.php';
 require_once 'include/pmieducar/geral.inc.php';
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
 require_once 'App/Model/ZonaLocalizacao.php';
 
 class clsIndexBase extends clsBase
@@ -219,9 +218,6 @@ class indice extends clsCadastro
         if ($cadastrou) {
             $enderecamento = new clsPublicBairro();
             $enderecamento->idbai = $cadastrou;
-            $enderecamento = $enderecamento->detalhe();
-            $auditoria = new clsModulesAuditoriaGeral('Endereçamento de Bairro', $this->pessoa_logada, $cadastrou);
-            $auditoria->inclusao($enderecamento);
 
             $this->mensagem = 'Cadastro efetuado com sucesso.<br>';
             $this->simpleRedirect('public_bairro_lst.php');
@@ -236,7 +232,6 @@ class indice extends clsCadastro
     {
         $enderecamentoDetalhe = new clsPublicBairro(null, null, $this->idbai);
         $enderecamentoDetalhe->cadastrou = $this->idbai;
-        $enderecamentoDetalheAntes = $enderecamentoDetalhe->detalhe();
 
         $obj = new clsPublicBairro(
             $this->idmun,
@@ -260,10 +255,6 @@ class indice extends clsCadastro
         $editou = $obj->edita();
 
         if ($editou) {
-            $enderecamentoDetalheDepois = $enderecamentoDetalhe->detalhe();
-            $auditoria = new clsModulesAuditoriaGeral('Endereçamento de Bairro', $this->pessoa_logada, $this->idbai);
-            $auditoria->alteracao($enderecamentoDetalheAntes, $enderecamentoDetalheDepois);
-
             $this->mensagem = 'Edição efetuada com sucesso.<br>';
             $this->simpleRedirect('public_bairro_lst.php');
         }

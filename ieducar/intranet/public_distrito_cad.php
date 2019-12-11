@@ -6,7 +6,6 @@ require_once 'include/clsBanco.inc.php';
 require_once 'include/public/geral.inc.php';
 require_once 'include/public/clsPublicDistrito.inc.php';
 require_once 'include/pmieducar/geral.inc.php';
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
 require_once 'App/Model/Pais.php';
 require_once 'App/Model/NivelAcesso.php';
 
@@ -182,9 +181,6 @@ class indice extends clsCadastro
         if ($cadastrou) {
             $enderecamento = new clsPublicDistrito();
             $enderecamento->iddis = $cadastrou;
-            $enderecamento = $enderecamento->detalhe();
-            $auditoria = new clsModulesAuditoriaGeral('Endereçamento de Distrito', $this->pessoa_logada, $cadastrou);
-            $auditoria->inclusao($enderecamento);
 
             $this->mensagem = 'Cadastro efetuado com sucesso.<br>';
             $this->simpleRedirect('public_distrito_lst.php');
@@ -205,7 +201,6 @@ class indice extends clsCadastro
 
         $enderecamentoDetalhe = new clsPublicDistrito(null, null, $this->iddis);
         $enderecamentoDetalhe->cadastrou = $this->iddis;
-        $enderecamentoDetalheAntes = $enderecamentoDetalhe->detalhe();
 
         $obj = new clsPublicDistrito(
             $this->idmun,
@@ -226,10 +221,6 @@ class indice extends clsCadastro
         $editou = $obj->edita();
 
         if ($editou) {
-            $enderecamentoDetalheDepois = $enderecamentoDetalhe->detalhe();
-            $auditoria = new clsModulesAuditoriaGeral('Endereçamento de Distrito', $this->pessoa_logada, $this->iddis);
-            $auditoria->alteracao($enderecamentoDetalheAntes, $enderecamentoDetalheDepois);
-
             $this->mensagem = 'Edição efetuada com sucesso.<br>';
             $this->simpleRedirect('public_distrito_lst.php');
         }
