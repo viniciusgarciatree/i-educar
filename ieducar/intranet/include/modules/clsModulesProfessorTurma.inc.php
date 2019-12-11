@@ -176,8 +176,6 @@ class clsModulesProfessorTurma extends Model
 
             $id = $db->InsertId("{$this->_tabela}_id_seq");
             $this->id = $id;
-            $auditoria = new clsModulesAuditoriaGeral('professor_turma', $this->pessoa_logada, $id);
-            $auditoria->inclusao($this->detalhe());
 
             return $id;
         }
@@ -256,8 +254,6 @@ class clsModulesProfessorTurma extends Model
                 $detalheAntigo = $this->detalhe();
                 $db->Consulta("UPDATE {$this->_tabela} SET $set WHERE id = '{$this->id}'");
                 $detalheAtual = $this->detalhe();
-                $auditoria = new clsModulesAuditoriaGeral('professor_turma', $this->pessoa_logada, $this->id);
-                $auditoria->alteracao($detalheAntigo, $detalheAtual);
 
                 return true;
             }
@@ -476,8 +472,6 @@ class clsModulesProfessorTurma extends Model
             $sql = "DELETE FROM {$this->_tabela} pt WHERE id = '{$this->id}'";
             $db = new clsBanco();
             $db->Consulta($sql);
-            $auditoria = new clsModulesAuditoriaGeral('professor_turma', $this->pessoa_logada, $this->id);
-            $auditoria->exclusao($detalhe);
 
             return true;
         }
@@ -524,14 +518,11 @@ class clsModulesProfessorTurma extends Model
         $componentesExcluidos = array_diff($componentesAntigos, $componentesNovos);
         $componentesAdicionados = array_diff($componentesNovos, $componentesAntigos);
 
-        $auditoria = new clsModulesAuditoriaGeral('professor_turma_disciplina', $this->pessoa_logada, $professor_turma_id);
-
         foreach ($componentesExcluidos as $componente) {
             $componente = [
                 'componente_curricular_id' => $componente,
                 'nome' => $this->retornaNomeDoComponente($componente)
             ];
-            $auditoria->exclusao($componente);
         }
 
         foreach ($componentesAdicionados as $componente) {
@@ -539,7 +530,6 @@ class clsModulesProfessorTurma extends Model
                 'componente_curricular_id' => $componente,
                 'nome' => $this->retornaNomeDoComponente($componente)
             ];
-            $auditoria->inclusao($componente);
         }
     }
 
