@@ -12,7 +12,6 @@ require_once 'ComponenteCurricular/Model/AnoEscolarDataMapper.php';
 require_once 'ComponenteCurricular/Model/ComponenteDataMapper.php';
 require_once 'RegraAvaliacao/Model/RegraDataMapper.php';
 require_once 'Avaliacao/Fixups/CleanComponentesCurriculares.php';
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
 
 class clsIndexBase extends clsBase
 {
@@ -404,15 +403,9 @@ class indice extends clsCadastro
         );
 
         if ($obj->existe()) {
-            $detalheAntigo = $obj->detalhe();
             $cadastrou = $obj->edita();
-            $auditoria = new clsModulesAuditoriaGeral('escola_serie', $this->pessoa_logada);
-            $auditoria->alteracao($detalheAntigo, $obj->detalhe());
         } else {
             $cadastrou = $obj->cadastra();
-
-            $auditoria = new clsModulesAuditoriaGeral('escola_serie', $this->pessoa_logada);
-            $auditoria->inclusao($obj->detalhe());
         }
 
         if ($cadastrou) {
@@ -498,11 +491,7 @@ class indice extends clsCadastro
             return $this->simpleRedirect(\Request::getRequestUri());
         }
 
-        $detalheAntigo = $obj->detalhe();
         $editou = $obj->edita();
-
-        $auditoria = new clsModulesAuditoriaGeral('escola_serie', $this->pessoa_logada);
-        $auditoria->alteracao($detalheAntigo, $obj->detalhe());
 
         $obj = new clsPmieducarEscolaSerieDisciplina(
             $this->ref_cod_serie,
@@ -581,10 +570,7 @@ class indice extends clsCadastro
             0
         );
 
-        $detalhe = $obj->detalhe();
         $excluiu = $obj->excluir();
-        $auditoria = new clsModulesAuditoriaGeral('escola_serie', $this->pessoa_logada);
-        $auditoria->exclusao($detalhe);
 
         if ($excluiu) {
             $obj = new clsPmieducarEscolaSerieDisciplina($this->ref_cod_serie_, $this->ref_cod_escola_, null, 0);

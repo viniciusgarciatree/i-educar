@@ -43,7 +43,6 @@ require_once 'include/clsBanco.inc.php';
 require_once 'include/pmieducar/geral.inc.php';
 require_once 'Portabilis/View/Helper/Application.php';
 require_once 'Portabilis/Utils/Database.php';
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
 require_once 'App/Model/ZonaLocalizacao.php';
 
 class clsIndexBase extends clsBase
@@ -1788,8 +1787,6 @@ class indice extends clsCadastro
                     if ($cadastrou1) {
                         $escola = new clsPmieducarEscola($cod_escola);
                         $escola = $escola->detalhe();
-                        $auditoria = new clsModulesAuditoriaGeral("escola", $this->pessoa_logada, $cod_escola);
-                        $auditoria->inclusao($escola);
 
                         $objTelefone = new clsPessoaTelefone($this->ref_idpes);
                         $objTelefone->excluiTodos();
@@ -1955,8 +1952,6 @@ class indice extends clsCadastro
             if ($cadastrou) {
                 $escola = new clsPmieducarEscola($cod_escola);
                 $escola = $escola->detalhe();
-                $auditoria = new clsModulesAuditoriaGeral("escola", $this->pessoa_logada, $cod_escola);
-                $auditoria->inclusao($escola);
                 $obj2 = new clsPmieducarEscolaComplemento($cadastrou, null, $this->pessoa_logada, idFederal2int($this->cep), $this->numero, $this->complemento, $this->p_email, $this->fantasia, $this->cidade, $this->bairro, $this->logradouro, $this->p_ddd_telefone_1, $this->p_telefone_1, $this->p_ddd_telefone_fax, $this->p_telefone_fax, null, null, 1);
                 $cadastrou2 = $obj2->cadastra();
 
@@ -2160,8 +2155,6 @@ class indice extends clsCadastro
 
             if ($editou) {
                 $escolaDetAtual = $obj->detalhe();
-                $auditoria = new clsModulesAuditoriaGeral("escola", $this->pessoa_logada, $this->cod_escola);
-                $auditoria->alteracao($escolaDetAntigo, $escolaDetAtual);
             }
         } else {
             $obj = new clsPmieducarEscola(null, $this->pessoa_logada, null, $this->ref_cod_instituicao, $this->zona_localizacao, $this->ref_cod_escola_rede_ensino, $this->ref_idpes, $this->sigla, null, null, 1, $this->bloquear_lancamento_diario_anos_letivos_encerrados, $this->utiliza_regra_diferenciada);
@@ -2255,8 +2248,6 @@ class indice extends clsCadastro
             if ($this->cod_escola) {
                 $obj = new clsPmieducarEscola($this->cod_escola);
                 $escolaDetAtual = $obj->detalhe();
-                $auditoria = new clsModulesAuditoriaGeral("escola", $this->pessoa_logada, $this->cod_escola);
-                $auditoria->inclusao($escolaDetAtual);
             }
         }
 
@@ -2397,8 +2388,6 @@ class indice extends clsCadastro
         $excluiu = $obj->excluir();
 
         if ($excluiu) {
-            $auditoria = new clsModulesAuditoriaGeral("escola", $this->pessoa_logada, $this->cod_escola);
-            $auditoria->exclusao($escola);
             $this->mensagem .= "Exclusão efetuada com sucesso.<br>";
 
             throw new HttpResponseException(
