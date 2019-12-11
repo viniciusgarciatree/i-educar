@@ -17,7 +17,6 @@ require_once 'include/clsBase.inc.php';
 require_once 'include/clsCadastro.inc.php';
 require_once 'include/clsBanco.inc.php';
 require_once 'include/pmieducar/geral.inc.php';
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
 require_once 'lib/Portabilis/Date/Utils.php';
 require_once 'Avaliacao/Fixups/CleanComponentesCurriculares.php';
 require_once 'Portabilis/View/Helper/Application.php';
@@ -912,8 +911,6 @@ class indice extends clsCadastro
 
         $turma = new clsPmieducarTurma($this->cod_turma);
         $turma = $turma->detalhe();
-        $auditoria = new clsModulesAuditoriaGeral('turma', $this->pessoa_logada, $this->cod_turma);
-        $auditoria->inclusao($turma);
 
         $this->atualizaComponentesCurriculares(
             $this->ref_cod_serie,
@@ -1000,9 +997,6 @@ class indice extends clsCadastro
         if ($this->ref_cod_disciplina_dispensada) {
             (new ExemptedDisciplineLinksRemover())->remove(LegacySchoolClass::find($this->cod_turma));
         }
-
-        $auditoria = new clsModulesAuditoriaGeral('turma', $this->pessoa_logada, $this->cod_turma);
-        $auditoria->alteracao($turmaDetalhe, $objTurma->detalhe());
 
         $this->atualizaComponentesCurriculares(
             $turmaDetalhe['ref_ref_cod_serie'],
@@ -1520,8 +1514,6 @@ class indice extends clsCadastro
             return false;
         }
 
-        $turma = $obj->detalhe();
-
         $excluiu = $obj->excluir();
 
         if ($excluiu) {
@@ -1529,9 +1521,6 @@ class indice extends clsCadastro
             $excluiu1 = $obj->excluirTodos($this->cod_turma);
 
             if ($excluiu1) {
-                $auditoria = new clsModulesAuditoriaGeral('turma', $this->pessoa_logada, $this->cod_turma);
-                $auditoria->exclusao($turma);
-
                 $this->mensagem = 'Exclusão efetuada com sucesso.';
 
                 throw new HttpResponseException(
