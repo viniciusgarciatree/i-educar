@@ -4,7 +4,6 @@ use iEducar\Legacy\Model;
 use Illuminate\Support\Facades\Session;
 
 require_once 'include/urbano/geral.inc.php';
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
 
 class clsUrbanoCepLogradouro extends Model
 {
@@ -124,8 +123,6 @@ class clsUrbanoCepLogradouro extends Model
             $db->Consulta("INSERT INTO {$this->_tabela} ( $campos ) VALUES( $valores )");
 
             $detalhe = $this->detalhe();
-            $auditoria = new clsModulesAuditoriaGeral('Endereçamento de CEP', $this->pessoa_logada, $this->cep);
-            $auditoria->inclusao($detalhe);
 
             return true;
         }
