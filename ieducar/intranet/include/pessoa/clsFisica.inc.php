@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Session;
 
 require_once 'include/clsBanco.inc.php';
 require_once 'include/Geral.inc.php';
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
 
 class clsFisica
 {
@@ -442,8 +441,6 @@ class clsFisica
                 $detalhe = $this->detalheSimples();
                 // salvar cpf como string;
                 $detalhe['cpf'] = str_pad((string)$detalhe['cpf'], 11, '0', STR_PAD_LEFT);
-                $auditoria = new clsModulesAuditoriaGeral('fisica', $this->pessoa_logada, $this->idpes);
-                $auditoria->inclusao($detalhe);
             }
 
             return true;
@@ -706,9 +703,6 @@ class clsFisica
                 $detalheAtual = $this->detalheSimples();
                 $detalheAtual['cpf'] = str_pad((string)$detalheAtual['cpf'], 11, '0', STR_PAD_LEFT);
 
-                $auditoria = new clsModulesAuditoriaGeral('fisica', $this->pessoa_logada, $this->idpes);
-                $auditoria->alteracao($detalheAntigo, $detalheAtual);
-
                 return true;
             }
         }
@@ -728,9 +722,6 @@ class clsFisica
 
             $db = new clsBanco();
             $db->Consulta("DELETE FROM {$this->schema}.{$this->tabela} WHERE idpes = {$this->idpes}");
-
-            $auditoria = new clsModulesAuditoriaGeral('fisica', $this->pessoa_logada, $this->idpes);
-            $auditoria->exclusao($detalheAntigo, $this->detalheSimples());
 
             return true;
         }
