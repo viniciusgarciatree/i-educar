@@ -13,15 +13,6 @@ class CreateEducacensoImportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('public.educacenso_imports', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('year');
-            $table->string('school');
-            $table->integer('user_id');
-            $table->boolean('finished');
-            $table->boolean('error')->default(false);
-            $table->timestamps();
-        });
     }
 
     /**
@@ -31,6 +22,5 @@ class CreateEducacensoImportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('public.educacenso_imports');
     }
 }

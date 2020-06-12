@@ -13,14 +13,6 @@ class CreateCadastroDeficienciaExcluidosTable extends Migration
      */
     public function up()
     {
-        Schema::create('cadastro.deficiencia_excluidos', function (Blueprint $table) {
-            $table->integer('cod_deficiencia')->primary();
-            $table->string('nm_deficiencia');
-            $table->integer('deficiencia_educacenso')->nullable();
-            $table->boolean('desconsidera_regra_diferenciada')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
     }
 
     /**
@@ -30,6 +22,5 @@ class CreateCadastroDeficienciaExcluidosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cadastro.deficiencia_excluidos');
     }
 }

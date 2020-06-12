@@ -13,20 +13,6 @@ class CreateCadastroFisicaFotoTable extends Migration
      */
     public function up()
     {
-        DB::unprepared(
-            '
-                SET default_with_oids = true;
-                
-                CREATE TABLE cadastro.fisica_foto (
-                    idpes integer NOT NULL,
-                    caminho character varying(255),
-	                updated_at timestamp NULL DEFAULT now()
-                );
-                
-                ALTER TABLE ONLY cadastro.fisica_foto
-                    ADD CONSTRAINT fisica_foto_pkey PRIMARY KEY (idpes);
-            '
-        );
     }
 
     /**
@@ -36,6 +22,5 @@ class CreateCadastroFisicaFotoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cadastro.fisica_foto');
     }
 }

@@ -13,14 +13,6 @@ class CreateDistrictsTable extends Migration
      */
     public function up()
     {
-        Schema::create('public.districts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('city_id');
-            $table->string('name');
-            $table->integer('ibge_code')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
     }
 
     /**
@@ -30,6 +22,5 @@ class CreateDistrictsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('public.districts');
     }
 }

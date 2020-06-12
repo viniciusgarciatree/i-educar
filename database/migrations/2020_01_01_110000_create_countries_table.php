@@ -13,13 +13,6 @@ class CreateCountriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('public.countries', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->integer('ibge_code')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
     }
 
     /**
@@ -29,6 +22,5 @@ class CreateCountriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('public.countries');
     }
 }

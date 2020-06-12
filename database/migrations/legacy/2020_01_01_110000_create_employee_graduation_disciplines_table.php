@@ -11,21 +11,4 @@ class CreateEmployeeGraduationDisciplinesTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('employee_graduation_disciplines', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('employee_graduation_disciplines');
-    }
 }

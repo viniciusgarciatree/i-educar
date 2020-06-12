@@ -13,6 +13,7 @@ class RemoveDuplicatedLibraryMenu extends Migration
      */
     public function up()
     {
+        /*
         $menus = Menu::query()
             ->where('process', 594)
             ->whereNull('link')
@@ -34,5 +35,6 @@ class RemoveDuplicatedLibraryMenu extends Migration
                 'process' => 599,
                 'description' => 'Categorias de obras'
             ]);
+            */
     }
 }

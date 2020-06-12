@@ -13,17 +13,6 @@ class CreateTypes extends Migration
      */
     public function up()
     {
-        DB::unprepared(
-            '
-                CREATE TYPE public.typ_idlog AS (
-                    idlog integer
-                );
-                
-                CREATE TYPE public.typ_idpes AS (
-                    idpes integer
-                );
-            '
-        );
     }
 
     /**
@@ -33,12 +22,5 @@ class CreateTypes extends Migration
      */
     public function down()
     {
-        DB::unprepared(
-            '
-                DROP TYPE public.typ_idlog;
-                
-                DROP TYPE public.typ_idpes;
-            '
-        );
     }
 }

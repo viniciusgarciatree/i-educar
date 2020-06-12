@@ -13,19 +13,6 @@ class CreateCadastroFisicaRacaTable extends Migration
      */
     public function up()
     {
-        DB::unprepared(
-            '
-                SET default_with_oids = true;
-                
-                CREATE TABLE cadastro.fisica_raca (
-                    ref_idpes integer NOT NULL,
-                    ref_cod_raca integer NOT NULL
-                );
-                
-                ALTER TABLE ONLY cadastro.fisica_raca
-                    ADD CONSTRAINT pk_fisica_raca PRIMARY KEY (ref_idpes);
-            '
-        );
     }
 
     /**
@@ -35,6 +22,5 @@ class CreateCadastroFisicaRacaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cadastro.fisica_raca');
     }
 }

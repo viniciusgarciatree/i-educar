@@ -13,15 +13,6 @@ class CreateAggregates extends Migration
      */
     public function up()
     {
-        DB::unprepared(
-            '
-                CREATE AGGREGATE public.textcat_all(text) (
-                    SFUNC = public.commacat_ignore_nulls,
-                    STYPE = text,
-                    INITCOND = \'\'
-                );
-            '
-        );
     }
 
     /**
@@ -31,10 +22,5 @@ class CreateAggregates extends Migration
      */
     public function down()
     {
-        DB::unprepared(
-            '
-                DROP AGGREGATE public.textcat_all(text);
-            '
-        );
     }
 }
