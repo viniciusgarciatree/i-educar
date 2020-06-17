@@ -25,6 +25,7 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+    use SendsPasswordResetEmails;
 
     /**
      * The password token repository.
