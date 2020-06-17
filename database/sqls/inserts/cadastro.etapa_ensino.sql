@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS cadastro.etapa_ensino;
 DROP TABLE cadastro.etapa_ensino;
 CREATE TABLE cadastro.etapa_ensino
 (
