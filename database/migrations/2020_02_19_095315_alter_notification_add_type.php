@@ -13,9 +13,14 @@ class AlterNotificationAddType extends Migration
      */
     public function up()
     {
-        Schema::table('public.notifications', function(Blueprint $table) {
-            $table->integer('type_id');
-        });
+        if (Schema::hasColumn('public.notifications', 'type_id')) {
+            Schema::table(
+                'public.notifications',
+                function (Blueprint $table) {
+                    $table->integer('type_id');
+                }
+            );
+        }
     }
 
     /**

@@ -13,10 +13,15 @@ class CreateNotificationTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('public.notification_type', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-        });
+        if (Schema::hasTable('public.notification_type')) {
+            Schema::create(
+                'public.notification_type',
+                function (Blueprint $table) {
+                    $table->bigIncrements('id');
+                    $table->string('name');
+                }
+            );
+        }
     }
 
     /**

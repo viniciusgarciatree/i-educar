@@ -13,14 +13,16 @@ class CreateNotificationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('public.notifications', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('text');
-            $table->string('link')->nullable();
-            $table->dateTime('read_at')->nullable();
-            $table->integer('user_id');
-            $table->timestamps();
-        });
+        if (Schema::hasTable('public.notifications')) {
+            Schema::create('public.notifications', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->string('text');
+                $table->string('link')->nullable();
+                $table->dateTime('read_at')->nullable();
+                $table->integer('user_id');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

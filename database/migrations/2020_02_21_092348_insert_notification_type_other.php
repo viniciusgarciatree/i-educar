@@ -13,10 +13,15 @@ class InsertNotificationTypeOther extends Migration
      */
     public function up()
     {
-        DB::table('public.notification_type')->insert([
-            'id' => NotificationType::OTHER,
-            'name' => 'Outros'
-        ]);
+        $results = DB::select('select * from public.notification_type where id = :id', ['id' => NotificationType::OTHER]);
+        if(count($results) ==0) {
+            DB::table('public.notification_type')->insert(
+                [
+                    'id'   => NotificationType::OTHER,
+                    'name' => 'Outros'
+                ]
+            );
+        }
     }
 
     /**

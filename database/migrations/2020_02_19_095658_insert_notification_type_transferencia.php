@@ -13,10 +13,15 @@ class InsertNotificationTypeTransferencia extends Migration
      */
     public function up()
     {
-        DB::table('public.notification_type')->insert([
-            'id' => NotificationType::TRANSFER,
-            'name' => 'Transferência'
-        ]);
+        $results = DB::select('select * from public.notification_type where id = :id', ['id' => NotificationType::TRANSFER]);
+        if(count($results) ==0) {
+            DB::table('public.notification_type')->insert(
+                [
+                    'id'   => NotificationType::TRANSFER,
+                    'name' => 'Transferência'
+                ]
+            );
+        }
     }
 
     /**
