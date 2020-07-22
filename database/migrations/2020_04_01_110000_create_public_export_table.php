@@ -13,16 +13,21 @@ class CreatePublicExportTable extends Migration
      */
     public function up()
     {
-        Schema::create('public.export', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('user_id');
-            $table->string('model');
-            $table->json('fields');
-            $table->string('hash')->nullable();
-            $table->string('filename')->nullable();
-            $table->string('url')->nullable();
-            $table->timestamps();
-        });
+        if (Schema::hasTable('public.export')) {
+            Schema::create(
+                'public.export',
+                function (Blueprint $table) {
+                    $table->bigIncrements('id');
+                    $table->bigInteger('user_id');
+                    $table->string('model');
+                    $table->json('fields');
+                    $table->string('hash')->nullable();
+                    $table->string('filename')->nullable();
+                    $table->string('url')->nullable();
+                    $table->timestamps();
+                }
+            );
+        }
     }
 
     /**

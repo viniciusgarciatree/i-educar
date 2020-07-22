@@ -56,6 +56,7 @@ class EnderecoController extends ApiCoreController
 
     protected function getPermissaoEditar()
     {
+        return ['permite_editar' => false];
         return ['permite_editar' => Gate::allows('modify', 999878)];
     }
 
@@ -104,6 +105,7 @@ class EnderecoController extends ApiCoreController
         if ($this->isRequestFor('get', 'primeiro_endereco_cep')) {
             $this->appendResponse($this->getPrimeiroEnderecoCep());
         } elseif ($this->isRequestFor('get', 'permissao_editar')) {
+            $stop = $this->getPermissaoEditar();
             $this->appendResponse($this->getPermissaoEditar());
         } elseif ($this->isRequestFor('delete', 'delete_endereco')) {
             $this->deleteEndereco();

@@ -13,15 +13,25 @@ class AddExportNotificationType extends Migration
      */
     public function up()
     {
-        DB::table('public.notification_type')->insert([
-            'id' => NotificationType::EXPORT_STUDENT,
-            'name' => 'Exportação de dados de alunos'
-        ]);
+        $results = DB::select('select * from public.notification_type where id = :id', ['id' => NotificationType::EXPORT_STUDENT]);
+        if(count($results) ==0) {
+            DB::table('public.notification_type')->insert(
+                [
+                    'id'   => NotificationType::EXPORT_STUDENT,
+                    'name' => 'Exportação de dados de alunos'
+                ]
+            );
+        }
 
-        DB::table('public.notification_type')->insert([
-            'id' => NotificationType::EXPORT_TEACHER,
-            'name' => 'Exportação de dados de professores'
-        ]);
+        $results = DB::select('select * from public.notification_type where id = :id', ['id' => NotificationType::EXPORT_TEACHER]);
+        if(count($results) ==0) {
+            DB::table('public.notification_type')->insert(
+                [
+                    'id'   => NotificationType::EXPORT_TEACHER,
+                    'name' => 'Exportação de dados de professores'
+                ]
+            );
+        }
     }
 
     /**
