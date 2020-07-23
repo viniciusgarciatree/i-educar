@@ -89,7 +89,7 @@ class EducacensoRepository
             ep.cep AS cep,
             municipio.cod_ibge AS "codigoIbgeMunicipio",
             districts.ibge_code AS "codigoIbgeDistrito",
-            l.idtlog || l.nome AS logradouro,
+            l.nome AS logradouro,
             ep.numero AS numero,
             ep.complemento AS complemento,
             bairro.nome AS bairro,
@@ -309,7 +309,6 @@ SQL;
      */
     public function getDataForRecord40($school)
     {
-
         return $this->getBuilderForRecord40($school)
             ->get()
             ->toArray();

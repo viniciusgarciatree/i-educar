@@ -253,10 +253,6 @@ class clsPessoa_
 
         $name = pg_escape_string($name);
 
-        if (config('legacy.app.uppercase_names')) {
-            $name = Str::upper($name);
-        }
-
         return trim($name);
     }
 }

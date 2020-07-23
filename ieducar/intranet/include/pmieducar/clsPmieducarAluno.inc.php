@@ -949,9 +949,9 @@ class clsPmieducarAluno extends Model
         if (is_string($str_nome_aluno)) {
             $str_nm_aluno = $db->escapeString($str_nome_aluno);
             $filtros .= "{$whereAnd}  unaccent(coalesce(fisica.nome_social, '') || pessoa.nome) LIKE unaccent('%{$str_nm_aluno}%')";
+
             $whereAnd = ' AND ';
         }
-
         if (is_numeric($int_cpf_aluno)) {
             $filtros .= "{$whereAnd}  fisica.cpf = '{$int_cpf_aluno}'";
             $whereAnd = ' AND ';
