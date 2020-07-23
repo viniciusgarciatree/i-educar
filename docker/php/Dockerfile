@@ -55,6 +55,9 @@ RUN apt-get install -y unzip
 RUN apt-get install -y libzip-dev
 RUN docker-php-ext-install zip
 
+RUN apt-get remove -y libgcc-8-dev
+RUN apt-get install -y libc6-dev
+
 RUN mkdir -p /usr/share/man/man7
 RUN apt-get install -y postgresql-contrib-9.5
 
@@ -77,3 +80,5 @@ RUN echo "extension=/usr/local/lib/php/extensions/no-debug-non-zts-20180731/pdfl
 RUN docker-php-ext-install pcntl
 
 RUN apt-get install openjdk-8-jdk -y
+
+RUN apt-get install npm -y

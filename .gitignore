@@ -2,8 +2,11 @@
 /database/data
 /database/migrations/extras
 /public/modules
+/docker/jasper/
 /vendor
 /ieducar-*
+laravel-echo-server.json
+
 ieducar-*.tar.gz
 .env
 .env.host
@@ -62,3 +65,4 @@ website/i18n/*
 
 # this is the code coverage generated when running phpunit.
 ieducar/tests/log
+composer.lock
