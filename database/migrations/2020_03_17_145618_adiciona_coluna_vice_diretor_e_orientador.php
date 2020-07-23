@@ -13,22 +13,10 @@ class AdicionaColunaViceDiretorEOrientador extends Migration
      */
     public function up()
     {
-        if (Schema::hasColumn('pmieducar.escola', 'qtd_vice_diretor')) {
-            Schema::table(
-                'pmieducar.escola',
-                function (Blueprint $table) {
-                    $table->integer('qtd_vice_diretor')->nullable();
-                }
-            );
-        }
-        if (Schema::hasColumn('pmieducar.escola', 'qtd_orientador_comunitario')) {
-            Schema::table(
-                'pmieducar.escola',
-                function (Blueprint $table) {
-                    $table->integer('qtd_orientador_comunitario')->nullable();
-                }
-            );
-        }
+        Schema::table('pmieducar.escola', function (Blueprint $table) {
+            $table->integer('qtd_vice_diretor')->nullable();
+            $table->integer('qtd_orientador_comunitario')->nullable();
+        });
     }
 
     /**
