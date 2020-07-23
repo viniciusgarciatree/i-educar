@@ -49,9 +49,9 @@ class Upgrade extends Migration
 
 DROP SEQUENCE IF EXISTS public.seq_distrito;
 
-DROP FUNCTION IF EXISTS cadastro.fcn_aft_ins_endereco_externo();
+--DROP FUNCTION IF EXISTS cadastro.fcn_aft_ins_endereco_externo();
 
-DROP FUNCTION IF EXISTS cadastro.fcn_aft_ins_endereco_pessoa();
+--DROP FUNCTION IF EXISTS cadastro.fcn_aft_ins_endereco_pessoa();
 
 DROP TABLE IF EXISTS cadastro.fisica_cpf;
 
