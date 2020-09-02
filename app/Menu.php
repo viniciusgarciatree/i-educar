@@ -64,6 +64,16 @@ class Menu extends Model
     }
 
     /**
+     * Indica se o menu é um link.
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        return boolval($this->active);
+    }
+
+    /**
      * Indica se o menu tem links em seus submenus.
      *
      * @return bool
@@ -71,7 +81,6 @@ class Menu extends Model
     public function hasLinkInSubmenu()
     {
         foreach ($this->children as $menu) {
-
             if ($menu->isLink()) {
                 return true;
             }
@@ -109,7 +118,9 @@ class Menu extends Model
     {
         $root = $this;
 
+
         while ($root->parent) {
+
             $root = $root->parent;
         }
 
@@ -276,7 +287,7 @@ class Menu extends Model
     {
         return static::query()
                 ->with('children.children.children.children.children')
-                ->whereNull('parent_id')
+                ->Where('active', '=', true)
                 ->orderBy('order')
                 ->get();
     }
@@ -299,6 +310,7 @@ class Menu extends Model
                 $query->orWhere('title', 'ilike', "%{$search}%");
                 $query->orWhere('description', 'ilike', "%{$search}%");
             })
+            ->Where('active', '=', 'true')
             ->orderBy('title')
             ->limit(15)
             ->get();
