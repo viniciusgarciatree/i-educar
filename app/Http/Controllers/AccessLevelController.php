@@ -81,6 +81,7 @@ class AccessLevelController extends Controller
     {
         $this->menu(554)->breadcrumb('Editar tipo de usuário');
 
+
         $processes = $userType->load('menus')->getProcesses()->toArray();
 
         /** @var User $user */
