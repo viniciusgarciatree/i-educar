@@ -222,7 +222,7 @@ class indice extends clsDetalhe
         $situacao = App_Model_MatriculaSituacao::getSituacao($registro['aprovado']);
         $this->addDetalhe(['Situação', $situacao]);
 
-        if ($registro[aprovado] == 4) {
+        if ($registro['aprovado'] == 4) {
             $obj_transferencia = new clsPmieducarTransferenciaSolicitacao();
 
             $lst_transferencia = $obj_transferencia->lista(null, null, null, null, null, $registro['cod_matricula'], null, null, null, null, null, 1, null, null, $registro['ref_cod_aluno'], false);
@@ -261,7 +261,7 @@ class indice extends clsDetalhe
             $this->addDetalhe(['Observação', $observacaoAbandono]);
         }
 
-        if ($registro[aprovado] == App_Model_MatriculaSituacao::RECLASSIFICADO){
+        if ($registro['aprovado'] == App_Model_MatriculaSituacao::RECLASSIFICADO){
             $this->addDetalhe(['Descrição', $this->getDescription($registro['descricao_reclassificacao'])]);
         }
 
