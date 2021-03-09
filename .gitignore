@@ -72,3 +72,7 @@ ieducar/tests/log
 .~lock.*
 composer.lock
 ieducar/intranet/*.log
+
+programmatic-types.graphql
+schema-directives.graphql
+_lighthouse_ide_helper.php
