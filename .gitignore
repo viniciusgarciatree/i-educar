@@ -73,3 +73,9 @@ ieducar/tests/log
 programmatic-types.graphql
 schema-directives.graphql
 _lighthouse_ide_helper.php
+# Imagens das empresas.
+/public/logo_prefeitura.jpg
+/public/*
+.~lock.*
+composer.lock
+ieducar/intranet/*.log

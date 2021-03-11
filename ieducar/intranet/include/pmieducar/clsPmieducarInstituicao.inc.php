@@ -15,6 +15,7 @@ class clsPmieducarInstituicao extends Model
     public $cidade;
     public $bairro;
     public $logradouro;
+    public $cnpj;
     public $numero;
     public $complemento;
     public $nm_responsavel;
@@ -64,6 +65,7 @@ class clsPmieducarInstituicao extends Model
         $cidade = null,
         $bairro = null,
         $logradouro = null,
+        $cnpj = null,
         $numero = null,
         $complemento = null,
         $nm_responsavel = null,
@@ -100,6 +102,7 @@ class clsPmieducarInstituicao extends Model
             cidade,
             bairro,
             logradouro,
+            cnpj,
             numero,
             complemento,
             nm_responsavel,
@@ -178,6 +181,10 @@ class clsPmieducarInstituicao extends Model
 
         if (is_string($logradouro)) {
             $this->logradouro = $logradouro;
+        }
+
+        if (is_string($cnpj)) {
+            $this->cnpj = $cnpj;
         }
 
         if (is_numeric($numero)) {
@@ -805,6 +812,11 @@ class clsPmieducarInstituicao extends Model
 
             if (is_numeric($this->controlar_espaco_utilizacao_aluno)) {
                 $set .= "{$gruda}controlar_espaco_utilizacao_aluno = '{$this->controlar_espaco_utilizacao_aluno}'";
+                $gruda = ', ';
+            }
+
+            if (is_numeric($this->cnpj)) {
+                $set .= "{$gruda}cnpj = '{$this->cnpj}'";
                 $gruda = ', ';
             }
 

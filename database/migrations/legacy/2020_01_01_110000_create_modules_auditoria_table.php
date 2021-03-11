@@ -13,8 +13,9 @@ class CreateModulesAuditoriaTable extends Migration
      */
     public function up()
     {
-        DB::unprepared(
-            '
+        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'auditoria');"))[0]->exists == false) {
+            DB::unprepared(
+                '
                 SET default_with_oids = false;
 
                 CREATE TABLE modules.auditoria (
@@ -26,7 +27,8 @@ class CreateModulesAuditoriaTable extends Migration
                     data_hora timestamp without time zone
                 );
             '
-        );
+            );
+        }
     }
 
     /**

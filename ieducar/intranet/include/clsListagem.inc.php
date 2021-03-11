@@ -52,6 +52,8 @@ class clsListagem extends clsCampos
     public $campos_ordenacao;
     public $fonte;
     public $exibirBotaoSubmit = true;
+    public $acaoImprimirPdf = false;
+    public $linkImprimirPdf = '';
 
     public function __construct()
     {
@@ -323,6 +325,10 @@ HTML;
                 } else {
                     $retorno .=  "&nbsp;<input type='button' class='botaolistagem btn-green' onclick='javascript:acao{$this->funcAcaoNome}();' value='Buscar' id='botao_busca'>&nbsp;";
                 }
+            }
+
+            if ($this->acaoImprimirPdf) {
+                $retorno .= $this->linkImprimirPdf;
             }
 
             $retorno .=  '
