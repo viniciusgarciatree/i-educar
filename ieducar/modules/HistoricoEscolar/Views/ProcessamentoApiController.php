@@ -1138,7 +1138,8 @@ class ProcessamentoApiController extends Core_Controller_Page_EditController
                 $this->service = new Avaliacao_Service_Boletim(
                     [
                         'matricula' => $matriculaId,
-                        'usuario' => $this->getSession()->id_pessoa
+                        'usuario' => $this->getSession()->id_pessoa,
+                        'ignorarDispensasParciais' => true,
                     ]
                 );
 

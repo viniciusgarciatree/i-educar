@@ -22,7 +22,9 @@ trait Avaliacao_Service_Boletim_Acessores
     protected $_options = [
         'matricula' => null,
         'etapas' => null,
-        'usuario' => null
+        'usuario' => null,
+        'turmaId' => null,
+        'ignorarDispensasParciais' => false,
     ];
 
     /**
