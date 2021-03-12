@@ -94,7 +94,6 @@ class indice extends clsDetalhe
   function Gerar()
   {
     $this->titulo = 'Servidor - Detalhe';
-    $this->addBanner('imagens/nvp_top_intranet.jpg', 'imagens/nvp_vert_intranet.jpg', 'Intranet');
 
     $this->cod_servidor        = $_GET['cod_servidor'];
     $this->ref_cod_instituicao = $_GET['ref_cod_instituicao'];
@@ -530,7 +529,7 @@ class indice extends clsDetalhe
     $this->breadcrumb('Funções do servidor', [
         url('intranet/educar_servidores_index.php') => 'Servidores',
     ]);
-    
+
   }
 }
 
