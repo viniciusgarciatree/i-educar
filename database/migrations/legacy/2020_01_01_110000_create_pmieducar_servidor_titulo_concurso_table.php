@@ -13,11 +13,8 @@ class CreatePmieducarServidorTituloConcursoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'servidor_titulo_concurso');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.servidor_titulo_concurso_cod_servidor_titulo_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -31,14 +28,13 @@ class CreatePmieducarServidorTituloConcursoTable extends Migration
                     data_vigencia_homolog timestamp without time zone NOT NULL,
                     data_publicacao timestamp without time zone NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.servidor_titulo_concurso
                     ADD CONSTRAINT servidor_titulo_concurso_pkey PRIMARY KEY (cod_servidor_titulo);
 
                 SELECT pg_catalog.setval(\'pmieducar.servidor_titulo_concurso_cod_servidor_titulo_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

@@ -13,11 +13,8 @@ class CreateModulesItinerarioTransporteEscolarTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'itinerario_transporte_escolar');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.itinerario_transporte_escolar_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -34,14 +31,13 @@ class CreateModulesItinerarioTransporteEscolarTable extends Migration
                     hora time without time zone,
                     tipo character(1) NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY modules.itinerario_transporte_escolar
                     ADD CONSTRAINT itinerario_transporte_escolar_cod_itinerario_transporte_escolar PRIMARY KEY (cod_itinerario_transporte_escolar);
 
                 SELECT pg_catalog.setval(\'modules.itinerario_transporte_escolar_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

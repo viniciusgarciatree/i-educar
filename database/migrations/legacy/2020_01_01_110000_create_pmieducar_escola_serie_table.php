@@ -13,11 +13,8 @@ class CreatePmieducarEscolaSerieTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'escola_serie');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.escola_serie (
                     ref_cod_escola integer NOT NULL,
                     ref_cod_serie integer NOT NULL,
@@ -35,10 +32,10 @@ class CreatePmieducarEscolaSerieTable extends Migration
                     anos_letivos smallint[] DEFAULT \'{}\'::smallint[] NOT NULL,
 	                updated_at timestamp NULL DEFAULT now()
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.escola_serie
                     ADD CONSTRAINT escola_serie_pkey PRIMARY KEY (ref_cod_escola, ref_cod_serie);
-                    
+
                 CREATE INDEX i_escola_serie_ensino_ativo ON pmieducar.escola_serie USING btree (ativo);
 
                 CREATE INDEX i_escola_serie_hora_final ON pmieducar.escola_serie USING btree (hora_final);
@@ -48,7 +45,6 @@ class CreatePmieducarEscolaSerieTable extends Migration
                 CREATE INDEX i_escola_serie_ref_usuario_cad ON pmieducar.escola_serie USING btree (ref_usuario_cad);
             '
             );
-        }
     }
 
     /**

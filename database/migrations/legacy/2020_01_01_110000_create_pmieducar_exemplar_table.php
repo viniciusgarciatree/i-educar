@@ -13,11 +13,8 @@ class CreatePmieducarExemplarTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'exemplar');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.exemplar_cod_exemplar_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -43,7 +40,7 @@ class CreatePmieducarExemplarTable extends Migration
                     sequencial integer,
                     data_baixa_exemplar date
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.exemplar
                     ADD CONSTRAINT exemplar_pkey PRIMARY KEY (cod_exemplar);
 
@@ -52,7 +49,6 @@ class CreatePmieducarExemplarTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.exemplar_cod_exemplar_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

@@ -13,22 +13,18 @@ class CreatePmieducarClienteTipoExemplarTipoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'cliente_tipo_exemplar_tipo');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.cliente_tipo_exemplar_tipo (
                     ref_cod_cliente_tipo integer NOT NULL,
                     ref_cod_exemplar_tipo integer NOT NULL,
                     dias_emprestimo numeric(3,0)
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.cliente_tipo_exemplar_tipo
                     ADD CONSTRAINT cliente_tipo_exemplar_tipo_pkey PRIMARY KEY (ref_cod_cliente_tipo, ref_cod_exemplar_tipo);
             '
             );
-        }
     }
 
     /**

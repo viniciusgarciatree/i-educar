@@ -13,11 +13,8 @@ class CreatePmieducarAbandonoTipoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'abandono_tipo');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.abandono_tipo_cod_abandono_tipo_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -35,14 +32,13 @@ class CreatePmieducarAbandonoTipoTable extends Migration
                     data_exclusao timestamp without time zone,
                     ativo integer
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.abandono_tipo
                     ADD CONSTRAINT pk_cod_abandono_tipo PRIMARY KEY (cod_abandono_tipo);
 
                 SELECT pg_catalog.setval(\'pmieducar.abandono_tipo_cod_abandono_tipo_seq\', 2, true);
             '
             );
-        }
     }
 
     /**

@@ -13,11 +13,8 @@ class CreateModulesRegraAvaliacaoRecuperacaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'regra_avaliacao_recuperacao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.regra_avaliacao_recuperacao_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -42,7 +39,6 @@ class CreateModulesRegraAvaliacaoRecuperacaoTable extends Migration
                 SELECT pg_catalog.setval(\'modules.regra_avaliacao_recuperacao_id_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

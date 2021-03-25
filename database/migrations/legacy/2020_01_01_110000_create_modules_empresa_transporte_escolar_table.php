@@ -13,11 +13,8 @@ class CreateModulesEmpresaTransporteEscolarTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'empresa_transporte_escolar');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.empresa_transporte_escolar_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -31,14 +28,13 @@ class CreateModulesEmpresaTransporteEscolarTable extends Migration
                     ref_resp_idpes integer NOT NULL,
                     observacao character varying(255)
                 );
-                
+
                 ALTER TABLE ONLY modules.empresa_transporte_escolar
                     ADD CONSTRAINT empresa_transporte_escolar_cod_empresa_transporte_escolar_pkey PRIMARY KEY (cod_empresa_transporte_escolar);
 
                 SELECT pg_catalog.setval(\'modules.empresa_transporte_escolar_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

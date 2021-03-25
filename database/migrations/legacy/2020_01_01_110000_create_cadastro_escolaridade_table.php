@@ -13,22 +13,18 @@ class CreateCadastroEscolaridadeTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'cadastro' AND tablename = 'escolaridade');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE cadastro.escolaridade (
                     idesco numeric(2,0) NOT NULL,
                     descricao character varying(60) NOT NULL,
                     escolaridade smallint
                 );
-                
+
                 ALTER TABLE ONLY cadastro.escolaridade
                     ADD CONSTRAINT pk_escolaridade PRIMARY KEY (idesco);
             '
             );
-        }
     }
 
     /**

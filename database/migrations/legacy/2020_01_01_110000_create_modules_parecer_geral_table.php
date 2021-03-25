@@ -13,11 +13,8 @@ class CreateModulesParecerGeralTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'parecer_geral');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.parecer_geral_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -38,13 +35,12 @@ class CreateModulesParecerGeralTable extends Migration
                     ADD CONSTRAINT parecer_geral_pkey PRIMARY KEY (parecer_aluno_id, etapa);
 
                 ALTER TABLE ONLY modules.parecer_geral ALTER COLUMN id SET DEFAULT nextval(\'modules.parecer_geral_id_seq\'::regclass);
-                
+
                 CREATE INDEX idx_parecer_geral_parecer_aluno_etp ON modules.parecer_geral USING btree (parecer_aluno_id, etapa);
 
                 SELECT pg_catalog.setval(\'modules.parecer_geral_id_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

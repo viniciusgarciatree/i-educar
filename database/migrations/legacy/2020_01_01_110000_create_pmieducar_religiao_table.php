@@ -13,11 +13,8 @@ class CreatePmieducarReligiaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'religiao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.religiao_cod_religiao_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -34,14 +31,13 @@ class CreatePmieducarReligiaoTable extends Migration
                     data_exclusao timestamp without time zone,
                     ativo smallint DEFAULT (1)::smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.religiao
                     ADD CONSTRAINT religiao_pkey PRIMARY KEY (cod_religiao);
 
                 SELECT pg_catalog.setval(\'pmieducar.religiao_cod_religiao_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

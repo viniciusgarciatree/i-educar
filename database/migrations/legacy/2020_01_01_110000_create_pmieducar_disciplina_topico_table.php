@@ -13,11 +13,8 @@ class CreatePmieducarDisciplinaTopicoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'disciplina_topico');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.disciplina_topico_cod_disciplina_topico_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -35,7 +32,7 @@ class CreatePmieducarDisciplinaTopicoTable extends Migration
                     data_exclusao timestamp without time zone,
                     ativo smallint DEFAULT (1)::smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.disciplina_topico
                     ADD CONSTRAINT disciplina_topico_pkey PRIMARY KEY (cod_disciplina_topico);
 
@@ -48,7 +45,6 @@ class CreatePmieducarDisciplinaTopicoTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.disciplina_topico_cod_disciplina_topico_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

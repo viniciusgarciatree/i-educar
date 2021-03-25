@@ -13,11 +13,8 @@ class CreateModulesComponenteCurricularTurmaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'componente_curricular_turma');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE TABLE modules.componente_curricular_turma (
                     componente_curricular_id integer NOT NULL,
                     ano_escolar_id integer NOT NULL,
@@ -29,14 +26,13 @@ class CreateModulesComponenteCurricularTurmaTable extends Migration
                     etapas_utilizadas character varying,
                     updated_at timestamp without time zone DEFAULT now() NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY modules.componente_curricular_turma
                     ADD CONSTRAINT componente_curricular_turma_pkey PRIMARY KEY (componente_curricular_id, turma_id);
-                    
+
                 CREATE INDEX componente_curricular_turma_turma_idx ON modules.componente_curricular_turma USING btree (turma_id);
             '
             );
-        }
     }
 
     /**

@@ -13,11 +13,8 @@ class CreatePmieducarTurmaModuloTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'turma_modulo');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.turma_modulo (
                     ref_cod_turma integer NOT NULL,
                     ref_cod_modulo integer NOT NULL,
@@ -26,12 +23,11 @@ class CreatePmieducarTurmaModuloTable extends Migration
                     data_fim date NOT NULL,
                     dias_letivos integer
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.turma_modulo
                     ADD CONSTRAINT turma_modulo_pkey PRIMARY KEY (ref_cod_turma, ref_cod_modulo, sequencial);
             '
             );
-        }
     }
 
     /**

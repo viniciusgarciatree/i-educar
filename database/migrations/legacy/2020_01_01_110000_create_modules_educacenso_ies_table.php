@@ -13,11 +13,8 @@ class CreateModulesEducacensoIesTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'educacenso_ies');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.educacenso_ies_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -38,18 +35,17 @@ class CreateModulesEducacensoIesTable extends Migration
                 );
 
                 ALTER SEQUENCE modules.educacenso_ies_id_seq OWNED BY modules.educacenso_ies.id;
-                
+
                 ALTER TABLE ONLY modules.educacenso_ies
                     ADD CONSTRAINT educacenso_ies_pk PRIMARY KEY (id);
 
                 ALTER TABLE ONLY modules.educacenso_ies ALTER COLUMN id SET DEFAULT nextval(\'modules.educacenso_ies_id_seq\'::regclass);
-                
+
                 CREATE INDEX idx_educacenso_ies_ies_id ON modules.educacenso_ies USING btree (ies_id);
 
                 SELECT pg_catalog.setval(\'modules.educacenso_ies_id_seq\', 6179, true);
             '
             );
-        }
     }
 
     /**

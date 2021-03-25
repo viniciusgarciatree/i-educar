@@ -13,11 +13,8 @@ class CreatePmieducarAlunoBeneficioTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'aluno_beneficio');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.aluno_beneficio_cod_aluno_beneficio_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -35,7 +32,7 @@ class CreatePmieducarAlunoBeneficioTable extends Migration
                     data_exclusao timestamp without time zone,
                     ativo smallint DEFAULT (1)::smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.aluno_beneficio
                     ADD CONSTRAINT aluno_beneficio_pkey PRIMARY KEY (cod_aluno_beneficio);
 
@@ -48,7 +45,6 @@ class CreatePmieducarAlunoBeneficioTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.aluno_beneficio_cod_aluno_beneficio_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

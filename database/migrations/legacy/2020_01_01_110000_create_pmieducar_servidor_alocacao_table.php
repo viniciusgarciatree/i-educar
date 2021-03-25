@@ -13,11 +13,8 @@ class CreatePmieducarServidorAlocacaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'servidor_alocacao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.servidor_alocacao_cod_servidor_alocacao_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -48,7 +45,7 @@ class CreatePmieducarServidorAlocacaoTable extends Migration
                     horas_excedentes time without time zone,
                     data_saida date NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.servidor_alocacao
                     ADD CONSTRAINT servidor_alocacao_pkey PRIMARY KEY (cod_servidor_alocacao);
 
@@ -57,7 +54,6 @@ class CreatePmieducarServidorAlocacaoTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.servidor_alocacao_cod_servidor_alocacao_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

@@ -13,11 +13,8 @@ class CreatePmieducarBibliotecaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'biblioteca');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.biblioteca_cod_biblioteca_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -41,14 +38,13 @@ class CreatePmieducarBibliotecaTable extends Migration
                     tombo_automatico boolean DEFAULT true,
                     bloqueia_emprestimo_em_atraso boolean
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.biblioteca
                     ADD CONSTRAINT biblioteca_pkey PRIMARY KEY (cod_biblioteca);
 
                 SELECT pg_catalog.setval(\'pmieducar.biblioteca_cod_biblioteca_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

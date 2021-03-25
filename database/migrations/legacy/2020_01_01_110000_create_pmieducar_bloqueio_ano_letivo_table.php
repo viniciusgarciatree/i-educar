@@ -13,23 +13,19 @@ class CreatePmieducarBloqueioAnoLetivoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'bloqueio_ano_letivo');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.bloqueio_ano_letivo (
                     ref_cod_instituicao integer NOT NULL,
                     ref_ano integer NOT NULL,
                     data_inicio date NOT NULL,
                     data_fim date NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.bloqueio_ano_letivo
                     ADD CONSTRAINT pmieducar_bloqueio_ano_letivo_pkey PRIMARY KEY (ref_cod_instituicao, ref_ano);
             '
             );
-        }
     }
 
     /**

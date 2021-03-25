@@ -13,11 +13,8 @@ class CreatePmieducarAnoLetivoModuloTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'ano_letivo_modulo');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.ano_letivo_modulo (
                     ref_ano integer NOT NULL,
                     ref_ref_cod_escola integer NOT NULL,
@@ -27,12 +24,11 @@ class CreatePmieducarAnoLetivoModuloTable extends Migration
                     data_fim date NOT NULL,
                     dias_letivos numeric(5,0)
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.ano_letivo_modulo
                     ADD CONSTRAINT ano_letivo_modulo_pkey PRIMARY KEY (ref_ano, ref_ref_cod_escola, sequencial, ref_cod_modulo);
             '
             );
-        }
     }
 
     /**

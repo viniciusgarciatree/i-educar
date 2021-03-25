@@ -13,11 +13,8 @@ class CreatePmieducarInstituicaoDocumentacaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'instituicao_documentacao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.instituicao_documentacao_seq
                     START WITH 2
                     INCREMENT BY 1
@@ -33,14 +30,13 @@ class CreatePmieducarInstituicaoDocumentacaoTable extends Migration
                     ref_usuario_cad integer DEFAULT 0 NOT NULL,
                     ref_cod_escola integer
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.instituicao_documentacao
                     ADD CONSTRAINT instituicao_documentacao_pkey PRIMARY KEY (id);
 
                 SELECT pg_catalog.setval(\'pmieducar.instituicao_documentacao_seq\', 2, false);
             '
             );
-        }
     }
 
     /**

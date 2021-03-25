@@ -13,11 +13,8 @@ class CreatePmieducarSituacaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'situacao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.situacao_cod_situacao_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -39,14 +36,13 @@ class CreatePmieducarSituacaoTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     ref_cod_biblioteca integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.situacao
                     ADD CONSTRAINT situacao_pkey PRIMARY KEY (cod_situacao);
 
                 SELECT pg_catalog.setval(\'pmieducar.situacao_cod_situacao_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

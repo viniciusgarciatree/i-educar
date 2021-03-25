@@ -13,11 +13,8 @@ class CreatePmieducarNotaAlunoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'nota_aluno');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.nota_aluno_cod_nota_aluno_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -42,7 +39,7 @@ class CreatePmieducarNotaAlunoTable extends Migration
                     ref_cod_curso_disciplina integer,
                     nota double precision
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.nota_aluno
                     ADD CONSTRAINT nota_aluno_pkey PRIMARY KEY (cod_nota_aluno);
 
@@ -51,7 +48,6 @@ class CreatePmieducarNotaAlunoTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.nota_aluno_cod_nota_aluno_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

@@ -13,11 +13,8 @@ class CreatePmieducarSubnivelTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'subnivel');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.subnivel_cod_subnivel_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -37,14 +34,13 @@ class CreatePmieducarSubnivelTable extends Migration
                     ativo boolean DEFAULT true NOT NULL,
                     salario double precision NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.subnivel
                     ADD CONSTRAINT subnivel_pkey PRIMARY KEY (cod_subnivel);
 
                 SELECT pg_catalog.setval(\'pmieducar.subnivel_cod_subnivel_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

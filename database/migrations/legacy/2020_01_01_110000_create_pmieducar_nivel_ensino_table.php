@@ -13,11 +13,8 @@ class CreatePmieducarNivelEnsinoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'nivel_ensino');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.nivel_ensino_cod_nivel_ensino_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -36,14 +33,13 @@ class CreatePmieducarNivelEnsinoTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     ref_cod_instituicao integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.nivel_ensino
                     ADD CONSTRAINT nivel_ensino_pkey PRIMARY KEY (cod_nivel_ensino);
 
                 SELECT pg_catalog.setval(\'pmieducar.nivel_ensino_cod_nivel_ensino_seq\', 1, true);
             '
             );
-        }
     }
 
     /**

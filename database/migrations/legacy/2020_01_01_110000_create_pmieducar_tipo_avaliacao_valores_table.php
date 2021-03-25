@@ -13,11 +13,8 @@ class CreatePmieducarTipoAvaliacaoValoresTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'tipo_avaliacao_valores');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.tipo_avaliacao_valores (
                     ref_cod_tipo_avaliacao integer NOT NULL,
                     sequencial integer NOT NULL,
@@ -27,12 +24,11 @@ class CreatePmieducarTipoAvaliacaoValoresTable extends Migration
                     valor_max double precision NOT NULL,
                     ativo boolean DEFAULT true
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.tipo_avaliacao_valores
                     ADD CONSTRAINT tipo_avaliacao_valores_pkey PRIMARY KEY (ref_cod_tipo_avaliacao, sequencial);
             '
             );
-        }
     }
 
     /**

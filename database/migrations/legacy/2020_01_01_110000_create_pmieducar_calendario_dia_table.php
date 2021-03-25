@@ -13,11 +13,8 @@ class CreatePmieducarCalendarioDiaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'calendario_dia');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.calendario_dia (
                     ref_cod_calendario_ano_letivo integer NOT NULL,
                     mes integer NOT NULL,
@@ -30,10 +27,10 @@ class CreatePmieducarCalendarioDiaTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     descricao text
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.calendario_dia
                     ADD CONSTRAINT calendario_dia_pkey PRIMARY KEY (ref_cod_calendario_ano_letivo, mes, dia);
-                    
+
                 CREATE INDEX i_calendario_dia_ativo ON pmieducar.calendario_dia USING btree (ativo);
 
                 CREATE INDEX i_calendario_dia_dia ON pmieducar.calendario_dia USING btree (dia);
@@ -45,7 +42,6 @@ class CreatePmieducarCalendarioDiaTable extends Migration
                 CREATE INDEX i_calendario_dia_ref_usuario_cad ON pmieducar.calendario_dia USING btree (ref_usuario_cad);
             '
             );
-        }
     }
 
     /**

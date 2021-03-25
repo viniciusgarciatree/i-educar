@@ -13,11 +13,8 @@ class CreatePmieducarInfraPredioComodoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'infra_predio_comodo');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.infra_predio_comodo_cod_infra_predio_comodo_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -38,14 +35,13 @@ class CreatePmieducarInfraPredioComodoTable extends Migration
                     data_exclusao timestamp without time zone,
                     ativo smallint DEFAULT (1)::smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.infra_predio_comodo
                     ADD CONSTRAINT infra_predio_comodo_pkey PRIMARY KEY (cod_infra_predio_comodo);
 
                 SELECT pg_catalog.setval(\'pmieducar.infra_predio_comodo_cod_infra_predio_comodo_seq\', 1, true);
             '
             );
-        }
     }
 
     /**

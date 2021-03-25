@@ -13,21 +13,17 @@ class CreateModulesLinguaIndigenaEducacensoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'lingua_indigena_educacenso');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE modules.lingua_indigena_educacenso (
                     id integer NOT NULL,
                     lingua character varying(255)
                 );
-                
+
                 ALTER TABLE ONLY modules.lingua_indigena_educacenso
                     ADD CONSTRAINT lingua_indigena_educacenso_pk PRIMARY KEY (id);
             '
             );
-        }
     }
 
     /**

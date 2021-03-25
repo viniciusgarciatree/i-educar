@@ -13,11 +13,8 @@ class CreatePmieducarOperadorTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'operador');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.operador_cod_operador_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -36,14 +33,13 @@ class CreatePmieducarOperadorTable extends Migration
                     data_exclusao timestamp without time zone,
                     ativo smallint DEFAULT (1)::smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.operador
                     ADD CONSTRAINT operador_pkey PRIMARY KEY (cod_operador);
 
                 SELECT pg_catalog.setval(\'pmieducar.operador_cod_operador_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

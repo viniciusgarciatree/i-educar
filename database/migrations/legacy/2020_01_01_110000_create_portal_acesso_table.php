@@ -13,11 +13,8 @@ class CreatePortalAcessoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'portal' AND tablename = 'acesso');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE portal.acesso_cod_acesso_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -34,14 +31,13 @@ class CreatePortalAcessoTable extends Migration
                     obs text,
                     sucesso boolean DEFAULT true NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY portal.acesso
                     ADD CONSTRAINT acesso_pk PRIMARY KEY (cod_acesso);
 
                 SELECT pg_catalog.setval(\'portal.acesso_cod_acesso_seq\', 19, true);
             '
             );
-        }
     }
 
     /**

@@ -13,11 +13,8 @@ class CreatePmieducarCalendarioAnotacaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'calendario_anotacao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.calendario_anotacao_cod_calendario_anotacao_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -35,14 +32,13 @@ class CreatePmieducarCalendarioAnotacaoTable extends Migration
                     data_exclusao timestamp without time zone,
                     ativo smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.calendario_anotacao
                     ADD CONSTRAINT calendario_anotacao_pkey PRIMARY KEY (cod_calendario_anotacao);
 
                 SELECT pg_catalog.setval(\'pmieducar.calendario_anotacao_cod_calendario_anotacao_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

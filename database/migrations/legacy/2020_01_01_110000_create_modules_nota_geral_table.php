@@ -13,11 +13,8 @@ class CreateModulesNotaGeralTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'nota_geral');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.nota_geral_id_seq
                     START WITH 958638
                     INCREMENT BY 1
@@ -32,14 +29,13 @@ class CreateModulesNotaGeralTable extends Migration
                     nota_arredondada character varying(10) DEFAULT 0,
                     etapa character varying(2) NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY modules.nota_geral
                     ADD CONSTRAINT nota_geral_pkey PRIMARY KEY (id);
 
                 SELECT pg_catalog.setval(\'modules.nota_geral_id_seq\', 958638, false);
             '
             );
-        }
     }
 
     /**

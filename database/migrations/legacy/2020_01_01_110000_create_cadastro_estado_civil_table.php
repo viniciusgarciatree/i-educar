@@ -13,21 +13,17 @@ class CreateCadastroEstadoCivilTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'cadastro' AND tablename = 'estado_civil');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE cadastro.estado_civil (
                     ideciv numeric(1,0) NOT NULL,
                     descricao character varying(15) NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY cadastro.estado_civil
                     ADD CONSTRAINT pk_estado_civil PRIMARY KEY (ideciv);
             '
             );
-        }
     }
 
     /**

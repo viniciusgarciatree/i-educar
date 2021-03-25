@@ -13,11 +13,8 @@ class CreatePmieducarCategoriaObraTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'categoria_obra');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.categoria_obra_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -32,16 +29,15 @@ class CreatePmieducarCategoriaObraTable extends Migration
                 );
 
                 ALTER SEQUENCE pmieducar.categoria_obra_id_seq OWNED BY pmieducar.categoria_obra.id;
-                
+
                 ALTER TABLE ONLY pmieducar.categoria_obra
                     ADD CONSTRAINT categoria_obra_pkey PRIMARY KEY (id);
 
                 ALTER TABLE ONLY pmieducar.categoria_obra ALTER COLUMN id SET DEFAULT nextval(\'pmieducar.categoria_obra_id_seq\'::regclass);
-                
+
                 SELECT pg_catalog.setval(\'pmieducar.categoria_obra_id_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

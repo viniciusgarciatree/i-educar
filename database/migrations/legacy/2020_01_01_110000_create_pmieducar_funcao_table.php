@@ -13,11 +13,8 @@ class CreatePmieducarFuncaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'funcao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.funcao_cod_funcao_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -37,7 +34,7 @@ class CreatePmieducarFuncaoTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     ref_cod_instituicao integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.funcao
                     ADD CONSTRAINT funcao_pkey PRIMARY KEY (cod_funcao);
 
@@ -54,7 +51,6 @@ class CreatePmieducarFuncaoTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.funcao_cod_funcao_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

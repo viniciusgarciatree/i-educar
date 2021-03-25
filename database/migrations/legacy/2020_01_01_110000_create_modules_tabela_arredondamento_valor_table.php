@@ -13,11 +13,8 @@ class CreateModulesTabelaArredondamentoValorTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'tabela_arredondamento_valor');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.tabela_arredondamento_valor_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -38,18 +35,17 @@ class CreateModulesTabelaArredondamentoValorTable extends Migration
                 );
 
                 ALTER SEQUENCE modules.tabela_arredondamento_valor_id_seq OWNED BY modules.tabela_arredondamento_valor.id;
-                
+
                 ALTER TABLE ONLY modules.tabela_arredondamento_valor
                     ADD CONSTRAINT tabela_arredondamento_valor_pkey PRIMARY KEY (id);
 
                 ALTER TABLE ONLY modules.tabela_arredondamento_valor ALTER COLUMN id SET DEFAULT nextval(\'modules.tabela_arredondamento_valor_id_seq\'::regclass);
-                
+
                 CREATE INDEX idx_tabela_arredondamento_valor_tabela_id ON modules.tabela_arredondamento_valor USING btree (tabela_arredondamento_id);
 
                 SELECT pg_catalog.setval(\'modules.tabela_arredondamento_valor_id_seq\', 26, true);
             '
             );
-        }
     }
 
     /**

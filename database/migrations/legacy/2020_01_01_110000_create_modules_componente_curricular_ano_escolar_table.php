@@ -13,11 +13,8 @@ class CreateModulesComponenteCurricularAnoEscolarTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'componente_curricular_ano_escolar');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE TABLE modules.componente_curricular_ano_escolar (
                     componente_curricular_id integer NOT NULL,
                     ano_escolar_id integer NOT NULL,
@@ -31,7 +28,6 @@ class CreateModulesComponenteCurricularAnoEscolarTable extends Migration
                     ADD CONSTRAINT componente_curricular_ano_escolar_pkey PRIMARY KEY (componente_curricular_id, ano_escolar_id);
             '
             );
-        }
     }
 
     /**

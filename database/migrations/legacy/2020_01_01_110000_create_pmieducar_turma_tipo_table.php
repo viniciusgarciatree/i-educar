@@ -13,11 +13,8 @@ class CreatePmieducarTurmaTipoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'turma_tipo');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.turma_tipo_cod_turma_tipo_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -36,14 +33,13 @@ class CreatePmieducarTurmaTipoTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     ref_cod_instituicao integer
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.turma_tipo
                     ADD CONSTRAINT turma_tipo_pkey PRIMARY KEY (cod_turma_tipo);
 
                 SELECT pg_catalog.setval(\'pmieducar.turma_tipo_cod_turma_tipo_seq\', 1, true);
             '
             );
-        }
     }
 
     /**

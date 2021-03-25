@@ -13,11 +13,8 @@ class CreatePmieducarDisciplinaDependenciaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'disciplina_dependencia');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.disciplina_dependencia (
                     ref_cod_matricula integer NOT NULL,
                     ref_cod_disciplina integer NOT NULL,
@@ -27,12 +24,11 @@ class CreatePmieducarDisciplinaDependenciaTable extends Migration
                     cod_disciplina_dependencia integer NOT NULL,
 	                updated_at timestamp NULL DEFAULT now()
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.disciplina_dependencia
                     ADD CONSTRAINT cod_disciplina_dependencia_pkey PRIMARY KEY (cod_disciplina_dependencia);
             '
             );
-        }
     }
 
     /**

@@ -13,11 +13,8 @@ class CreatePmieducarMotivoAfastamentoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'motivo_afastamento');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.motivo_afastamento_cod_motivo_afastamento_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -36,14 +33,13 @@ class CreatePmieducarMotivoAfastamentoTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     ref_cod_instituicao integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.motivo_afastamento
                     ADD CONSTRAINT motivo_afastamento_pkey PRIMARY KEY (cod_motivo_afastamento);
 
                 SELECT pg_catalog.setval(\'pmieducar.motivo_afastamento_cod_motivo_afastamento_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

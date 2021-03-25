@@ -13,11 +13,8 @@ class CreatePmieducarUsuarioTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'usuario');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.usuario (
                     cod_usuario integer NOT NULL,
                     ref_cod_instituicao integer,
@@ -28,12 +25,11 @@ class CreatePmieducarUsuarioTable extends Migration
                     data_exclusao timestamp without time zone,
                     ativo smallint DEFAULT (1)::smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.usuario
                     ADD CONSTRAINT usuario_pkey PRIMARY KEY (cod_usuario);
             '
             );
-        }
     }
 
     /**

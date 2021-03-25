@@ -13,11 +13,8 @@ class CreateModulesRegraAvaliacaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'regra_avaliacao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.regra_avaliacao_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -60,18 +57,17 @@ class CreateModulesRegraAvaliacaoTable extends Migration
                 );
 
                 ALTER SEQUENCE modules.regra_avaliacao_id_seq OWNED BY modules.regra_avaliacao.id;
-                
+
                 ALTER TABLE ONLY modules.regra_avaliacao
                     ADD CONSTRAINT regra_avaliacao_pkey PRIMARY KEY (id, instituicao_id);
 
                 ALTER TABLE ONLY modules.regra_avaliacao ALTER COLUMN id SET DEFAULT nextval(\'modules.regra_avaliacao_id_seq\'::regclass);
-                
+
                 CREATE UNIQUE INDEX regra_avaliacao_id_key ON modules.regra_avaliacao USING btree (id);
 
                 SELECT pg_catalog.setval(\'modules.regra_avaliacao_id_seq\', 2, true);
             '
             );
-        }
     }
 
     /**

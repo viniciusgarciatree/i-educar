@@ -13,11 +13,8 @@ class CreatePmieducarCursoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'curso');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.curso_cod_curso_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -49,7 +46,7 @@ class CreatePmieducarCursoTable extends Migration
                     modalidade_curso integer,
 	                updated_at timestamp NULL DEFAULT now()
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.curso
                     ADD CONSTRAINT curso_pkey PRIMARY KEY (cod_curso);
 
@@ -78,7 +75,6 @@ class CreatePmieducarCursoTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.curso_cod_curso_seq\', 1, true);
             '
             );
-        }
     }
 
     /**

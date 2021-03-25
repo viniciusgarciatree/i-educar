@@ -13,11 +13,8 @@ class CreateModulesFaltaComponenteCurricularTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'falta_componente_curricular');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.falta_componente_curricular_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -34,18 +31,17 @@ class CreateModulesFaltaComponenteCurricularTable extends Migration
                 );
 
                 ALTER SEQUENCE modules.falta_componente_curricular_id_seq OWNED BY modules.falta_componente_curricular.id;
-                
+
                 ALTER TABLE ONLY modules.falta_componente_curricular
                     ADD CONSTRAINT falta_componente_curricular_pkey PRIMARY KEY (falta_aluno_id, componente_curricular_id, etapa);
 
                 ALTER TABLE ONLY modules.falta_componente_curricular ALTER COLUMN id SET DEFAULT nextval(\'modules.falta_componente_curricular_id_seq\'::regclass);
-                
+
                 CREATE INDEX idx_falta_componente_curricular_id1 ON modules.falta_componente_curricular USING btree (falta_aluno_id, componente_curricular_id, etapa);
 
                 SELECT pg_catalog.setval(\'modules.falta_componente_curricular_id_seq\', 1, true);
             '
             );
-        }
     }
 
     /**

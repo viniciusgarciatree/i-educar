@@ -13,21 +13,17 @@ class CreateModulesEducacensoOrgaoRegionalTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'educacenso_orgao_regional');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE modules.educacenso_orgao_regional (
                     sigla_uf character varying(2) NOT NULL,
                     codigo character varying(5) NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY modules.educacenso_orgao_regional
                     ADD CONSTRAINT pk_educacenso_orgao_regional PRIMARY KEY (sigla_uf, codigo);
             '
             );
-        }
     }
 
     /**

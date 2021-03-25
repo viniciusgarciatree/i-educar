@@ -13,21 +13,17 @@ class CreateCadastroFisicaRacaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'cadastro' AND tablename = 'fisica_raca');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE cadastro.fisica_raca (
                     ref_idpes integer NOT NULL,
                     ref_cod_raca integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY cadastro.fisica_raca
                     ADD CONSTRAINT pk_fisica_raca PRIMARY KEY (ref_idpes);
             '
             );
-        }
     }
 
     /**

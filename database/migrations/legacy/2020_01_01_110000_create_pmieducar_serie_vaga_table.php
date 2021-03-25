@@ -13,11 +13,8 @@ class CreatePmieducarSerieVagaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'serie_vaga');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.serie_vaga (
                     ano integer NOT NULL,
                     cod_serie_vaga integer NOT NULL,
@@ -28,7 +25,7 @@ class CreatePmieducarSerieVagaTable extends Migration
                     vagas smallint NOT NULL,
                     turno smallint DEFAULT 1 NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.serie_vaga
                     ADD CONSTRAINT cod_serie_vaga_pkey PRIMARY KEY (cod_serie_vaga);
 
@@ -36,7 +33,6 @@ class CreatePmieducarSerieVagaTable extends Migration
                     ADD CONSTRAINT cod_serie_vaga_unique UNIQUE (ano, ref_cod_instituicao, ref_cod_escola, ref_cod_curso, ref_cod_serie, turno);
             '
             );
-        }
     }
 
     /**

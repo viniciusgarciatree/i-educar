@@ -13,11 +13,8 @@ class CreatePmieducarPagamentoMultaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'pagamento_multa');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.pagamento_multa_cod_pagamento_multa_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -33,14 +30,13 @@ class CreatePmieducarPagamentoMultaTable extends Migration
                     data_cadastro timestamp without time zone NOT NULL,
                     ref_cod_biblioteca integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.pagamento_multa
                     ADD CONSTRAINT pagamento_multa_pkey PRIMARY KEY (cod_pagamento_multa);
 
                 SELECT pg_catalog.setval(\'pmieducar.pagamento_multa_cod_pagamento_multa_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

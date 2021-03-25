@@ -13,11 +13,8 @@ class CreatePmieducarReservaVagaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'reserva_vaga');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.reserva_vaga_cod_reserva_vaga_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -38,14 +35,13 @@ class CreatePmieducarReservaVagaTable extends Migration
                     nm_aluno character varying(255),
                     cpf_responsavel numeric(11,0)
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.reserva_vaga
                     ADD CONSTRAINT reserva_vaga_pkey PRIMARY KEY (cod_reserva_vaga);
 
                 SELECT pg_catalog.setval(\'pmieducar.reserva_vaga_cod_reserva_vaga_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

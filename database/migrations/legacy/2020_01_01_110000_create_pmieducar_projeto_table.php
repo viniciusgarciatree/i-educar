@@ -13,11 +13,8 @@ class CreatePmieducarProjetoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'projeto');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.projeto_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -30,14 +27,13 @@ class CreatePmieducarProjetoTable extends Migration
                     nome character varying(50),
                     observacao character varying(255)
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.projeto
                     ADD CONSTRAINT pmieducar_projeto_cod_projeto PRIMARY KEY (cod_projeto);
 
                 SELECT pg_catalog.setval(\'pmieducar.projeto_seq\', 1, false);
             '
             );
-        }
     }
 
     /**
