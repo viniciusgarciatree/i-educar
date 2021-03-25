@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateTypes extends Migration
 {
@@ -19,7 +18,7 @@ class CreateTypes extends Migration
                 CREATE TYPE public.typ_idlog AS (
                     idlog integer
                 );
-                
+
                 CREATE TYPE public.typ_idpes AS (
                     idpes integer
                 );
@@ -38,7 +37,7 @@ class CreateTypes extends Migration
         DB::unprepared(
             '
                 DROP TYPE public.typ_idlog;
-                
+
                 DROP TYPE public.typ_idpes;
             '
         );
