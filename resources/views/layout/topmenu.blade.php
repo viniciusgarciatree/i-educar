@@ -4,16 +4,16 @@
     @endphp
     <div class="ieducar-menu-container">
     @if($topmenu->children && $topmenu->children->count())
-        @if($topmenu->hasLinkInSubmenu())
+        @if($topmenu->hasLinkInSubmenu() && $topmenu->isActive())
         <ul class="ieducar-menu clearfix">
         @foreach($topmenu->children->sortBy('order') as $submenu)
-            @if($submenu->hasLink())
+            @if($submenu->hasLink() && $submenu->isActive())
             <li>
                 <a href="javascript:void(0)">{{ $submenu->title }}</a>
                 @if($submenu->hasLinkInSubmenu())
                 <ul class="ieducar-sub-menu clearfix">
                 @foreach($submenu->children->sortBy('order') as $c1)
-                    @if($c1->hasLink())
+                    @if($c1->hasLink() && $c1->isActive())
                     <li>
                         <a href="{{ $c1->link ?? 'javascript:void(0)' }}">{{ $c1->title }}</a>
                         @if($c1->hasLinkInSubmenu())

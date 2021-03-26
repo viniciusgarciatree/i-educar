@@ -284,6 +284,7 @@ class Menu extends Model
     {
         return static::query()
             ->with('children.children.children.children.children')
+            ->where('active', '=', true)
             ->whereNull('parent_id')
             ->orderBy('order')
             ->get();

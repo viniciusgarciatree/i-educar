@@ -252,10 +252,10 @@ class User extends Authenticatable
     {
         if(self::isAdmin()){
             return $this->processes()
-                ->where('active', '=', 'true');
+                ->where('active', '=', true);
         }else{
             return $this->processes()
-                ->where('active', '=', 'true')
+                ->where('active', '=', true)
                 ->wherePivot('visualiza', 1)
                 ->withPivot(['visualiza', 'cadastra', 'exclui']);
         }
