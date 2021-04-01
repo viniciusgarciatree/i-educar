@@ -23,7 +23,7 @@ class CreateCadastroFisicaRacaTable extends Migration
                 ALTER TABLE ONLY cadastro.fisica_raca
                     ADD CONSTRAINT pk_fisica_raca PRIMARY KEY (ref_idpes);
             '
-        );
+            );
     }
 
     /**

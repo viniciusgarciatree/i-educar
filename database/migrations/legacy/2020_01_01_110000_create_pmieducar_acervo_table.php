@@ -59,7 +59,7 @@ class CreatePmieducarAcervoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.acervo_cod_acervo_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

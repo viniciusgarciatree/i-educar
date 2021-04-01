@@ -39,7 +39,7 @@ class CreatePmieducarTipoEnsinoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.tipo_ensino_cod_tipo_ensino_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

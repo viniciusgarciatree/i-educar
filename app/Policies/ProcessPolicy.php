@@ -25,6 +25,7 @@ class ProcessPolicy
         $root = Menu::query()
             ->whereNull('parent_id')
             ->where('process', $process)
+            ->where('active', '=', true)
             ->exists();
 
         if ($root) {

@@ -22,7 +22,7 @@ class CreatePmieducarAlunoHistoricoAlturaPesoTable extends Migration
                     peso numeric(12,2) NOT NULL
                 );
             '
-        );
+            );
     }
 
     /**

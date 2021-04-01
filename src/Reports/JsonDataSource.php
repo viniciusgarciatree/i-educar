@@ -48,7 +48,8 @@ trait JsonDataSource
     {
         $instituicao = $this->args['instituicao'] ?: 0;
         $escola = $this->args['escola'] ?: 0;
-        $notSchool = empty($this->args['escola']) ? 'true' : 'false';
+        $notSchool = $this->args['escola'] ? 'false' : 'true';
+
 
         $sql = "
 
@@ -97,7 +98,6 @@ trait JsonDataSource
             LIMIT 1
 
         ";
-
         return $sql;
     }
 

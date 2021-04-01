@@ -26,7 +26,7 @@ class CreatePmieducarMenuTipoUsuarioTable extends Migration
                 ALTER TABLE ONLY pmieducar.menu_tipo_usuario
                     ADD CONSTRAINT menu_tipo_usuario_pkey PRIMARY KEY (ref_cod_tipo_usuario, menu_id);
             '
-        );
+            );
     }
 
     /**

@@ -39,7 +39,7 @@ class CreateModulesRotaTransporteEscolarTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.rota_transporte_escolar_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

@@ -44,7 +44,7 @@ class CreatePmieducarFaltaAtrasoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.falta_atraso_cod_falta_atraso_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

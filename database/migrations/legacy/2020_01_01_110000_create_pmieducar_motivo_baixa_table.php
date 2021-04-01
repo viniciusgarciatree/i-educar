@@ -39,7 +39,7 @@ class CreatePmieducarMotivoBaixaTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.motivo_baixa_cod_motivo_baixa_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

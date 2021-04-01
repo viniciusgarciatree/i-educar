@@ -26,7 +26,7 @@ class CreateModulesTransporteAlunoTable extends Migration
                 ALTER TABLE ONLY modules.transporte_aluno
                     ADD CONSTRAINT transporte_aluno_pk PRIMARY KEY (aluno_id);
             '
-        );
+            );
     }
 
     /**

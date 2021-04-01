@@ -25,7 +25,7 @@ class CreatePmieducarBibliotecaUsuarioTable extends Migration
 
                 CREATE INDEX fki_biblioteca_usuario_ref_cod_biblioteca_fk ON pmieducar.biblioteca_usuario USING btree (ref_cod_biblioteca);
             '
-        );
+            );
     }
 
     /**

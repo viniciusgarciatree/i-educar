@@ -45,7 +45,7 @@ class CreatePmieducarTransferenciaSolicitacaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.transferencia_solicitacao_cod_transferencia_solicitacao_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

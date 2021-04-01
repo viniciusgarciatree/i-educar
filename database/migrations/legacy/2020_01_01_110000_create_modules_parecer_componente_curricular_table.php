@@ -41,7 +41,7 @@ class CreateModulesParecerComponenteCurricularTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.parecer_componente_curricular_id_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

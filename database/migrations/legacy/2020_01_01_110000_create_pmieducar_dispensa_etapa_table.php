@@ -20,7 +20,7 @@ class CreatePmieducarDispensaEtapaTable extends Migration
                     etapa integer
                 );
             '
-        );
+            );
     }
 
     /**

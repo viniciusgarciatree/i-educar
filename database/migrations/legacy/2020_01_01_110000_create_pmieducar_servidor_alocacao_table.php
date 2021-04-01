@@ -53,7 +53,7 @@ class CreatePmieducarServidorAlocacaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.servidor_alocacao_cod_servidor_alocacao_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

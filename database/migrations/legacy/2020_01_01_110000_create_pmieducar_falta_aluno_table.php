@@ -43,7 +43,7 @@ class CreatePmieducarFaltaAlunoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.falta_aluno_cod_falta_aluno_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

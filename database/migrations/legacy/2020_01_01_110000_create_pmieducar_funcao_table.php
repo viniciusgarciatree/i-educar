@@ -50,7 +50,7 @@ class CreatePmieducarFuncaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.funcao_cod_funcao_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

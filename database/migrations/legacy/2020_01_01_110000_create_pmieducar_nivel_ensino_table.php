@@ -39,7 +39,7 @@ class CreatePmieducarNivelEnsinoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.nivel_ensino_cod_nivel_ensino_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

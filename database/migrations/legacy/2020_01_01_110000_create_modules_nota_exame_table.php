@@ -21,7 +21,7 @@ class CreateModulesNotaExameTable extends Migration
                     nota_exame numeric(6,3)
                 );
             '
-        );
+            );
     }
 
     /**

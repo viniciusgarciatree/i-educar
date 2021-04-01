@@ -41,7 +41,7 @@ class CreatePmieducarCalendarioDiaTable extends Migration
 
                 CREATE INDEX i_calendario_dia_ref_usuario_cad ON pmieducar.calendario_dia USING btree (ref_usuario_cad);
             '
-        );
+            );
     }
 
     /**

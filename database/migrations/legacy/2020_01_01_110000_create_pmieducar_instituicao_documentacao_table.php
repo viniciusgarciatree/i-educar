@@ -36,7 +36,7 @@ class CreatePmieducarInstituicaoDocumentacaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.instituicao_documentacao_seq\', 2, false);
             '
-        );
+            );
     }
 
     /**

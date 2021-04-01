@@ -43,7 +43,7 @@ class CreateModulesNotaAlunoTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.nota_aluno_id_seq\', 2, true);
             '
-        );
+            );
     }
 
     /**

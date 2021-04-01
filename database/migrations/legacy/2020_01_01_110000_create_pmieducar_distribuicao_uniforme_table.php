@@ -56,7 +56,7 @@ class CreatePmieducarDistribuicaoUniformeTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.distribuicao_uniforme_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

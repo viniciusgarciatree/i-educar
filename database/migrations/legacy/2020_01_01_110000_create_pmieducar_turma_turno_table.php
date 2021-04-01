@@ -33,7 +33,7 @@ class CreatePmieducarTurmaTurnoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.turma_turno_id_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

@@ -24,7 +24,7 @@ class CreateCadastroEscolaridadeTable extends Migration
                 ALTER TABLE ONLY cadastro.escolaridade
                     ADD CONSTRAINT pk_escolaridade PRIMARY KEY (idesco);
             '
-        );
+            );
     }
 
     /**

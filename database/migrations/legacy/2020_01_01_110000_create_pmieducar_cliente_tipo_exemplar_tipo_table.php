@@ -24,7 +24,7 @@ class CreatePmieducarClienteTipoExemplarTipoTable extends Migration
                 ALTER TABLE ONLY pmieducar.cliente_tipo_exemplar_tipo
                     ADD CONSTRAINT cliente_tipo_exemplar_tipo_pkey PRIMARY KEY (ref_cod_cliente_tipo, ref_cod_exemplar_tipo);
             '
-        );
+            );
     }
 
     /**

@@ -82,7 +82,7 @@ class CreatePmieducarInstituicaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.instituicao_cod_instituicao_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

@@ -27,7 +27,7 @@ class CreateModulesEducacensoCodDocenteTable extends Migration
                 ALTER TABLE ONLY modules.educacenso_cod_docente
                     ADD CONSTRAINT educacenso_cod_docente_pk PRIMARY KEY (cod_servidor, cod_docente_inep);
             '
-        );
+            );
     }
 
     /**

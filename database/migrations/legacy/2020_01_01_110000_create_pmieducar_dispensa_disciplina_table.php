@@ -45,7 +45,7 @@ class CreatePmieducarDispensaDisciplinaTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.dispensa_disciplina_cod_dispensa_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

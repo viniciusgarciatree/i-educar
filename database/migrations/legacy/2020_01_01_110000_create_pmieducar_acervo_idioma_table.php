@@ -38,7 +38,7 @@ class CreatePmieducarAcervoIdiomaTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.acervo_idioma_cod_acervo_idioma_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

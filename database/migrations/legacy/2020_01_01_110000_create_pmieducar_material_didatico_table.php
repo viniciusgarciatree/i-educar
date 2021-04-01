@@ -41,7 +41,7 @@ class CreatePmieducarMaterialDidaticoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.material_didatico_cod_material_didatico_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

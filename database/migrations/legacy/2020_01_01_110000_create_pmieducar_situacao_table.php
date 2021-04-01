@@ -42,7 +42,7 @@ class CreatePmieducarSituacaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.situacao_cod_situacao_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

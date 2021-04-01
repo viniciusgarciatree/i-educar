@@ -23,7 +23,7 @@ class CreatePmieducarHabilitacaoCursoTable extends Migration
                 ALTER TABLE ONLY pmieducar.habilitacao_curso
                     ADD CONSTRAINT habilitacao_curso_pkey PRIMARY KEY (ref_cod_habilitacao, ref_cod_curso);
             '
-        );
+            );
     }
 
     /**

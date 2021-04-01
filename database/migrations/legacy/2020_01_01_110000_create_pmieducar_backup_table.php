@@ -37,7 +37,7 @@ class CreatePmieducarBackupTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.backup_id_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

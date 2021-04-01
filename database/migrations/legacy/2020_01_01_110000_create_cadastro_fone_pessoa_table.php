@@ -34,7 +34,7 @@ class CreateCadastroFonePessoaTable extends Migration
                 ALTER TABLE ONLY cadastro.fone_pessoa
                     ADD CONSTRAINT pk_fone_pessoa PRIMARY KEY (idpes, tipo);
             '
-        );
+            );
     }
 
     /**

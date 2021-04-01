@@ -20,7 +20,7 @@ class CreatePmieducarRelacaoCategoriaAcervoTable extends Migration
                     categoria_id integer NOT NULL
                 );
             '
-        );
+            );
     }
 
     /**

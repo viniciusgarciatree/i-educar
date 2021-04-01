@@ -38,7 +38,7 @@ class CreatePmieducarAbandonoTipoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.abandono_tipo_cod_abandono_tipo_seq\', 2, true);
             '
-        );
+            );
     }
 
     /**

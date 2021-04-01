@@ -36,7 +36,7 @@ class CreateCadastroOrgaoEmissorRgTable extends Migration
 
                 SELECT pg_catalog.setval(\'cadastro.orgao_emissor_rg_idorg_rg_seq\', 31, true);
             '
-        );
+            );
     }
 
     /**

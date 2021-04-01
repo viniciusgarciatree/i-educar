@@ -45,7 +45,7 @@ class CreatePmieducarHabilitacaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.habilitacao_cod_habilitacao_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

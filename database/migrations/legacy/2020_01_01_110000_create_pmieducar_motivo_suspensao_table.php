@@ -39,7 +39,7 @@ class CreatePmieducarMotivoSuspensaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.motivo_suspensao_cod_motivo_suspensao_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

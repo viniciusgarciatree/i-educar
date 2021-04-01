@@ -39,7 +39,7 @@ class CreatePmieducarFonteTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.fonte_cod_fonte_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

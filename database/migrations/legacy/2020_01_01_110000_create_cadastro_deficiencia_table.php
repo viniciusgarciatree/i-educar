@@ -35,7 +35,7 @@ class CreateCadastroDeficienciaTable extends Migration
 
                 SELECT pg_catalog.setval(\'cadastro.deficiencia_cod_deficiencia_seq\', 15, false);
             '
-        );
+            );
     }
 
     /**

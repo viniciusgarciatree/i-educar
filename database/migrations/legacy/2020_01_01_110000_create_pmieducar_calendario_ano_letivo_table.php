@@ -46,7 +46,7 @@ class CreatePmieducarCalendarioAnoLetivoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.calendario_ano_letivo_cod_calendario_ano_letivo_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

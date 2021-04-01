@@ -27,7 +27,7 @@ class CreateModulesEducacensoCodAlunoTable extends Migration
                 ALTER TABLE ONLY modules.educacenso_cod_aluno
                     ADD CONSTRAINT educacenso_cod_aluno_pk PRIMARY KEY (cod_aluno, cod_aluno_inep);
             '
-        );
+            );
     }
 
     /**

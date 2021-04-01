@@ -39,7 +39,7 @@ class CreatePmieducarTurmaTipoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.turma_tipo_cod_turma_tipo_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

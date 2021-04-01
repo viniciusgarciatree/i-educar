@@ -32,7 +32,7 @@ class CreatePmieducarServidorAfastamentoTable extends Migration
                 ALTER TABLE ONLY pmieducar.servidor_afastamento
                     ADD CONSTRAINT servidor_afastamento_pkey PRIMARY KEY (ref_cod_servidor, sequencial, ref_ref_cod_instituicao);
             '
-        );
+            );
     }
 
     /**

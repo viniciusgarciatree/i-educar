@@ -37,7 +37,7 @@ class CreateModulesConfigMovimentoGeralTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.config_movimento_geral_id_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

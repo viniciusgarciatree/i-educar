@@ -39,7 +39,7 @@ class CreatePmieducarAcervoAssuntoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.acervo_assunto_cod_acervo_assunto_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

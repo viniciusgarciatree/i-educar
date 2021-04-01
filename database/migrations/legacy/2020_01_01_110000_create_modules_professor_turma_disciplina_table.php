@@ -23,7 +23,7 @@ class CreateModulesProfessorTurmaDisciplinaTable extends Migration
                 ALTER TABLE ONLY modules.professor_turma_disciplina
                     ADD CONSTRAINT professor_turma_disciplina_pk PRIMARY KEY (professor_turma_id, componente_curricular_id);
             '
-        );
+            );
     }
 
     /**

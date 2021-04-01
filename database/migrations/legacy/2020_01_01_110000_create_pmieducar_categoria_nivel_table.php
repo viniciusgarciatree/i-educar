@@ -37,7 +37,7 @@ class CreatePmieducarCategoriaNivelTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.categoria_nivel_cod_categoria_nivel_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

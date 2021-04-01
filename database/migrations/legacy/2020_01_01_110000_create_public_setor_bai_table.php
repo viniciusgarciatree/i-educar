@@ -32,7 +32,7 @@ class CreatePublicSetorBaiTable extends Migration
 
                 SELECT pg_catalog.setval(\'public.seq_setor_bai\', 1, false);
             '
-        );
+            );
     }
 
     /**

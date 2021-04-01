@@ -27,7 +27,7 @@ class CreateModulesComponenteCurricularAnoEscolarTable extends Migration
                 ALTER TABLE ONLY modules.componente_curricular_ano_escolar
                     ADD CONSTRAINT componente_curricular_ano_escolar_pkey PRIMARY KEY (componente_curricular_id, ano_escolar_id);
             '
-        );
+            );
     }
 
     /**

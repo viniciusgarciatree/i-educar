@@ -29,7 +29,7 @@ class CreatePmieducarClienteSuspensaoTable extends Migration
                 ALTER TABLE ONLY pmieducar.cliente_suspensao
                     ADD CONSTRAINT cliente_suspensao_pkey PRIMARY KEY (sequencial, ref_cod_cliente, ref_cod_motivo_suspensao);
             '
-        );
+            );
     }
 
     /**

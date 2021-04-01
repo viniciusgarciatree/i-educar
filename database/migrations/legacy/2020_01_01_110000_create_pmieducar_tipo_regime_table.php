@@ -38,7 +38,7 @@ class CreatePmieducarTipoRegimeTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.tipo_regime_cod_tipo_regime_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

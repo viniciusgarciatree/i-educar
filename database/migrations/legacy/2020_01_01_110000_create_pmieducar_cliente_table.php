@@ -43,7 +43,7 @@ class CreatePmieducarClienteTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.cliente_cod_cliente_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

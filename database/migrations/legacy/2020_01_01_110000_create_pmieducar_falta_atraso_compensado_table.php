@@ -41,7 +41,7 @@ class CreatePmieducarFaltaAtrasoCompensadoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.falta_atraso_compensado_cod_compensado_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

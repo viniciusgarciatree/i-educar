@@ -42,7 +42,7 @@ class CreateModulesParecerAlunoTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.parecer_aluno_id_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

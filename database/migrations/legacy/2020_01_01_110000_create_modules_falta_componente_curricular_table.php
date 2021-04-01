@@ -41,7 +41,7 @@ class CreateModulesFaltaComponenteCurricularTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.falta_componente_curricular_id_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

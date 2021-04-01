@@ -40,7 +40,7 @@ class CreateModulesFaltaGeralTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.falta_geral_id_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

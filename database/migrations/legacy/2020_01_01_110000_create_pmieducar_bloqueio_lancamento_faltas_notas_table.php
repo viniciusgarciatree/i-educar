@@ -36,7 +36,7 @@ class CreatePmieducarBloqueioLancamentoFaltasNotasTable extends Migration
 
                 SELECT pg_catalog.setval(\'public.bloqueio_lancamento_faltas_notas_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

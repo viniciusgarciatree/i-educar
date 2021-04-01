@@ -37,7 +37,7 @@ class CreateModulesPessoaTransporteTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.pessoa_transporte_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

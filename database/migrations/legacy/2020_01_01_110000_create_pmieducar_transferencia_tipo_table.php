@@ -39,7 +39,7 @@ class CreatePmieducarTransferenciaTipoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.transferencia_tipo_cod_transferencia_tipo_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

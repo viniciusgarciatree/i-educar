@@ -45,7 +45,7 @@ class CreatePmieducarMatriculaTurmaTable extends Migration
                 CREATE INDEX i_matricula_turma_ref_cod_turma ON pmieducar.matricula_turma USING btree (ref_cod_turma);
                 CREATE UNIQUE INDEX matricula_turma_uindex_matricula_turma_sequencial ON pmieducar.matricula_turma USING btree (ref_cod_matricula, ref_cod_turma, sequencial);
             '
-        );
+            );
     }
 
     /**

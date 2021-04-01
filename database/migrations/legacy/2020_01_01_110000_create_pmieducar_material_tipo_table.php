@@ -39,7 +39,7 @@ class CreatePmieducarMaterialTipoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.material_tipo_cod_material_tipo_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

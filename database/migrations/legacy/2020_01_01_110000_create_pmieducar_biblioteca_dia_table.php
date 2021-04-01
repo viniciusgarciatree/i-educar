@@ -23,7 +23,7 @@ class CreatePmieducarBibliotecaDiaTable extends Migration
                 ALTER TABLE ONLY pmieducar.biblioteca_dia
                     ADD CONSTRAINT biblioteca_dia_pkey PRIMARY KEY (ref_cod_biblioteca, dia);
             '
-        );
+            );
     }
 
     /**

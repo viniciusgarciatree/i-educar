@@ -59,7 +59,7 @@ class CreatePmieducarEscolaComplementoTable extends Migration
 
                 CREATE INDEX i_escola_complemento_ref_usuario_cad ON pmieducar.escola_complemento USING btree (ref_usuario_cad);
             '
-        );
+            );
     }
 
     /**

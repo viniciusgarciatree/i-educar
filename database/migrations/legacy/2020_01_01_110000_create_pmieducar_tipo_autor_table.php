@@ -20,7 +20,7 @@ class CreatePmieducarTipoAutorTable extends Migration
                     tipo_autor character varying(255)
                 );
             '
-        );
+            );
     }
 
     /**

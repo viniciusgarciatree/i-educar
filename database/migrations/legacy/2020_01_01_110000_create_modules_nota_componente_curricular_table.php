@@ -49,7 +49,7 @@ class CreateModulesNotaComponenteCurricularTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.nota_componente_curricular_id_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

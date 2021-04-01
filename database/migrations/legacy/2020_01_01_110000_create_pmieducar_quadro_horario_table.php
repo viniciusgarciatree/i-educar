@@ -38,7 +38,7 @@ class CreatePmieducarQuadroHorarioTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.quadro_horario_cod_quadro_horario_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

@@ -25,7 +25,7 @@ class CreatePmieducarBloqueioAnoLetivoTable extends Migration
                 ALTER TABLE ONLY pmieducar.bloqueio_ano_letivo
                     ADD CONSTRAINT pmieducar_bloqueio_ano_letivo_pkey PRIMARY KEY (ref_cod_instituicao, ref_ano);
             '
-        );
+            );
     }
 
     /**

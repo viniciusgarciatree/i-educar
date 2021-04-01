@@ -40,7 +40,7 @@ class CreatePmieducarTipoOcorrenciaDisciplinarTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.tipo_ocorrencia_disciplinar_cod_tipo_ocorrencia_disciplinar_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

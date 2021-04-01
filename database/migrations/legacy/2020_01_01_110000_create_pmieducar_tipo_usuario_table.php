@@ -39,7 +39,7 @@ class CreatePmieducarTipoUsuarioTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.tipo_usuario_cod_tipo_usuario_seq\', 3, true);
             '
-        );
+            );
     }
 
     /**

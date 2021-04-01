@@ -37,7 +37,7 @@ class CreateCadastroReligiaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'cadastro.religiao_cod_religiao_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

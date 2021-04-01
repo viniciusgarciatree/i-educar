@@ -32,7 +32,7 @@ class CreatePmieducarSerieVagaTable extends Migration
                 ALTER TABLE ONLY pmieducar.serie_vaga
                     ADD CONSTRAINT cod_serie_vaga_unique UNIQUE (ano, ref_cod_instituicao, ref_cod_escola, ref_cod_curso, ref_cod_serie, turno);
             '
-        );
+            );
     }
 
     /**

@@ -34,7 +34,7 @@ class CreateModulesEmpresaTransporteEscolarTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.empresa_transporte_escolar_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

@@ -58,7 +58,7 @@ class CreatePmieducarServidorTable extends Migration
 
                 CREATE INDEX servidor_idx ON pmieducar.servidor USING btree (cod_servidor, ref_cod_instituicao, ativo);
             '
-        );
+            );
     }
 
     /**

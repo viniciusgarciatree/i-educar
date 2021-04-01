@@ -34,7 +34,7 @@ class CreatePmieducarServidorTituloConcursoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.servidor_titulo_concurso_cod_servidor_titulo_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

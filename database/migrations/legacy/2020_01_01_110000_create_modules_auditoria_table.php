@@ -24,7 +24,7 @@ class CreateModulesAuditoriaTable extends Migration
                     data_hora timestamp without time zone
                 );
             '
-        );
+            );
     }
 
     /**

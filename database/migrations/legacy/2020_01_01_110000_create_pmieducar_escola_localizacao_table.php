@@ -44,7 +44,7 @@ class CreatePmieducarEscolaLocalizacaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.escola_localizacao_cod_escola_localizacao_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

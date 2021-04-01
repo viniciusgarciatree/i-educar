@@ -49,7 +49,7 @@ class CreatePmieducarCandidatoReservaVagaTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.candidato_reserva_vaga_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

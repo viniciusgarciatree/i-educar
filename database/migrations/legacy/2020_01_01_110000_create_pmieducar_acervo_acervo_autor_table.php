@@ -24,7 +24,7 @@ class CreatePmieducarAcervoAcervoAutorTable extends Migration
                 ALTER TABLE ONLY pmieducar.acervo_acervo_autor
                     ADD CONSTRAINT acervo_acervo_autor_pkey PRIMARY KEY (ref_cod_acervo_autor, ref_cod_acervo);
             '
-        );
+            );
     }
 
     /**

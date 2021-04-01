@@ -212,7 +212,7 @@ class CreatePmieducarEscolaTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.escola_cod_escola_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

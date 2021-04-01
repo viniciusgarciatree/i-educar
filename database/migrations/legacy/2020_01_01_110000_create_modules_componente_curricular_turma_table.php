@@ -32,7 +32,7 @@ class CreateModulesComponenteCurricularTurmaTable extends Migration
 
                 CREATE INDEX componente_curricular_turma_turma_idx ON modules.componente_curricular_turma USING btree (turma_id);
             '
-        );
+            );
     }
 
     /**

@@ -10,6 +10,7 @@ return new class extends clsCadastro {
     public $ref_idtlog;
     public $ref_sigla_uf;
     public $cep;
+    public $cnpj;
     public $cidade;
     public $bairro;
     public $logradouro;
@@ -107,6 +108,7 @@ return new class extends clsCadastro {
         $this->permitir_matricula_fora_periodo_letivo = dbBool($this->permitir_matricula_fora_periodo_letivo);
         $this->ordenar_alunos_sequencial_enturmacao = dbBool($this->ordenar_alunos_sequencial_enturmacao);
         $this->obrigar_telefone_pessoa = dbBool($this->obrigar_telefone_pessoa);
+        $this->cnpj = int2CNPJ($this->cnpj);
 
         return $retorno;
     }
@@ -124,6 +126,7 @@ return new class extends clsCadastro {
         $this->campoTexto('complemento', 'Complemento', $this->complemento, 30, 50, false);
         $this->campoTexto('bairro', 'Bairro', $this->bairro, 30, 40, true);
         $this->campoTexto('cidade', 'Cidade', $this->cidade, 30, 60, true);
+        $this->campoCnpj('cnpj', 'CNPJ', $this->cnpj, true);
 
         // foreign keys
         $opcoes = ['' => 'Selecione'] + State::getListKeyAbbreviation()->toArray();
@@ -356,6 +359,8 @@ return new class extends clsCadastro {
 
     public function Editar()
     {
+        $this->cnpj = "" . idFederal2int($this->cnpj);
+
         $obj = new clsPmieducarInstituicao(
             $this->cod_instituicao,
             $this->ref_usuario_exc,
@@ -366,6 +371,7 @@ return new class extends clsCadastro {
             $this->cidade,
             $this->bairro,
             $this->logradouro,
+            $this->cnpj,
             $this->numero,
             $this->complemento,
             $this->nm_responsavel,
@@ -389,6 +395,7 @@ return new class extends clsCadastro {
             $this->ordenar_alunos_sequencial_enturmacao,
             $this->obrigar_telefone_pessoa
         );
+
         $obj->data_base_remanejamento = Portabilis_Date_Utils::brToPgSQL($this->data_base_remanejamento);
         $obj->data_base_transferencia = Portabilis_Date_Utils::brToPgSQL($this->data_base_transferencia);
         $obj->data_expiracao_reserva_vaga = Portabilis_Date_Utils::brToPgSQL($this->data_expiracao_reserva_vaga);

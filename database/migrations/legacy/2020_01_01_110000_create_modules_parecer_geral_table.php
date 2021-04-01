@@ -40,7 +40,7 @@ class CreateModulesParecerGeralTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.parecer_geral_id_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

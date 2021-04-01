@@ -48,7 +48,7 @@ class CreatePmieducarExemplarTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.exemplar_cod_exemplar_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

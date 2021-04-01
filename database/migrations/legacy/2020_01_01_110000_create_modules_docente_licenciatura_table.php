@@ -48,7 +48,7 @@ class CreateModulesDocenteLicenciaturaTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.docente_licenciatura_id_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

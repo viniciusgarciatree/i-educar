@@ -23,7 +23,7 @@ class CreateModulesEtapasEducacensoTable extends Migration
                 ALTER TABLE ONLY modules.etapas_educacenso
                     ADD CONSTRAINT etapas_educacenso_pk PRIMARY KEY (id);
             '
-        );
+            );
     }
 
     /**

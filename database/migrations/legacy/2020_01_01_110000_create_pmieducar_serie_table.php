@@ -57,7 +57,7 @@ class CreatePmieducarSerieTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.serie_cod_serie_seq\', 2, true);
             '
-        );
+            );
     }
 
     /**

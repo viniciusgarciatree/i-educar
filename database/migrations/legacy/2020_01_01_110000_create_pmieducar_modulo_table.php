@@ -42,7 +42,7 @@ class CreatePmieducarModuloTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.modulo_cod_modulo_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

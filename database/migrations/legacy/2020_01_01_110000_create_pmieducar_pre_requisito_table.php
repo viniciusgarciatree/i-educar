@@ -40,7 +40,7 @@ class CreatePmieducarPreRequisitoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.pre_requisito_cod_pre_requisito_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

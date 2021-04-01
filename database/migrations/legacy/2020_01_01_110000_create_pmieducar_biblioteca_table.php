@@ -44,7 +44,7 @@ class CreatePmieducarBibliotecaTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.biblioteca_cod_biblioteca_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

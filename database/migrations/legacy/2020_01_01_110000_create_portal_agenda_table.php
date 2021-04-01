@@ -39,7 +39,7 @@ class CreatePortalAgendaTable extends Migration
 
                 SELECT pg_catalog.setval(\'portal.agenda_cod_agenda_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

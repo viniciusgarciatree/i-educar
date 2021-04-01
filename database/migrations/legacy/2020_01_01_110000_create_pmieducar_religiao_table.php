@@ -37,7 +37,7 @@ class CreatePmieducarReligiaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.religiao_cod_religiao_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

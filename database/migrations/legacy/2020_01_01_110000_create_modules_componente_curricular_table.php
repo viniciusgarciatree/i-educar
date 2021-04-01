@@ -47,7 +47,7 @@ class CreateModulesComponenteCurricularTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.componente_curricular_id_seq\', 2, true);
             '
-        );
+            );
     }
 
     /**

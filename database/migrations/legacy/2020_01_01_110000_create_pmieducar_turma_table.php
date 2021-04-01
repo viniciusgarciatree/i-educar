@@ -94,7 +94,7 @@ class CreatePmieducarTurmaTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.turma_cod_turma_seq\', 2, true);
             '
-        );
+            );
     }
 
     /**

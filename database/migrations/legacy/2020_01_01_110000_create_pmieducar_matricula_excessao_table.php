@@ -40,7 +40,7 @@ class CreatePmieducarMatriculaExcessaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.matricula_excessao_cod_aluno_excessao_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

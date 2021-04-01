@@ -27,7 +27,7 @@ class CreateModulesEducacensoCodTurmaTable extends Migration
                 ALTER TABLE ONLY modules.educacenso_cod_turma
                     ADD CONSTRAINT educacenso_cod_turma_pk PRIMARY KEY (cod_turma, cod_turma_inep);
             '
-        );
+            );
     }
 
     /**

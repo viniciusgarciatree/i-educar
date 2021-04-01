@@ -39,7 +39,7 @@ class CreateModulesPontoTransporteEscolarTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.ponto_transporte_escolar_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

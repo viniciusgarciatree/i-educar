@@ -31,7 +31,7 @@ class CreatePmieducarAvaliacaoDesempenhoTable extends Migration
                 ALTER TABLE ONLY pmieducar.avaliacao_desempenho
                     ADD CONSTRAINT avaliacao_desempenho_pkey PRIMARY KEY (sequencial, ref_cod_servidor, ref_ref_cod_instituicao);
             '
-        );
+            );
     }
 
     /**

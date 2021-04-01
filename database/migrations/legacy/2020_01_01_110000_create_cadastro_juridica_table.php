@@ -36,7 +36,7 @@ class CreateCadastroJuridicaTable extends Migration
 
                 CREATE UNIQUE INDEX un_juridica_cnpj ON cadastro.juridica USING btree (cnpj);
             '
-        );
+            );
     }
 
     /**

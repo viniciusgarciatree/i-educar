@@ -74,7 +74,7 @@ class CreatePmieducarCursoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.curso_cod_curso_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

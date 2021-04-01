@@ -36,7 +36,7 @@ class CreatePmieducarHistoricoGradeCursoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.historico_grade_curso_seq\', 3, false);
             '
-        );
+            );
     }
 
     /**

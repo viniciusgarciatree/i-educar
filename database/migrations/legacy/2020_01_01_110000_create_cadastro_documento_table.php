@@ -55,7 +55,7 @@ class CreateCadastroDocumentoTable extends Migration
                 ALTER TABLE ONLY cadastro.documento
                     ADD CONSTRAINT pk_documento PRIMARY KEY (idpes);
             '
-        );
+            );
     }
 
     /**

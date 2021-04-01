@@ -24,7 +24,7 @@ class CreatePmieducarDisciplinaSerieTable extends Migration
                 ALTER TABLE ONLY pmieducar.disciplina_serie
                     ADD CONSTRAINT disciplina_serie_pkey PRIMARY KEY (ref_cod_disciplina, ref_cod_serie);
             '
-        );
+            );
     }
 
     /**

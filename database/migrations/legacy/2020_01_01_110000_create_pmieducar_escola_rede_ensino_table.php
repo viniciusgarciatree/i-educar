@@ -44,7 +44,7 @@ class CreatePmieducarEscolaRedeEnsinoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.escola_rede_ensino_cod_escola_rede_ensino_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

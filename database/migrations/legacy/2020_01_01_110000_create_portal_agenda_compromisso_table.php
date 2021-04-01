@@ -33,7 +33,7 @@ class CreatePortalAgendaCompromissoTable extends Migration
                 ALTER TABLE ONLY portal.agenda_compromisso
                     ADD CONSTRAINT agenda_compromisso_pkey PRIMARY KEY (cod_agenda_compromisso, versao, ref_cod_agenda);
             '
-        );
+            );
     }
 
     /**

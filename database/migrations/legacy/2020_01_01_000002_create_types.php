@@ -12,8 +12,9 @@ class CreateTypes extends Migration
      */
     public function up()
     {
-        DB::unprepared(
-            '
+        if(DB::select("select exists (select 1 from pg_type where typname = 'typ_idpes');")[0]->exists == false){
+            DB::unprepared(
+                '
                 CREATE TYPE public.typ_idlog AS (
                     idlog integer
                 );
@@ -22,7 +23,8 @@ class CreateTypes extends Migration
                     idpes integer
                 );
             '
-        );
+            );
+        }
     }
 
     /**

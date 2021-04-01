@@ -35,7 +35,7 @@ class CreatePmieducarServidorCursoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.servidor_curso_cod_servidor_curso_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

@@ -28,7 +28,7 @@ class CreatePmieducarTipoAvaliacaoValoresTable extends Migration
                 ALTER TABLE ONLY pmieducar.tipo_avaliacao_valores
                     ADD CONSTRAINT tipo_avaliacao_valores_pkey PRIMARY KEY (ref_cod_tipo_avaliacao, sequencial);
             '
-        );
+            );
     }
 
     /**

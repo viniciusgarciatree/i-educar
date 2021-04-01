@@ -39,7 +39,7 @@ class CreatePmieducarInfraComodoFuncaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.infra_comodo_funcao_cod_infra_comodo_funcao_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

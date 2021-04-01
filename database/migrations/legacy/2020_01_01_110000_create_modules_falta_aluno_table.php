@@ -44,7 +44,7 @@ class CreateModulesFaltaAlunoTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.falta_aluno_id_seq\', 2, true);
             '
-        );
+            );
     }
 
     /**

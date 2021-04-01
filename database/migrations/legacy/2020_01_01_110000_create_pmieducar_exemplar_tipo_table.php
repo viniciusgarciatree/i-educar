@@ -39,7 +39,7 @@ class CreatePmieducarExemplarTipoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.exemplar_tipo_cod_exemplar_tipo_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

@@ -37,7 +37,7 @@ class CreatePmieducarCategoriaObraTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.categoria_obra_id_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

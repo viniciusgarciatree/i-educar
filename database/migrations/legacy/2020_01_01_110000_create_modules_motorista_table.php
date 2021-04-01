@@ -38,7 +38,7 @@ class CreateModulesMotoristaTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.motorista_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

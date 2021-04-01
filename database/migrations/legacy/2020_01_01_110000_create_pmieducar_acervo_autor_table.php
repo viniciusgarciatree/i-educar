@@ -39,7 +39,7 @@ class CreatePmieducarAcervoAutorTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.acervo_autor_cod_acervo_autor_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

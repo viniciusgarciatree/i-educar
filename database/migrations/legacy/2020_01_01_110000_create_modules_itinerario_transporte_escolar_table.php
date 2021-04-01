@@ -37,7 +37,7 @@ class CreateModulesItinerarioTransporteEscolarTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.itinerario_transporte_escolar_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

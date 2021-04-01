@@ -25,7 +25,7 @@ class CreateModulesMediaGeralTable extends Migration
                 ALTER TABLE ONLY modules.media_geral
                     ADD CONSTRAINT media_geral_pkey PRIMARY KEY (nota_aluno_id, etapa);
             '
-        );
+            );
     }
 
     /**

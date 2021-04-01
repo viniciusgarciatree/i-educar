@@ -70,7 +70,7 @@ class CreatePmieducarHistoricoEscolarTable extends Migration
 
                 CREATE UNIQUE INDEX pmieducar_historico_escolar_ref_cod_aluno_sequencial_unique ON pmieducar.historico_escolar USING btree (ref_cod_aluno, sequencial);
             '
-        );
+            );
     }
 
     /**

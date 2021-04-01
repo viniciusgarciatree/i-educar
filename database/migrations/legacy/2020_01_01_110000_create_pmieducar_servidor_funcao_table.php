@@ -35,7 +35,7 @@ class CreatePmieducarServidorFuncaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.servidor_funcao_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

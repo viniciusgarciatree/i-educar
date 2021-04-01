@@ -33,7 +33,7 @@ class CreatePmieducarEscolaSerieDisciplinaTable extends Migration
 
                 CREATE UNIQUE INDEX pmieducar_escola_serie_disciplina_ref_ref_cod_serie_ref_ref_cod ON pmieducar.escola_serie_disciplina USING btree (ref_ref_cod_serie, ref_ref_cod_escola, ref_cod_disciplina);
             '
-        );
+            );
     }
 
     /**

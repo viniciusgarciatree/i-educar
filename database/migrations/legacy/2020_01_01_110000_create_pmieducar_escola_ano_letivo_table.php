@@ -30,7 +30,7 @@ class CreatePmieducarEscolaAnoLetivoTable extends Migration
                 ALTER TABLE ONLY pmieducar.escola_ano_letivo
                     ADD CONSTRAINT escola_ano_letivo_pkey PRIMARY KEY (ref_cod_escola, ano);
             '
-        );
+            );
     }
 
     /**

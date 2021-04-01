@@ -28,7 +28,7 @@ class CreatePmieducarDisciplinaDependenciaTable extends Migration
                 ALTER TABLE ONLY pmieducar.disciplina_dependencia
                     ADD CONSTRAINT cod_disciplina_dependencia_pkey PRIMARY KEY (cod_disciplina_dependencia);
             '
-        );
+            );
     }
 
     /**

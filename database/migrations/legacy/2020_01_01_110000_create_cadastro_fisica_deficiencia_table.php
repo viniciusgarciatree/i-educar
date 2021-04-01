@@ -23,7 +23,7 @@ class CreateCadastroFisicaDeficienciaTable extends Migration
                 ALTER TABLE ONLY cadastro.fisica_deficiencia
                     ADD CONSTRAINT pk_fisica_deficiencia PRIMARY KEY (ref_idpes, ref_cod_deficiencia);
             '
-        );
+            );
     }
 
     /**

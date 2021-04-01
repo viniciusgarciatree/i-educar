@@ -45,7 +45,7 @@ class CreateModulesEducacensoIesTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.educacenso_ies_id_seq\', 6179, true);
             '
-        );
+            );
     }
 
     /**

@@ -41,7 +41,7 @@ class CreatePmieducarInfraPredioComodoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.infra_predio_comodo_cod_infra_predio_comodo_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

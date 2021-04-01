@@ -49,7 +49,7 @@ class CreatePortalFuncionarioTable extends Migration
                 ALTER TABLE ONLY portal.funcionario
                     ADD CONSTRAINT funcionario_pk PRIMARY KEY (ref_cod_pessoa_fj);
             '
-        );
+            );
     }
 
     /**

@@ -28,7 +28,7 @@ class CreatePmieducarSequenciaSerieTable extends Migration
                 ALTER TABLE ONLY pmieducar.sequencia_serie
                     ADD CONSTRAINT sequencia_serie_pkey PRIMARY KEY (ref_serie_origem, ref_serie_destino);
             '
-        );
+            );
     }
 
     /**

@@ -39,7 +39,7 @@ class CreatePmieducarTipoAvaliacaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.tipo_avaliacao_cod_tipo_avaliacao_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

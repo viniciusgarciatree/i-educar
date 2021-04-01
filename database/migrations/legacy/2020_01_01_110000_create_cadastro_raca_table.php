@@ -36,9 +36,9 @@ class CreateCadastroRacaTable extends Migration
                 ALTER TABLE ONLY cadastro.raca
                     ADD CONSTRAINT raca_pkey PRIMARY KEY (cod_raca);
 
-                SELECT pg_catalog.setval(\'cadastro.raca_cod_raca_seq\', 1, false);
-            '
-        );
+            SELECT pg_catalog.setval(\'cadastro.raca_cod_raca_seq\', 1, false);
+        '
+            );
     }
 
     /**

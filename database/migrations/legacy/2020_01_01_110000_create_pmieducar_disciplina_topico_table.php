@@ -44,7 +44,7 @@ class CreatePmieducarDisciplinaTopicoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.disciplina_topico_cod_disciplina_topico_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

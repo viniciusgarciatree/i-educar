@@ -32,7 +32,7 @@ class CreateModulesTipoVeiculoTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.tipo_veiculo_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

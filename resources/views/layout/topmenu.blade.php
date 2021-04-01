@@ -4,28 +4,28 @@
     @endphp
     <div class="ieducar-menu-container">
     @if($topmenu->children && $topmenu->children->count())
-        @if($topmenu->hasLinkInSubmenu())
+        @if($topmenu->hasLinkInSubmenu() && $topmenu->isActive())
         <ul class="ieducar-menu clearfix">
         @foreach($topmenu->children->sortBy('order') as $submenu)
-            @if($submenu->hasLink())
+            @if($submenu->hasLink() && $submenu->isActive())
             <li>
                 <a href="javascript:void(0)">{{ $submenu->title }}</a>
                 @if($submenu->hasLinkInSubmenu())
                 <ul class="ieducar-sub-menu clearfix">
                 @foreach($submenu->children->sortBy('order') as $c1)
-                    @if($c1->hasLink())
+                    @if($c1->hasLink() && $c1->isActive())
                     <li>
                         <a href="{{ $c1->link ?? 'javascript:void(0)' }}">{{ $c1->title }}</a>
                         @if($c1->hasLinkInSubmenu())
                             <ul class="ieducar-sub-menu">
                             @foreach($c1->children->sortBy('order') as $c2)
-                                @if($c2->hasLink())
+                                @if($c2->hasLink() && $c2->isActive())
                                 <li>
                                     <a href="{{ $c2->link ?? 'javascript:void(0)' }}">{{ $c2->title }}</a>
-                                    @if($c2->hasLinkInSubmenu())
+                                    @if($c2->hasLinkInSubmenu() && $c2->isActive())
                                         <ul class="ieducar-sub-menu">
                                         @foreach($c2->children->sortBy('order') as $c3)
-                                            @if($c3->isLink())
+                                            @if($c3->isLink() && $c3->isActive())
                                             <li><a href="{{ $c3->link ?? 'javascript:void(0)' }}">{{ $c3->title }}</a></li>
                                             @endif
                                         @endforeach

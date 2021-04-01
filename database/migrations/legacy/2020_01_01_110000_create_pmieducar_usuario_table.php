@@ -29,7 +29,7 @@ class CreatePmieducarUsuarioTable extends Migration
                 ALTER TABLE ONLY pmieducar.usuario
                     ADD CONSTRAINT usuario_pkey PRIMARY KEY (cod_usuario);
             '
-        );
+            );
     }
 
     /**

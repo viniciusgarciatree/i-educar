@@ -33,7 +33,7 @@ class CreatePortalFuncionarioVinculoTable extends Migration
 
                 SELECT pg_catalog.setval(\'portal.funcionario_vinculo_cod_funcionario_vinculo_seq\', 7, true);
             '
-        );
+            );
     }
 
     /**

@@ -38,7 +38,7 @@ class CreateModulesRegraAvaliacaoRecuperacaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.regra_avaliacao_recuperacao_id_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

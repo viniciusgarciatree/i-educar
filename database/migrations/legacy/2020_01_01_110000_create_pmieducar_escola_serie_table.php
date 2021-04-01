@@ -44,7 +44,7 @@ class CreatePmieducarEscolaSerieTable extends Migration
 
                 CREATE INDEX i_escola_serie_ref_usuario_cad ON pmieducar.escola_serie USING btree (ref_usuario_cad);
             '
-        );
+            );
     }
 
     /**

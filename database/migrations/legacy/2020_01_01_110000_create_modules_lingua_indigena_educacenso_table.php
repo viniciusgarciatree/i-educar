@@ -23,7 +23,7 @@ class CreateModulesLinguaIndigenaEducacensoTable extends Migration
                 ALTER TABLE ONLY modules.lingua_indigena_educacenso
                     ADD CONSTRAINT lingua_indigena_educacenso_pk PRIMARY KEY (id);
             '
-        );
+            );
     }
 
     /**

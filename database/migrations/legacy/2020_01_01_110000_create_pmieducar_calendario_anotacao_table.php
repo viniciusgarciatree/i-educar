@@ -38,7 +38,7 @@ class CreatePmieducarCalendarioAnotacaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.calendario_anotacao_cod_calendario_anotacao_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

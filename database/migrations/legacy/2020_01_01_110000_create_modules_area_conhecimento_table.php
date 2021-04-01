@@ -42,7 +42,7 @@ class CreateModulesAreaConhecimentoTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.area_conhecimento_id_seq\', 2, true);
             '
-        );
+            );
     }
 
     /**

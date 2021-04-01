@@ -25,7 +25,7 @@ class CreatePmieducarSeriePreRequisitoTable extends Migration
                 ALTER TABLE ONLY pmieducar.serie_pre_requisito
                     ADD CONSTRAINT serie_pre_requisito_pkey PRIMARY KEY (ref_cod_pre_requisito, ref_cod_operador, ref_cod_serie);
             '
-        );
+            );
     }
 
     /**

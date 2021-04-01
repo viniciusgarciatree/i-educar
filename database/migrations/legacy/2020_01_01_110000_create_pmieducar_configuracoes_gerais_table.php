@@ -45,7 +45,7 @@ class CreatePmieducarConfiguracoesGeraisTable extends Migration
                 ALTER TABLE pmieducar.configuracoes_gerais
                     ADD CONSTRAINT configuracoes_gerais_pkey PRIMARY KEY (ref_cod_instituicao);
             '
-        );
+            );
     }
 
     /**

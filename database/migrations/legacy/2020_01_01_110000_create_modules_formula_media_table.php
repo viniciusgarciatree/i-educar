@@ -40,7 +40,7 @@ class CreateModulesFormulaMediaTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.formula_media_id_seq\', 2, true);
             '
-        );
+            );
     }
 
     /**

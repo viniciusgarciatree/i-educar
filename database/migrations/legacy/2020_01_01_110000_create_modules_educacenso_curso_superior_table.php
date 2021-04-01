@@ -42,7 +42,7 @@ class CreateModulesEducacensoCursoSuperiorTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.educacenso_curso_superior_id_seq\', 338, true);
             '
-        );
+            );
     }
 
     /**

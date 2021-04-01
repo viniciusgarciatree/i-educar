@@ -65,7 +65,7 @@ class CreatePmieducarMatriculaTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.matricula_cod_matricula_seq\', 2, true);
             '
-        );
+            );
     }
 
     /**

@@ -35,7 +35,7 @@ class CreateModulesNotaGeralTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.nota_geral_id_seq\', 958638, false);
             '
-        );
+            );
     }
 
     /**

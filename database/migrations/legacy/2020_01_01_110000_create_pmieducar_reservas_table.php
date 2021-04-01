@@ -39,7 +39,7 @@ class CreatePmieducarReservasTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.reservas_cod_reserva_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

@@ -51,7 +51,7 @@ class CreateModulesMoradiaAlunoTable extends Migration
                 ALTER TABLE ONLY modules.moradia_aluno
                     ADD CONSTRAINT moradia_aluno_pkei PRIMARY KEY (ref_cod_aluno);
             '
-        );
+            );
     }
 
     /**

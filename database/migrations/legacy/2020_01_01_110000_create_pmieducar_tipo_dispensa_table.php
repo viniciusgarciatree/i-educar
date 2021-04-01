@@ -39,7 +39,7 @@ class CreatePmieducarTipoDispensaTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.tipo_dispensa_cod_tipo_dispensa_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

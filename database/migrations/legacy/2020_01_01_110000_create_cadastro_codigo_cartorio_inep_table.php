@@ -40,7 +40,7 @@ class CreateCadastroCodigoCartorioInepTable extends Migration
 
                 SELECT pg_catalog.setval(\'cadastro.codigo_cartorio_inep_id_seq\', 14212, true);
             '
-        );
+            );
     }
 
     /**

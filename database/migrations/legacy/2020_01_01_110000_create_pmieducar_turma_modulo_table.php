@@ -27,7 +27,7 @@ class CreatePmieducarTurmaModuloTable extends Migration
                 ALTER TABLE ONLY pmieducar.turma_modulo
                     ADD CONSTRAINT turma_modulo_pkey PRIMARY KEY (ref_cod_turma, ref_cod_modulo, sequencial);
             '
-        );
+            );
     }
 
     /**

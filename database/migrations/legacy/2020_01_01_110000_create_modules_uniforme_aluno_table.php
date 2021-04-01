@@ -37,7 +37,7 @@ class CreateModulesUniformeAlunoTable extends Migration
                 ALTER TABLE ONLY modules.uniforme_aluno
                     ADD CONSTRAINT uniforme_aluno_pkey PRIMARY KEY (ref_cod_aluno);
             '
-        );
+            );
     }
 
     /**

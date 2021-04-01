@@ -57,6 +57,16 @@ class Menu extends Model
      *
      * @return bool
      */
+    public function isActive()
+    {
+        return boolval($this->active) ? true : false;
+    }
+
+    /**
+     * Indica se o menu é um link.
+     *
+     * @return bool
+     */
     public function isLink()
     {
         return boolval($this->link);
@@ -209,9 +219,13 @@ class Menu extends Model
      */
     public static function user(User $user)
     {
+        /**
+         * Desabilitado em 2020-04-06 Usuário admin estão tendo acesso as menus que estão com active false.
+         * */
         if ($user->isAdmin()) {
             return static::roots();
         }
+
 
         $ids = $user->menu()->pluck('id')->sortBy('id')->toArray();
 
@@ -270,6 +284,7 @@ class Menu extends Model
     {
         return static::query()
             ->with('children.children.children.children.children')
+            ->where('active', '=', true)
             ->whereNull('parent_id')
             ->orderBy('order')
             ->get();

@@ -51,7 +51,7 @@ class CreatePmieducarCalendarioDiaMotivoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.calendario_dia_motivo_cod_calendario_dia_motivo_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

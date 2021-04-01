@@ -46,7 +46,7 @@ class CreateCadastroPessoaTable extends Migration
 
                 SELECT pg_catalog.setval(\'cadastro.seq_pessoa\', 3, true);
             '
-        );
+            );
     }
 
     /**

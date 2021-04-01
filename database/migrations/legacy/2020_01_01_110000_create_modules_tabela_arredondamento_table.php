@@ -42,7 +42,7 @@ class CreateModulesTabelaArredondamentoTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.tabela_arredondamento_id_seq\', 2, true);
             '
-        );
+            );
     }
 
     /**

@@ -44,7 +44,7 @@ class CreatePmieducarAlunoBeneficioTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.aluno_beneficio_cod_aluno_beneficio_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

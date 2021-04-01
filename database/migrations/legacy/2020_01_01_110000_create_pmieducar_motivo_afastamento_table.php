@@ -39,7 +39,7 @@ class CreatePmieducarMotivoAfastamentoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.motivo_afastamento_cod_motivo_afastamento_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

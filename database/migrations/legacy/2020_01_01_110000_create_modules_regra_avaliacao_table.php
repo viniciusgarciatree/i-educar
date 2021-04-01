@@ -67,7 +67,7 @@ class CreateModulesRegraAvaliacaoTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.regra_avaliacao_id_seq\', 2, true);
             '
-        );
+            );
     }
 
     /**

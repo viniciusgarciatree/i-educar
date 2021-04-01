@@ -28,7 +28,7 @@ class CreateModulesEducacensoCodEscolaTable extends Migration
                     ADD CONSTRAINT educacenso_cod_escola_pk PRIMARY KEY (cod_escola, cod_escola_inep);
 
             '
-        );
+            );
     }
 
     /**

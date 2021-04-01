@@ -23,7 +23,7 @@ class CreateCadastroOcupacaoTable extends Migration
                 ALTER TABLE ONLY cadastro.ocupacao
                     ADD CONSTRAINT pk_ocupacao PRIMARY KEY (idocup);
             '
-        );
+            );
     }
 
     /**

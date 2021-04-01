@@ -38,7 +38,7 @@ class CreatePmieducarExemplarEmprestimoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.exemplar_emprestimo_cod_emprestimo_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

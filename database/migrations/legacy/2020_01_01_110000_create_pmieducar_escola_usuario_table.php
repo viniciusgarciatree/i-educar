@@ -14,7 +14,6 @@ class CreatePmieducarEscolaUsuarioTable extends Migration
     public function up()
     {
         # FIXME
-
         DB::unprepared(
             '
                 CREATE SEQUENCE pmieducar.escola_usuario_id_seq
@@ -40,7 +39,7 @@ class CreatePmieducarEscolaUsuarioTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.escola_usuario_id_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

@@ -74,7 +74,7 @@ class CreatePmieducarAlunoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.aluno_cod_aluno_seq\', 2, true);
             '
-        );
+            );
     }
 
     /**

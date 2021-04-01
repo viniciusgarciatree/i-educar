@@ -38,7 +38,7 @@ class CreatePmieducarBibliotecaFeriadosTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.biblioteca_feriados_cod_feriado_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

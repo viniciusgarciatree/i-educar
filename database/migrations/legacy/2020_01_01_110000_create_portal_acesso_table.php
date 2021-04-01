@@ -37,7 +37,7 @@ class CreatePortalAcessoTable extends Migration
 
                 SELECT pg_catalog.setval(\'portal.acesso_cod_acesso_seq\', 19, true);
             '
-        );
+            );
     }
 
     /**

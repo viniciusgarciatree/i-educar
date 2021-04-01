@@ -40,7 +40,7 @@ class CreateModulesProfessorTurmaTable extends Migration
 
                 SELECT pg_catalog.setval(\'modules.professor_turma_id_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

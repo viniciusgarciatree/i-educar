@@ -26,7 +26,7 @@ class CreateModulesRegraAvaliacaoSerieAnoTable extends Migration
                 ALTER TABLE ONLY modules.regra_avaliacao_serie_ano
                     ADD CONSTRAINT regra_avaliacao_serie_ano_pkey PRIMARY KEY (serie_id, ano_letivo);
             '
-        );
+            );
     }
 
     /**

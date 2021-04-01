@@ -40,7 +40,7 @@ class CreatePmieducarInfraPredioTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.infra_predio_cod_infra_predio_seq\', 1, true);
             '
-        );
+            );
     }
 
     /**

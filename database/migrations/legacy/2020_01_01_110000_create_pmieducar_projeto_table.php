@@ -33,7 +33,7 @@ class CreatePmieducarProjetoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.projeto_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

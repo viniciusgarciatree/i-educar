@@ -47,7 +47,7 @@ class CreatePmieducarNotaAlunoTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.nota_aluno_cod_nota_aluno_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

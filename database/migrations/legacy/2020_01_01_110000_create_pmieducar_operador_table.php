@@ -39,7 +39,7 @@ class CreatePmieducarOperadorTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.operador_cod_operador_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

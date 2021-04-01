@@ -33,7 +33,7 @@ class CreatePmieducarQuadroHorarioHorariosAuxTable extends Migration
                 ALTER TABLE ONLY pmieducar.quadro_horario_horarios_aux
                     ADD CONSTRAINT quadro_horario_horarios_aux_pkey PRIMARY KEY (ref_cod_quadro_horario, sequencial);
             '
-        );
+            );
     }
 
     /**

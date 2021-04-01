@@ -35,7 +35,7 @@ class CreatePmieducarFaltasTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.faltas_sequencial_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

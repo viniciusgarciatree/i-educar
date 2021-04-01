@@ -29,7 +29,7 @@ class CreatePmieducarClienteTipoClienteTable extends Migration
                 ALTER TABLE ONLY pmieducar.cliente_tipo_cliente
                     ADD CONSTRAINT cliente_tipo_cliente_pk PRIMARY KEY (ref_cod_cliente_tipo, ref_cod_cliente);
             '
-        );
+            );
     }
 
     /**

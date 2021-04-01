@@ -24,7 +24,7 @@ class CreatePortalAgendaResponsavelTable extends Migration
                 ALTER TABLE ONLY portal.agenda_responsavel
                     ADD CONSTRAINT agenda_responsavel_pkey PRIMARY KEY (ref_cod_agenda, ref_ref_cod_pessoa_fj);
             '
-        );
+            );
     }
 
     /**

@@ -40,7 +40,7 @@ class CreatePmieducarSubnivelTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.subnivel_cod_subnivel_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**

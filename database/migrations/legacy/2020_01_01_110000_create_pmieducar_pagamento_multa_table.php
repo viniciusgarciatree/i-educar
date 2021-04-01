@@ -36,7 +36,7 @@ class CreatePmieducarPagamentoMultaTable extends Migration
 
                 SELECT pg_catalog.setval(\'pmieducar.pagamento_multa_cod_pagamento_multa_seq\', 1, false);
             '
-        );
+            );
     }
 
     /**
