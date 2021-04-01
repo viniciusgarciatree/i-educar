@@ -222,8 +222,13 @@ return new class extends clsCadastro {
                 $this->campoOculto('componentes_sombra', json_encode($registros));
 
                 foreach ($registros as $campo) {
+                    if(!empty($campo['carga_horaria_auxiliar'])){
+                        $this->escola_serie_disciplina_carga[$campo['ref_cod_disciplina']] = $campo['carga_horaria_auxiliar'];
+                    }else{
+                        $this->escola_serie_disciplina_carga[$campo['ref_cod_disciplina']] = $campo['carga_horaria'];
+                    }
+
                     $this->escola_serie_disciplina[$campo['ref_cod_disciplina']] = $campo['ref_cod_disciplina'];
-                    $this->escola_serie_disciplina_carga[$campo['ref_cod_disciplina']] = $campo['carga_horaria'];
                     $this->escola_serie_disciplina_anos_letivos[$campo['ref_cod_disciplina']] = $campo['anos_letivos'] ?: [];
 
                     if ($this->definirComponentePorEtapa) {
@@ -311,7 +316,7 @@ return new class extends clsCadastro {
                         $anosLetivosComponente = $this->escola_serie_disciplina_anos_letivos[$registro->id];
                     }
 
-                    $cargaComponente = $registro->cargaHoraria;
+                    $cargaComponente = $registro->cargaHorariaAuxiliar ? $registro->cargaHorariaAuxiliar : $registro->cargaHoraria;
                     $etapas_utilizadas = $this->escola_serie_disciplina_etapa_utilizada[$registro->id];
 
                     $conteudo .= '<div style="margin-bottom: 10px; float: left">';
@@ -512,8 +517,10 @@ return new class extends clsCadastro {
                 foreach ($this->disciplinas as $key => $campo) {
                     if (isset($this->usar_componente[$key])) {
                         $carga_horaria = null;
+                        $carga_horaria_auxiliar = null;
                     } else {
                         $carga_horaria = $this->carga_horaria[$key];
+                        $carga_horaria_auxiliar = $this->carga_horaria[$key];
                     }
 
                     $etapas_especificas = $this->etapas_especificas[$key];
@@ -527,7 +534,8 @@ return new class extends clsCadastro {
                         $carga_horaria,
                         $etapas_especificas,
                         $etapas_utilizadas,
-                        $this->componente_anos_letivos[$key] ?: []
+                        $this->componente_anos_letivos[$key] ?: [],
+                        $carga_horaria_auxiliar
                     );
 
                     $existe = $obj->existe();

@@ -749,9 +749,14 @@ return new class extends clsCadastro {
                         0 == $componentes[$registro->id]->cargaHoraria) {
                         $usarComponente = true;
                     } else {
-                        $cargaHoraria = $componentes[$registro->id]->cargaHoraria;
+                        $cargaHoraria = $componentes[$registro->id]->cargaHorariaAuxiliar ? $componentes[$registro->id]->cargaHorariaAuxiliar : $componentes[$registro->id]->cargaHoraria;
                     }
-                    $cargaComponente = $registro->cargaHoraria;
+
+                    if(!is_null($registro->cargaHorariaAuxiliar)){
+                        $cargaComponente = $registro->cargaHorariaAuxiliar;
+                    }else{
+                        $cargaComponente = $registro->cargaHoraria;
+                    }
 
                     if (1 == $componentes[$registro->id]->docenteVinculado) {
                         $docenteVinculado = true;
@@ -1456,10 +1461,13 @@ return new class extends clsCadastro {
         $mapper = new ComponenteCurricular_Model_TurmaDataMapper();
 
         $componentesTurma = [];
+        $arrComponentes = App_Model_IedFinder::getEscolaSerieDisciplina($codSerie, $codEscola, null, null, null, true, $ano);
 
         foreach ($componentes as $key => $value) {
             $carga = isset($usarComponente[$key]) ?
-                null : $cargaHoraria[$key];
+                (isset($arrComponentes[$key]->cargaHorariaAuxiliar) ?
+                    $arrComponentes[$key]->cargaHorariaAuxiliar :
+                    $arrComponentes[$key]->cargaHoraria) : $cargaHoraria[$key];
 
             $docente_ = isset($docente[$key]) ?
                 1 : 0;
@@ -1472,6 +1480,7 @@ return new class extends clsCadastro {
             $componentesTurma[] = [
                 'id' => $value,
                 'cargaHoraria' => $carga,
+                'cargaHorariaAuxiliar' => $carga,
                 'docenteVinculado' => $docente_,
                 'etapasEspecificas' => $etapasEspecificas,
                 'etapasUtilizadas' => $etapasUtilizadas
