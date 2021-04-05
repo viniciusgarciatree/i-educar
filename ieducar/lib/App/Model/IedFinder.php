@@ -528,8 +528,9 @@ class App_Model_IedFinder extends CoreExt_Entity
         foreach ($disciplinas as $disciplina) {
             $componente = new stdClass();
 
-            $componente->id = $disciplina['ref_cod_disciplina'];
-            $componente->cargaHoraria = $disciplina['carga_horaria'];
+            $componente->id                   = $disciplina['ref_cod_disciplina'];
+            $componente->cargaHoraria         = $disciplina['carga_horaria'];
+            $componente->cargaHorariaAuxiliar = "" . $disciplina['carga_horaria_auxiliar'];
 
             $componentes[] = $componente;
         }
@@ -610,6 +611,7 @@ class App_Model_IedFinder extends CoreExt_Entity
 
             $componente->id = $componenteTurma->get('componenteCurricular');
             $componente->cargaHoraria = $componenteTurma->cargaHoraria;
+            $componente->cargaHorariaAuxiliar = "" . $componenteTurma->cargaHorariaAuxiliar;
 
             $disponivelEtapa = true;
 
@@ -676,6 +678,9 @@ class App_Model_IedFinder extends CoreExt_Entity
         $key = json_encode(compact('anoEscolar', 'componentes'));
         $getCargaHoraria = function ($componentes, $id) {
             foreach ($componentes as $componente) {
+                if ($componente->id == $id && $componente->cargaHorariaAuxiliar) {
+                    return $componente->cargaHorariaAuxiliar;
+                }
                 if ($componente->id == $id && $componente->cargaHoraria) {
                     return $componente->cargaHoraria;
                 }
@@ -690,6 +695,11 @@ class App_Model_IedFinder extends CoreExt_Entity
                 ->whereIn('componente_curricular_id', $ids)
                 ->pluck('carga_horaria', 'componente_curricular_id');
 
+            $disciplinesAcademicYearAuxiliar = LegacyDisciplineAcademicYear::query()
+                ->where('ano_escolar_id', $anoEscolar)
+                ->whereIn('componente_curricular_id', $ids)
+                ->pluck('carga_horaria_auxiliar', 'componente_curricular_id');
+
             $disciplines = LegacyDiscipline::query()
                 ->whereIn('id', $ids)
                 ->get()
@@ -702,6 +712,7 @@ class App_Model_IedFinder extends CoreExt_Entity
                         'tipo_base' => $discipline->tipo_base,
                         'area_conhecimento' => $discipline->area_conhecimento_id,
                         'cargaHoraria' => $getCargaHoraria($componentes, $discipline->id) ?? ($discipline->cargaHoraria ?? $disciplinesAcademicYear->get($discipline->id)),
+                        'cargaHorariaAuxiliar' => $getCargaHoraria($componentes, $discipline->id) ?? ($discipline->cargaHorariaAuxiliar ?? $disciplinesAcademicYearAuxiliar->get($discipline->id)),
                         'codigo_educacenso' => $discipline->codigo_educacenso,
                         'ordenamento' => $discipline->ordenamento,
                         'desconsidera_para_progressao' => $discipline->desconsidera_para_progressao,

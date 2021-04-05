@@ -24,6 +24,7 @@ class ComponenteCurricular_Model_TurmaDataMapper extends CoreExt_DataMapper
         'escola' => 'escola_id',
         'turma' => 'turma_id',
         'cargaHoraria' => 'carga_horaria',
+        'cargaHorariaAuxiliar' => 'carga_horaria_auxiliar',
         'docenteVinculado' => 'docente_vinculado',
         'etapasEspecificas' => 'etapas_especificas',
         'etapasUtilizadas' => 'etapas_utilizadas'
@@ -81,24 +82,28 @@ class ComponenteCurricular_Model_TurmaDataMapper extends CoreExt_DataMapper
             $id = $componente['id'];
 
             if (isset($objects[$id])) {
-                $insert[$id] = $objects[$id];
-                $insert[$id]->cargaHoraria = $componente['cargaHoraria'];
-                $insert[$id]->docenteVinculado = $componente['docenteVinculado'];
-                $insert[$id]->etapasEspecificas = $componente['etapasEspecificas'];
-                $insert[$id]->etapasUtilizadas = $componente['etapasUtilizadas'];
+                $insert[$id]                       = $objects[$id];
+                $insert[$id]->cargaHoraria         = $componente['cargaHoraria'];
+                $insert[$id]->cargaHorariaAuxiliar = $componente['cargaHorariaAuxiliar'];
+                $insert[$id]->docenteVinculado     = $componente['docenteVinculado'];
+                $insert[$id]->etapasEspecificas    = $componente['etapasEspecificas'];
+                $insert[$id]->etapasUtilizadas     = $componente['etapasUtilizadas'];
                 continue;
             }
 
-            $insert[$id] = new ComponenteCurricular_Model_Turma([
-                'componenteCurricular' => $id,
-                'anoEscolar' => $anoEscolar,
-                'escola' => $escola,
-                'turma' => $turma,
-                'cargaHoraria' => $componente['cargaHoraria'],
-                'docenteVinculado' => $componente['docenteVinculado'],
-                'etapasEspecificas' => $componente['etapasEspecificas'],
-                'etapasUtilizadas' => $componente['etapasUtilizadas']
-            ]);
+            $insert[$id] = new ComponenteCurricular_Model_Turma(
+                [
+                    'componenteCurricular' => $id,
+                    'anoEscolar'           => $anoEscolar,
+                    'escola'               => $escola,
+                    'turma'                => $turma,
+                    'cargaHoraria'         => $componente['cargaHoraria'],
+                    'cargaHorariaAuxiliar' => $componente['cargaHorariaAuxiliar'],
+                    'docenteVinculado'     => $componente['docenteVinculado'],
+                    'etapasEspecificas'    => $componente['etapasEspecificas'],
+                    'etapasUtilizadas'     => $componente['etapasUtilizadas']
+                ]
+            );
         }
 
         $delete = array_diff(array_keys($objects), array_keys($insert));

@@ -10,10 +10,11 @@ class ComponenteCurricular_Model_AnoEscolarDataMapper extends CoreExt_DataMapper
 
     protected $_attributeMap = [
         'componenteCurricular' => 'componente_curricular_id',
-        'anoEscolar' => 'ano_escolar_id',
-        'cargaHoraria' => 'carga_horaria',
-        'tipo_nota' => 'tipo_nota',
-        'anosLetivos' => 'anos_letivos'
+        'anoEscolar'           => 'ano_escolar_id',
+        'cargaHoraria'         => 'carga_horaria',
+        'tipo_nota'            => 'tipo_nota',
+        'anosLetivos'          => 'anos_letivos',
+        'cargaHorariaAuxiliar' => 'carga_horaria_auxiliar'
     ];
 
     protected $_primaryKey = [
@@ -116,6 +117,7 @@ class ComponenteCurricular_Model_AnoEscolarDataMapper extends CoreExt_DataMapper
                 $componenteAnoEscolar->get('componenteCurricular')
             );
             $list[$id]->cargaHoraria = $componenteAnoEscolar->cargaHoraria;
+            $list[$id]->cargaHorariaAuxiliar = $componenteAnoEscolar->cargaHorariaAuxiliar;
         }
 
         ksort($list);
