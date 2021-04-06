@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePortalAgendaTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePortalAgendaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'portal' AND tablename = 'agenda');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE portal.agenda_cod_agenda_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -36,14 +33,13 @@ class CreatePortalAgendaTable extends Migration
                     data_edicao timestamp without time zone,
                     ref_ref_cod_pessoa_own integer
                 );
-                
+
                 ALTER TABLE ONLY portal.agenda
                     ADD CONSTRAINT agenda_pkey PRIMARY KEY (cod_agenda);
 
                 SELECT pg_catalog.setval(\'portal.agenda_cod_agenda_seq\', 1, true);
             '
             );
-        }
     }
 
     /**

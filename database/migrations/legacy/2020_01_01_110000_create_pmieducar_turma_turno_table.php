@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarTurmaTurnoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarTurmaTurnoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'turma_turno');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.turma_turno_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -30,14 +27,13 @@ class CreatePmieducarTurmaTurnoTable extends Migration
                     nome character varying(15) NOT NULL,
                     ativo smallint DEFAULT (1)::smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.turma_turno
                     ADD CONSTRAINT turma_turno_pkey PRIMARY KEY (id);
 
                 SELECT pg_catalog.setval(\'pmieducar.turma_turno_id_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

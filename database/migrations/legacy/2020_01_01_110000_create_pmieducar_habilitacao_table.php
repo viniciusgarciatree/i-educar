@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarHabilitacaoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarHabilitacaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'habilitacao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.habilitacao_cod_habilitacao_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -36,7 +33,7 @@ class CreatePmieducarHabilitacaoTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     ref_cod_instituicao integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.habilitacao
                     ADD CONSTRAINT habilitacao_pkey PRIMARY KEY (cod_habilitacao);
 
@@ -49,7 +46,6 @@ class CreatePmieducarHabilitacaoTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.habilitacao_cod_habilitacao_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

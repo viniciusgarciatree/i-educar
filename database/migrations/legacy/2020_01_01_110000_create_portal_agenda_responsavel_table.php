@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePortalAgendaResponsavelTable extends Migration
 {
@@ -13,22 +13,18 @@ class CreatePortalAgendaResponsavelTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'portal' AND tablename = 'agenda_responsavel');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE TABLE portal.agenda_responsavel (
                     ref_cod_agenda integer NOT NULL,
                     ref_ref_cod_pessoa_fj integer NOT NULL,
                     principal smallint
                 );
-                
+
                 ALTER TABLE ONLY portal.agenda_responsavel
                     ADD CONSTRAINT agenda_responsavel_pkey PRIMARY KEY (ref_cod_agenda, ref_ref_cod_pessoa_fj);
             '
             );
-        }
     }
 
     /**

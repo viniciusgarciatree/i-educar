@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesParecerAlunoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesParecerAlunoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'parecer_aluno');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.parecer_aluno_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -32,7 +29,7 @@ class CreateModulesParecerAlunoTable extends Migration
                 );
 
                 ALTER SEQUENCE modules.parecer_aluno_id_seq OWNED BY modules.parecer_aluno.id;
-                
+
                 ALTER TABLE ONLY modules.parecer_aluno
                     ADD CONSTRAINT parecer_aluno_pkey PRIMARY KEY (id);
 
@@ -40,13 +37,12 @@ class CreateModulesParecerAlunoTable extends Migration
                     ADD CONSTRAINT modules_parecer_aluno_matricula_id_unique UNIQUE (matricula_id);
 
                 ALTER TABLE ONLY modules.parecer_aluno ALTER COLUMN id SET DEFAULT nextval(\'modules.parecer_aluno_id_seq\'::regclass);
-                
+
                 CREATE INDEX idx_parecer_aluno_matricula_id ON modules.parecer_aluno USING btree (matricula_id);
 
                 SELECT pg_catalog.setval(\'modules.parecer_aluno_id_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateCadastroDeficienciaTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateCadastroDeficienciaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'cadastro' AND tablename = 'deficiencia');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE cadastro.deficiencia_cod_deficiencia_seq
                     START WITH 15
                     INCREMENT BY 1
@@ -39,7 +36,6 @@ class CreateCadastroDeficienciaTable extends Migration
                 SELECT pg_catalog.setval(\'cadastro.deficiencia_cod_deficiencia_seq\', 15, false);
             '
             );
-        }
     }
 
     /**

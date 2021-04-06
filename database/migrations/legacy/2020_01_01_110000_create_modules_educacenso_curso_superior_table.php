@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesEducacensoCursoSuperiorTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesEducacensoCursoSuperiorTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'educacenso_curso_superior');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.educacenso_curso_superior_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -37,16 +34,15 @@ class CreateModulesEducacensoCursoSuperiorTable extends Migration
                 );
 
                 ALTER SEQUENCE modules.educacenso_curso_superior_id_seq OWNED BY modules.educacenso_curso_superior.id;
-                
+
                 ALTER TABLE ONLY modules.educacenso_curso_superior
                     ADD CONSTRAINT educacenso_curso_superior_pk PRIMARY KEY (id);
 
                 ALTER TABLE ONLY modules.educacenso_curso_superior ALTER COLUMN id SET DEFAULT nextval(\'modules.educacenso_curso_superior_id_seq\'::regclass);
-                
+
                 SELECT pg_catalog.setval(\'modules.educacenso_curso_superior_id_seq\', 338, true);
             '
             );
-        }
     }
 
     /**

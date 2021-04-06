@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarExemplarEmprestimoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarExemplarEmprestimoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'exemplar_emprestimo');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.exemplar_emprestimo_cod_emprestimo_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -35,14 +32,13 @@ class CreatePmieducarExemplarEmprestimoTable extends Migration
                     data_devolucao timestamp without time zone,
                     valor_multa double precision
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.exemplar_emprestimo
                     ADD CONSTRAINT exemplar_emprestimo_pkey PRIMARY KEY (cod_emprestimo);
 
                 SELECT pg_catalog.setval(\'pmieducar.exemplar_emprestimo_cod_emprestimo_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

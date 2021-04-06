@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarFaltaAtrasoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarFaltaAtrasoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'falta_atraso');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.falta_atraso_cod_falta_atraso_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -41,14 +38,13 @@ class CreatePmieducarFaltaAtrasoTable extends Migration
                     data_exclusao timestamp without time zone,
                     ativo smallint DEFAULT (1)::smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.falta_atraso
                     ADD CONSTRAINT falta_atraso_pkey PRIMARY KEY (cod_falta_atraso);
 
                 SELECT pg_catalog.setval(\'pmieducar.falta_atraso_cod_falta_atraso_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

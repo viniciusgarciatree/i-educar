@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesConfigMovimentoGeralTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesConfigMovimentoGeralTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'config_movimento_geral');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.config_movimento_geral_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -32,16 +29,15 @@ class CreateModulesConfigMovimentoGeralTable extends Migration
                 );
 
                 ALTER SEQUENCE modules.config_movimento_geral_id_seq OWNED BY modules.config_movimento_geral.id;
-                
+
                 ALTER TABLE ONLY modules.config_movimento_geral
                     ADD CONSTRAINT cod_config_movimento_geral_pkey PRIMARY KEY (id);
 
                 ALTER TABLE ONLY modules.config_movimento_geral ALTER COLUMN id SET DEFAULT nextval(\'modules.config_movimento_geral_id_seq\'::regclass);
-                
+
                 SELECT pg_catalog.setval(\'modules.config_movimento_geral_id_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

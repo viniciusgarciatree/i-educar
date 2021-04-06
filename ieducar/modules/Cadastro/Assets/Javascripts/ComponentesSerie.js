@@ -265,7 +265,7 @@ function handleGetAreaConhecimento(response) {
     var selectOptions = {};
 
     response['areas'].forEach((area) => {
-    selectOptions[area.id] = area.nome
+        selectOptions[area.id] = area.nome_agrupador;
     }, {});
 
     updateChozen(areaConhecimentoField, selectOptions);
@@ -420,8 +420,8 @@ function htmlComponentesAreaConhecimento(id, componente_id, componente_nome, fir
                             id="tipo_nota_` + componente_id + `"
                             disabled>
                         <option value="">Selecione</option>
-                        <option value="1">Conceitual</option>
-                        <option value="2">Numérica</option>
+                        <option value="1">Numérica</option>
+                        <option value="2">Conceitual</option>
                     </select>
                     ` + iconCloneTipoNota + `
                 </td>

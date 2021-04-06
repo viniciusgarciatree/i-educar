@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarServidorCursoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarServidorCursoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'servidor_curso');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.servidor_curso_cod_servidor_curso_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -32,14 +29,13 @@ class CreatePmieducarServidorCursoTable extends Migration
                     data_registro timestamp without time zone,
                     diplomas_registros text
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.servidor_curso
                     ADD CONSTRAINT servidor_curso_pkey PRIMARY KEY (cod_servidor_curso);
 
                 SELECT pg_catalog.setval(\'pmieducar.servidor_curso_cod_servidor_curso_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

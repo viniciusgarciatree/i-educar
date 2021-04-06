@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarQuadroHorarioHorariosAuxTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarQuadroHorarioHorariosAuxTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'quadro_horario_horarios_aux');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.quadro_horario_horarios_aux (
                     ref_cod_quadro_horario integer NOT NULL,
                     sequencial integer NOT NULL,
@@ -32,12 +29,11 @@ class CreatePmieducarQuadroHorarioHorariosAuxTable extends Migration
                     identificador character varying(30),
                     data_cadastro timestamp without time zone NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.quadro_horario_horarios_aux
                     ADD CONSTRAINT quadro_horario_horarios_aux_pkey PRIMARY KEY (ref_cod_quadro_horario, sequencial);
             '
             );
-        }
     }
 
     /**

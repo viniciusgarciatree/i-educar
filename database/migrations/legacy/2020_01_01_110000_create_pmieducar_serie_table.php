@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarSerieTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarSerieTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'serie');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.serie_cod_serie_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -50,7 +47,7 @@ class CreatePmieducarSerieTable extends Migration
                     exigir_inep boolean,
 	                updated_at timestamp NULL DEFAULT now()
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.serie
                     ADD CONSTRAINT serie_pkey PRIMARY KEY (cod_serie);
 
@@ -61,7 +58,6 @@ class CreatePmieducarSerieTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.serie_cod_serie_seq\', 2, true);
             '
             );
-        }
     }
 
     /**

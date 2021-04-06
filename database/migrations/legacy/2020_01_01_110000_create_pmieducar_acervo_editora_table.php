@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarAcervoEditoraTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarAcervoEditoraTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'acervo_editora');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.acervo_editora_cod_acervo_editora_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -44,14 +41,13 @@ class CreatePmieducarAcervoEditoraTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     ref_cod_biblioteca integer
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.acervo_editora
                     ADD CONSTRAINT acervo_editora_pkey PRIMARY KEY (cod_acervo_editora);
 
                 SELECT pg_catalog.setval(\'pmieducar.acervo_editora_cod_acervo_editora_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

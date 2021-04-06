@@ -1,10 +1,6 @@
 <?php
 
 use iEducar\Legacy\Model;
-use Illuminate\Support\Facades\Session;
-
-require_once 'include/pmieducar/geral.inc.php';
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
 
 class clsModulesPontoTransporteEscolar extends Model
 {
@@ -17,15 +13,12 @@ class clsModulesPontoTransporteEscolar extends Model
     public $numero;
     public $latitude;
     public $longitude;
-    public $pessoa_logada;
 
     public function __construct($cod_ponto_transporte_escolar = null, $descricao = null)
     {
         $db = new clsBanco();
         $this->_schema = 'modules.';
         $this->_tabela = "{$this->_schema}ponto_transporte_escolar";
-
-        $this->pessoa_logada = Session::get('id_pessoa');
 
         $this->_campos_lista = $this->_todos_campos = ' cod_ponto_transporte_escolar, descricao, cep, idlog, idbai, complemento, numero, latitude, longitude ';
 
@@ -108,8 +101,6 @@ class clsModulesPontoTransporteEscolar extends Model
 
             if ($this->cod_ponto_transporte_escolar) {
                 $detalhe = $this->detalhe();
-                $auditoria = new clsModulesAuditoriaGeral('ponto_transporte_escolar', $this->pessoa_logada, $this->cod_ponto_transporte_escolar);
-                $auditoria->inclusao($detalhe);
             }
 
             return $this->cod_ponto_transporte_escolar;
@@ -175,8 +166,6 @@ class clsModulesPontoTransporteEscolar extends Model
             if ($set) {
                 $detalheAntigo = $this->detalhe();
                 $db->Consulta("UPDATE {$this->_tabela} SET $set WHERE cod_ponto_transporte_escolar = '{$this->cod_ponto_transporte_escolar}'");
-                $auditoria = new clsModulesAuditoriaGeral('ponto_transporte_escolar', $this->pessoa_logada, $this->cod_ponto_transporte_escolar);
-                $auditoria->alteracao($detalheAntigo, $this->detalhe());
 
                 return true;
             }
@@ -334,9 +323,6 @@ class clsModulesPontoTransporteEscolar extends Model
             $sql = "DELETE FROM {$this->_tabela} WHERE cod_ponto_transporte_escolar = '{$this->cod_ponto_transporte_escolar}'";
             $db = new clsBanco();
             $db->Consulta($sql);
-
-            $auditoria = new clsModulesAuditoriaGeral('ponto_transporte_escolar', $this->pessoa_logada, $this->cod_ponto_transporte_escolar);
-            $auditoria->exclusao($detalhe);
 
             return true;
         }

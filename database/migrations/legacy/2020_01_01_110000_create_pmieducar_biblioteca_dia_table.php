@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarBibliotecaDiaTable extends Migration
 {
@@ -13,21 +13,17 @@ class CreatePmieducarBibliotecaDiaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'biblioteca_dia');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.biblioteca_dia (
                     ref_cod_biblioteca integer NOT NULL,
                     dia numeric(1,0) NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.biblioteca_dia
                     ADD CONSTRAINT biblioteca_dia_pkey PRIMARY KEY (ref_cod_biblioteca, dia);
             '
             );
-        }
     }
 
     /**

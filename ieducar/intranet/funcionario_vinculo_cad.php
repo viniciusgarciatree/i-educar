@@ -1,20 +1,6 @@
 <?php
 
-require_once('include/clsBase.inc.php');
-require_once('include/clsCadastro.inc.php');
-require_once('include/clsBanco.inc.php');
-
-class clsIndex extends clsBase
-{
-    public function Formular()
-    {
-        $this->SetTitulo("{$this->_instituicao} Vínculo Funcionários!");
-        $this->processoAp = '190';
-    }
-}
-
-class indice extends clsCadastro
-{
+return new class extends clsCadastro {
     public $nm_vinculo;
     public $cod_vinculo;
     public $abreviatura;
@@ -49,13 +35,8 @@ class indice extends clsCadastro
         $this->url_cancelar = 'funcionario_vinculo_lst.php';
 
         $nomeMenu = $retorno == 'Editar' ? $retorno : 'Cadastrar';
-        $localizacao = new LocalizacaoSistema();
-        $localizacao->entradaCaminhos([
-            $_SERVER['SERVER_NAME'].'/intranet' => 'In&iacute;cio',
-            '' => "{$nomeMenu} v&iacute;nculo"
-        ]);
 
-        $this->enviaLocalizacao($localizacao->montar());
+        $this->breadcrumb("{$nomeMenu} v&iacute;nculo");
 
         return $retorno;
     }
@@ -75,8 +56,8 @@ class indice extends clsCadastro
 
             return false;
         }
-            $nm_vinculo = $db->escapeString($this->nm_vinculo);
-            $abreviatura = $db->escapeString($this->abreviatura);
+        $nm_vinculo = $db->escapeString($this->nm_vinculo);
+        $abreviatura = $db->escapeString($this->abreviatura);
 
         $this->db->Consulta("INSERT INTO portal.funcionario_vinculo ( nm_vinculo, abreviatura ) VALUES ( '$nm_vinculo', '$abreviatura' )");
         echo '<script>document.location=\'funcionario_vinculo_lst.php\';</script>';
@@ -133,11 +114,10 @@ class indice extends clsCadastro
 
         return $count > 0;
     }
-}
 
-$pagina = new clsIndex();
-
-$miolo = new indice();
-$pagina->addForm($miolo);
-
-$pagina->MakeAll();
+    public function Formular()
+    {
+        $this->title = 'Vínculo Funcionários!';
+        $this->processoAp = '190';
+    }
+};

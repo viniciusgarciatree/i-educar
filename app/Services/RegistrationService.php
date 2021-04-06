@@ -8,7 +8,6 @@ use App\Models\LegacySchoolClass;
 use App\Models\LegacyTransferRequest;
 use App\User;
 use App_Model_MatriculaSituacao;
-use clsModulesAuditoriaGeral;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -72,17 +71,11 @@ class RegistrationService
      * Atualiza a situação de uma matrícula
      *
      * @param LegacyRegistration $registration
-     * @param array $data
+     * @param array              $data
      */
     public function updateStatus(LegacyRegistration $registration, $data)
     {
         $status = $data['nova_situacao'];
-        $auditoria = new clsModulesAuditoriaGeral('update_registration_status', $registration->getKey());
-        $auditoria->usuario_id = $this->user->getKey();
-        $auditoria->alteracao(
-            ['aprovado' => $registration->aprovado],
-            ['aprovado' => $status]
-        );
 
         $registration->aprovado = $status;
         $registration->save();
@@ -91,7 +84,7 @@ class RegistrationService
     }
 
     /**
-     * @param array $data
+     * @param array              $data
      * @param LegacyRegistration $registration
      */
     private function checkUpdatedStatusAction($data, LegacyRegistration $registration)
@@ -151,6 +144,7 @@ class RegistrationService
 
     /**
      * @param LegacyRegistration $registration
+     *
      * @return LegacyEnrollment
      */
     private function getActiveEnrollments(LegacyRegistration $registration)
@@ -159,9 +153,9 @@ class RegistrationService
     }
 
     /**
-     * @param string $date
-     * @param integer $type
-     * @param string $comments
+     * @param string             $date
+     * @param integer            $type
+     * @param string             $comments
      * @param LegacyRegistration $registration
      */
     private function createTransferRequest($date, $type, $comments, $registration)
@@ -181,17 +175,11 @@ class RegistrationService
      * Atualiza a data de entrada de uma matrícula
      *
      * @param LegacyRegistration $registration
-     * @param DateTime $date
+     * @param DateTime           $date
      */
     public function updateRegistrationDate(LegacyRegistration $registration, DateTime $date)
     {
         $date = $date->format('Y-m-d');
-        $auditoria = new clsModulesAuditoriaGeral('update_registration_date', $registration->getKey());
-        $auditoria->usuario_id = $this->user->getKey();
-        $auditoria->alteracao(
-            ['data_matricula' => $registration->data_matricula],
-            ['data_matricula' => $date]
-        );
 
         $registration->data_matricula = $date;
         $registration->save();
@@ -203,8 +191,8 @@ class RegistrationService
      * Atualiza a date de enturmação de todas as enturmações de uma matrícula
      *
      * @param LegacyRegistration $registration
-     * @param DateTime $date
-     * @param boolean $relocated
+     * @param DateTime           $date
+     * @param boolean            $relocated
      */
     public function updateEnrollmentsDate(LegacyRegistration $registration, DateTime $date, $relocated)
     {
@@ -212,16 +200,13 @@ class RegistrationService
 
         $enrollment = $registration->lastEnrollment;
 
-        if (!$relocated && $enrollment->remanejado) {
+        if (empty($enrollment)) {
             return;
         }
 
-        $auditoria = new clsModulesAuditoriaGeral('update_enrollment_date', $enrollment->getKey());
-        $auditoria->usuario_id = $this->user->getKey();
-        $auditoria->alteracao(
-            ['data_enturmacao' => $enrollment->data_enturmacao],
-            ['data_enturmacao' => $date]
-        );
+        if (!$relocated && $enrollment->remanejado) {
+            return;
+        }
 
         $enrollment->data_enturmacao = $date;
         $enrollment->save();

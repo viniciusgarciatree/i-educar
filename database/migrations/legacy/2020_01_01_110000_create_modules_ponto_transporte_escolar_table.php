@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesPontoTransporteEscolarTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesPontoTransporteEscolarTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'ponto_transporte_escolar');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.ponto_transporte_escolar_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -36,14 +33,13 @@ class CreateModulesPontoTransporteEscolarTable extends Migration
                     latitude character varying(20),
                     longitude character varying(20)
                 );
-                
+
                 ALTER TABLE ONLY modules.ponto_transporte_escolar
                     ADD CONSTRAINT ponto_transporte_escolar_cod_ponto_transporte_escolar_pkey PRIMARY KEY (cod_ponto_transporte_escolar);
 
                 SELECT pg_catalog.setval(\'modules.ponto_transporte_escolar_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

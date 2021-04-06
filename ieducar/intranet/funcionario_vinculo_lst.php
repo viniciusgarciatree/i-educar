@@ -1,20 +1,6 @@
 <?php
 
-require_once('include/clsBase.inc.php');
-require_once('include/clsListagem.inc.php');
-require_once('include/clsBanco.inc.php');
-
-class clsIndex extends clsBase
-{
-    public function Formular()
-    {
-        $this->SetTitulo("{$this->_instituicao} Vínculo Funcionários!");
-        $this->processoAp = '190';
-    }
-}
-
-class indice extends clsListagem
-{
+return new class extends clsListagem {
     public function Gerar()
     {
         $this->titulo = 'Vínculos';
@@ -65,19 +51,12 @@ class indice extends clsListagem
         $this->acao = 'go("funcionario_vinculo_cad.php")';
         $this->nome_acao = 'Novo';
 
-        $localizacao = new LocalizacaoSistema();
-        $localizacao->entradaCaminhos([
-            $_SERVER['SERVER_NAME'].'/intranet' => 'In&iacute;cio',
-            '' => 'Listagem de v&iacute;nculos'
-        ]);
-
-        $this->enviaLocalizacao($localizacao->montar());
+        $this->breadcrumb('Listagem de v&iacute;nculos');
     }
-}
 
-$pagina = new clsIndex();
-
-$miolo = new indice();
-$pagina->addForm($miolo);
-
-$pagina->MakeAll();
+    public function Formular()
+    {
+        $this->title = 'Vínculo Funcionários!';
+        $this->processoAp = '190';
+    }
+};

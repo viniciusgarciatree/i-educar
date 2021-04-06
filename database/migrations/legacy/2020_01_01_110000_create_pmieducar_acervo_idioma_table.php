@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarAcervoIdiomaTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarAcervoIdiomaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'acervo_idioma');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.acervo_idioma_cod_acervo_idioma_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -35,14 +32,13 @@ class CreatePmieducarAcervoIdiomaTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     ref_cod_biblioteca integer
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.acervo_idioma
                     ADD CONSTRAINT acervo_idioma_pkey PRIMARY KEY (cod_acervo_idioma);
 
                 SELECT pg_catalog.setval(\'pmieducar.acervo_idioma_cod_acervo_idioma_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

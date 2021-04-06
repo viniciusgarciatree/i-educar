@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesMotoristaTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesMotoristaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'motorista');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.motorista_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -35,14 +32,13 @@ class CreateModulesMotoristaTable extends Migration
                     ref_cod_empresa_transporte_escolar integer NOT NULL,
                     observacao character varying(255)
                 );
-                
+
                 ALTER TABLE ONLY modules.motorista
                     ADD CONSTRAINT motorista_pkey PRIMARY KEY (cod_motorista);
 
                 SELECT pg_catalog.setval(\'modules.motorista_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace iEducar\Modules\Educacenso\ExportRule;
 
-
 use App\Models\Educacenso\Registro30;
 use App\Models\Educacenso\RegistroEducacenso;
 use iEducar\Modules\Educacenso\Model\Escolaridade;
@@ -14,6 +13,7 @@ class RegrasGeraisRegistro30 implements EducacensoExportRule
 {
     /**
      * @param Registro30 $registro30
+     *
      * @return RegistroEducacenso
      */
     public static function handle(RegistroEducacenso $registro30): RegistroEducacenso
@@ -59,7 +59,7 @@ class RegrasGeraisRegistro30 implements EducacensoExportRule
             $registro30->localizacaoDiferenciada = null;
         }
 
-        if ($registro30->escolaridade != Escolaridade::ENSINO_MEDIO) {
+        if ($registro30->escolaridade != Escolaridade::ENSINO_MEDIO && $registro30->escolaridade != Escolaridade::EDUCACAO_SUPERIOR) {
             $registro30->tipoEnsinoMedioCursado = null;
         }
 

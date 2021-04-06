@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesFaltaAlunoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesFaltaAlunoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'falta_aluno');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.falta_aluno_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -32,7 +29,7 @@ class CreateModulesFaltaAlunoTable extends Migration
                 );
 
                 ALTER SEQUENCE modules.falta_aluno_id_seq OWNED BY modules.falta_aluno.id;
-                
+
                 ALTER TABLE ONLY modules.falta_aluno
                     ADD CONSTRAINT falta_aluno_pkey PRIMARY KEY (id);
 
@@ -40,7 +37,7 @@ class CreateModulesFaltaAlunoTable extends Migration
                     ADD CONSTRAINT modules_falta_aluno_matricula_id_unique UNIQUE (matricula_id);
 
                 ALTER TABLE ONLY modules.falta_aluno ALTER COLUMN id SET DEFAULT nextval(\'modules.falta_aluno_id_seq\'::regclass);
-                
+
                 CREATE INDEX idx_falta_aluno_matricula_id ON modules.falta_aluno USING btree (matricula_id);
 
                 CREATE INDEX idx_falta_aluno_matricula_id_tipo ON modules.falta_aluno USING btree (matricula_id, tipo_falta);
@@ -48,7 +45,6 @@ class CreateModulesFaltaAlunoTable extends Migration
                 SELECT pg_catalog.setval(\'modules.falta_aluno_id_seq\', 2, true);
             '
             );
-        }
     }
 
     /**

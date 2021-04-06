@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarTurmaTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarTurmaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'turma');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.turma_cod_turma_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -89,7 +86,7 @@ class CreatePmieducarTurmaTable extends Migration
                     local_funcionamento_diferenciado int2 NULL,
 	                updated_at timestamp NULL DEFAULT now()
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.turma
                     ADD CONSTRAINT turma_pkey PRIMARY KEY (cod_turma);
 
@@ -98,7 +95,6 @@ class CreatePmieducarTurmaTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.turma_cod_turma_seq\', 2, true);
             '
             );
-        }
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarMatriculaTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarMatriculaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'matricula');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.matricula_cod_matricula_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -56,7 +53,7 @@ class CreatePmieducarMatriculaTable extends Migration
                     data_saida_escola date,
 	                updated_at timestamp NULL DEFAULT now()
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.matricula
                     ADD CONSTRAINT matricula_pkey PRIMARY KEY (cod_matricula);
 
@@ -69,7 +66,6 @@ class CreatePmieducarMatriculaTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.matricula_cod_matricula_seq\', 2, true);
             '
             );
-        }
     }
 
     /**

@@ -15,8 +15,10 @@ class ReleasePeriodService
      * @param integer $classRoomId
      * @param integer $stage
      * @param integer $year
-     * @return bool
+     *
      * @throws Exception
+     *
+     * @return bool
      */
     public function canPostNow($schoolId, $classRoomId, $stage, $year)
     {
@@ -28,6 +30,10 @@ class ReleasePeriodService
         }
 
         $stageType = $firstStage->ref_cod_modulo;
+
+        if ($stage === 'Rc') {
+            $stage = $stages->max('sequencial');
+        }
 
         /** @var ReleasePeriod $releasePeriod */
         $releasePeriod = ReleasePeriod::where('year', $year)

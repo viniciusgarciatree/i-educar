@@ -1,20 +1,12 @@
 <?php
 
+use App\Models\LegacyIndividual;
 use App\Models\PersonHasPlace;
 use iEducar\Modules\Addressing\LegacyAddressingFields;
-use iEducar\Modules\Educacenso\Validator\NameValidator;
+use iEducar\Modules\Educacenso\Model\Nacionalidade;
 use iEducar\Modules\Educacenso\Validator\BirthDateValidator;
 use iEducar\Modules\Educacenso\Validator\DifferentiatedLocationValidator;
-use App\Models\LegacyIndividual;
-
-require_once 'lib/Portabilis/Controller/ApiCoreController.php';
-require_once 'lib/Portabilis/Array/Utils.php';
-require_once 'lib/Portabilis/String/Utils.php';
-require_once 'lib/Portabilis/Date/Utils.php';
-require_once 'include/pessoa/clsPessoa_.inc.php';
-require_once 'include/pessoa/clsFisica.inc.php';
-require_once 'include/pessoa/clsCadastroFisicaRaca.inc.php';
-require_once 'intranet/include/funcoes.inc.php';
+use iEducar\Modules\Educacenso\Validator\NameValidator;
 
 class PessoaController extends ApiCoreController
 {
@@ -483,6 +475,7 @@ class PessoaController extends ApiCoreController
 
         if (!$validator->isValid()) {
             $this->messenger->append($validator->getMessage());
+
             return false;
         }
 
@@ -499,6 +492,7 @@ class PessoaController extends ApiCoreController
 
         if (!$validator->isValid()) {
             $this->messenger->append($validator->getMessage());
+
             return false;
         }
 
@@ -511,6 +505,7 @@ class PessoaController extends ApiCoreController
 
         if (!$validator->isValid()) {
             $this->messenger->append($validator->getMessage());
+
             return false;
         }
 
@@ -566,13 +561,15 @@ class PessoaController extends ApiCoreController
         $individual->pais_residencia = $this->getRequest()->pais_residencia ?: $individual->pais_residencia;
         $individual->falecido = $this->getRequest()->falecido == 'true';
         $individual->idpais_estrangeiro = $this->getRequest()->pais_origem_id ?: $individual->idpais_estrangeiro;
+        if ($this->getRequest()->tipo_nacionalidade == Nacionalidade::BRASILEIRA) {
+            $individual->idpais_estrangeiro = null;
+        }
         $individual->nacionalidade = $this->getRequest()->tipo_nacionalidade ?: $individual->nacionalidade;
         $individual->zona_localizacao_censo = $this->getRequest()->zona_localizacao_censo ?: $individual->zona_localizacao_censo;
         $individual->localizacao_diferenciada = $this->getRequest()->localizacao_diferenciada ?: $individual->localizacao_diferenciada;
         $individual->nome_social = $this->getRequest()->nome_social ?? $this->getRequest()->nome_social;
 
         $individual->saveOrFail();
-
 
         $raca = new clsCadastroFisicaRaca($pessoaId, $this->getRequest()->cor_raca);
         if ($raca->existe()) {

@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarMatriculaTurmaTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarMatriculaTurmaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'matricula_turma');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.matricula_turma (
                     ref_cod_matricula integer NOT NULL,
                     ref_cod_turma integer NOT NULL,
@@ -41,15 +38,14 @@ class CreatePmieducarMatriculaTurmaTable extends Migration
 	                tipo_atendimento int4[] NULL,
 	                updated_at timestamp(0) NULL DEFAULT now()
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.matricula_turma
                     ADD CONSTRAINT matricula_turma_pkey PRIMARY KEY (id);
-                    
+
                 CREATE INDEX i_matricula_turma_ref_cod_turma ON pmieducar.matricula_turma USING btree (ref_cod_turma);
                 CREATE UNIQUE INDEX matricula_turma_uindex_matricula_turma_sequencial ON pmieducar.matricula_turma USING btree (ref_cod_matricula, ref_cod_turma, sequencial);
             '
             );
-        }
     }
 
     /**

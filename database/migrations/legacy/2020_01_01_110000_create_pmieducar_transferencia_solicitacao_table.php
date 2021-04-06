@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarTransferenciaSolicitacaoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarTransferenciaSolicitacaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'transferencia_solicitacao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.transferencia_solicitacao_cod_transferencia_solicitacao_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -42,14 +39,13 @@ class CreatePmieducarTransferenciaSolicitacaoTable extends Migration
                     estado_escola_destino_externa character varying(60),
                     municipio_escola_destino_externa character varying(60)
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.transferencia_solicitacao
                     ADD CONSTRAINT transferencia_solicitacao_pkey PRIMARY KEY (cod_transferencia_solicitacao);
 
                 SELECT pg_catalog.setval(\'pmieducar.transferencia_solicitacao_cod_transferencia_solicitacao_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

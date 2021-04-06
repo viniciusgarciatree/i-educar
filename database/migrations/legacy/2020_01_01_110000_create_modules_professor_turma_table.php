@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesProfessorTurmaTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesProfessorTurmaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'professor_turma');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.professor_turma_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -37,14 +34,13 @@ class CreateModulesProfessorTurmaTable extends Migration
                     updated_at timestamp without time zone,
                     turno_id integer
                 );
-                
+
                 ALTER TABLE ONLY modules.professor_turma
                     ADD CONSTRAINT professor_turma_id_pk PRIMARY KEY (id);
 
                 SELECT pg_catalog.setval(\'modules.professor_turma_id_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

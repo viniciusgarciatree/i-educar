@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesCalendarioTurmaTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesCalendarioTurmaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'calendario_turma');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE TABLE modules.calendario_turma (
                     calendario_ano_letivo_id integer NOT NULL,
                     ano integer NOT NULL,
@@ -25,12 +22,11 @@ class CreateModulesCalendarioTurmaTable extends Migration
                     dia integer NOT NULL,
                     turma_id integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY modules.calendario_turma
                     ADD CONSTRAINT calendario_turma_pk PRIMARY KEY (calendario_ano_letivo_id, ano, mes, dia, turma_id);
             '
             );
-        }
     }
 
     /**

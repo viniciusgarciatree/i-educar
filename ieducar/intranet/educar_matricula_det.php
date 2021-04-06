@@ -3,29 +3,7 @@
 use App\Process;
 use iEducar\Modules\Educacenso\Model\TipoAtendimentoTurma;
 
-require_once 'include/clsBase.inc.php';
-require_once 'include/clsDetalhe.inc.php';
-require_once 'include/clsBanco.inc.php';
-require_once 'include/pmieducar/geral.inc.php';
-require_once 'include/pmieducar/clsPermissoes.inc.php';
-require_once 'lib/Portabilis/Date/Utils.php';
-require_once 'lib/Portabilis/Utils/CustomLabel.php';
-require_once 'Portabilis/String/Utils.php';
-require_once 'lib/App/Model/Educacenso.php';
-require_once 'App/Model/MatriculaSituacao.php';
-require_once 'Portabilis/View/Helper/Application.php';
-
-class clsIndexBase extends clsBase
-{
-    public function Formular()
-    {
-        $this->SetTitulo($this->_instituicao . ' i-Educar - Matrícula');
-        $this->processoAp = 578;
-    }
-}
-
-class indice extends clsDetalhe
-{
+return new class extends clsDetalhe {
     public $titulo;
 
     public $ref_cod_matricula;
@@ -70,8 +48,6 @@ class indice extends clsDetalhe
         Portabilis_View_Helper_Application::loadStylesheet($this, $style);
 
         $this->titulo = 'Matrícula - Detalhe';
-        $this->addBanner('imagens/nvp_top_intranet.jpg', 'imagens/nvp_vert_intranet.jpg', 'Intranet');
-
         $this->ref_cod_matricula = $_GET['cod_matricula'];
 
         $obj_matricula = new clsPmieducarMatricula();
@@ -182,8 +158,6 @@ class indice extends clsDetalhe
             $turma = new clsPmieducarTurma($enturmacao['ref_cod_turma']);
             $turma = $turma->detalhe();
             $turma_id = $enturmacao['ref_cod_turma'];
-            $nomesTurmas[] = $turma['nm_turma'];
-            $datasEnturmacoes[] = Portabilis_Date_Utils::pgSQLToBr($enturmacao['data_enturmacao']);
 
             if (in_array($turma['etapa_educacenso'], App_Model_Educacenso::etapas_multisseriadas())) {
                 $existeTurmaMulti = true;
@@ -192,6 +166,9 @@ class indice extends clsDetalhe
             if ($enturmacao['ativo'] == 0) {
                 continue;
             }
+
+            $nomesTurmas[] = $turma['nm_turma'];
+            $datasEnturmacoes[] = Portabilis_Date_Utils::pgSQLToBr($enturmacao['data_enturmacao']);
 
             if ($turma['turma_turno_id'] == clsPmieducarTurma::TURNO_INTEGRAL) {
                 $existeTurmaTurnoIntegral = true;
@@ -217,12 +194,10 @@ class indice extends clsDetalhe
             $this->addDetalhe(['Número Reserva Vaga', $registro['ref_cod_reserva_vaga']]);
         }
 
-        $campoObs = false;
-
         $situacao = App_Model_MatriculaSituacao::getSituacao($registro['aprovado']);
         $this->addDetalhe(['Situação', $situacao]);
 
-        if ($registro['aprovado'] == 4) {
+        if ($registro['aprovado'] == App_Model_MatriculaSituacao::TRANSFERIDO) {
             $obj_transferencia = new clsPmieducarTransferenciaSolicitacao();
 
             $lst_transferencia = $obj_transferencia->lista(null, null, null, null, null, $registro['cod_matricula'], null, null, null, null, null, 1, null, null, $registro['ref_cod_aluno'], false);
@@ -239,29 +214,30 @@ class indice extends clsDetalhe
                 $this->addDetalhe(['Estado escola destino', $det_transferencia['estado_escola_destino_externa']]);
                 $this->addDetalhe(['Município escola destino', $det_transferencia['municipio_escola_destino_externa']]);
             }
+            $this->addDetalhe(['Observação', $det_transferencia['observacao']]);
         }
 
         if ($registro['aprovado'] == App_Model_MatriculaSituacao::FALECIDO) {
-            $this->addDetalhe(['Observação', Portabilis_String_Utils::toLatin1($registro['observacao'])]);
+            $this->addDetalhe(['Observação', $registro['observacao']]);
         }
 
         if ($existeSaidaEscola) {
             $this->addDetalhe(['Saída da escola', 'Sim']);
             $this->addDetalhe(['Data de saída da escola', Portabilis_Date_Utils::pgSQLToBr($registro['data_saida_escola'])]);
-            $this->addDetalhe(['Observação', Portabilis_String_Utils::toLatin1($registro['observacao'])]);
+            $this->addDetalhe(['Observação', $registro['observacao']]);
         }
 
-        if ($campoObs) {
+        if ($registro['aprovado'] == App_Model_MatriculaSituacao::ABANDONO) {
             $tipoAbandono = new clsPmieducarAbandonoTipo($registro['ref_cod_abandono_tipo']);
             $tipoAbandono = $tipoAbandono->detalhe();
 
-            $observacaoAbandono = Portabilis_String_Utils::toLatin1($registro['observacao']);
+            $observacaoAbandono = $registro['observacao'];
 
             $this->addDetalhe(['Motivo do Abandono', $tipoAbandono['nome']]);
             $this->addDetalhe(['Observação', $observacaoAbandono]);
         }
 
-        if ($registro['aprovado'] == App_Model_MatriculaSituacao::RECLASSIFICADO){
+        if ($registro['aprovado'] == App_Model_MatriculaSituacao::RECLASSIFICADO) {
             $this->addDetalhe(['Descrição', $this->getDescription($registro['descricao_reclassificacao'])]);
         }
 
@@ -468,10 +444,10 @@ class indice extends clsDetalhe
 
         return $db->CampoUnico($sql);
     }
-}
 
-$pagina = new clsIndexBase();
-$miolo = new indice();
-
-$pagina->addForm($miolo);
-$pagina->MakeAll();
+    public function Formular()
+    {
+        $this->title = 'i-Educar - Matrícula';
+        $this->processoAp = 578;
+    }
+};

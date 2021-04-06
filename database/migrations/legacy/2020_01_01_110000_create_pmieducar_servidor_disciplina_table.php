@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarServidorDisciplinaTable extends Migration
 {
@@ -13,23 +13,19 @@ class CreatePmieducarServidorDisciplinaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'servidor_disciplina');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.servidor_disciplina (
                     ref_cod_disciplina integer NOT NULL,
                     ref_ref_cod_instituicao integer NOT NULL,
                     ref_cod_servidor integer NOT NULL,
                     ref_cod_curso integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.servidor_disciplina
                     ADD CONSTRAINT servidor_disciplina_pkey PRIMARY KEY (ref_cod_disciplina, ref_ref_cod_instituicao, ref_cod_servidor, ref_cod_curso);
             '
             );
-        }
     }
 
     /**

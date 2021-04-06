@@ -34,7 +34,6 @@ trait Avaliacao_Service_Boletim_RegraAvaliacao
 
     /**
      * @deprecated
-     *
      * @see Avaliacao_Service_Boletim_RegraAvaliacao::getRegraAvaliacao()
      *
      * @return RegraAvaliacao_Model_Regra
@@ -269,6 +268,17 @@ trait Avaliacao_Service_Boletim_RegraAvaliacao
     public function hasRegraAvaliacaoAprovaMediaDisciplina()
     {
         return boolval($this->getRegraAvaliacao()->get('aprovaMediaDisciplina'));
+    }
+
+    /**
+     * Indica se a regra de avaliação deve desconsiderar a obrigatoriedade dos
+     * lançamentos de frequência para aprovar/reprovar o aluno.
+     *
+     * @return bool
+     */
+    public function getRegraAvaliacaoDesconsiderarLancamentoFrequencia()
+    {
+        return boolval($this->getRegraAvaliacao()->get('desconsiderarLancamentoFrequencia'));
     }
 
     /**

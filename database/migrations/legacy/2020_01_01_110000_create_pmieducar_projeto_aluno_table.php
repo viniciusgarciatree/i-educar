@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarProjetoAlunoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarProjetoAlunoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'projeto_aluno');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.projeto_aluno (
                     ref_cod_projeto integer NOT NULL,
                     ref_cod_aluno integer NOT NULL,
@@ -25,12 +22,11 @@ class CreatePmieducarProjetoAlunoTable extends Migration
                     data_desligamento date,
                     turno integer
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.projeto_aluno
                     ADD CONSTRAINT pmieducar_projeto_aluno_pk PRIMARY KEY (ref_cod_projeto, ref_cod_aluno);
             '
             );
-        }
     }
 
     /**

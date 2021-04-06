@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarServidorAfastamentoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarServidorAfastamentoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'servidor_afastamento');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.servidor_afastamento (
                     ref_cod_servidor integer NOT NULL,
                     sequencial integer NOT NULL,
@@ -31,12 +28,11 @@ class CreatePmieducarServidorAfastamentoTable extends Migration
                     data_saida timestamp without time zone NOT NULL,
                     ativo smallint DEFAULT (1)::smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.servidor_afastamento
                     ADD CONSTRAINT servidor_afastamento_pkey PRIMARY KEY (ref_cod_servidor, sequencial, ref_ref_cod_instituicao);
             '
             );
-        }
     }
 
     /**

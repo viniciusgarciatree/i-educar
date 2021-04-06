@@ -2,48 +2,18 @@
 
 use App\Models\LegacyIndividual;
 use App\Models\LegacyInstitution;
+use App\Services\FileService;
 use App\Services\UrlPresigner;
 use iEducar\Modules\Addressing\LegacyAddressingFields;
-use iEducar\Modules\Educacenso\Validator\NameValidator;
-use iEducar\Modules\Educacenso\Validator\BirthDateValidator;
-use iEducar\Modules\Educacenso\Validator\BirthCertificateValidator;
-use iEducar\Modules\Educacenso\Validator\NisValidator;
-use iEducar\Modules\Educacenso\Validator\DifferentiatedLocationValidator;
 use iEducar\Modules\Educacenso\Model\PaisResidencia;
+use iEducar\Modules\Educacenso\Validator\BirthCertificateValidator;
+use iEducar\Modules\Educacenso\Validator\BirthDateValidator;
+use iEducar\Modules\Educacenso\Validator\DifferentiatedLocationValidator;
+use iEducar\Modules\Educacenso\Validator\NameValidator;
+use iEducar\Modules\Educacenso\Validator\NisValidator;
 use iEducar\Support\View\SelectOptions;
-use App\Services\FileService;
 
-require_once 'include/clsBase.inc.php';
-require_once 'include/clsBanco.inc.php';
-require_once 'include/clsCadastro.inc.php';
-require_once 'include/pessoa/clsCadastroRaca.inc.php';
-
-require_once 'include/pessoa/clsCadastroFisicaRaca.inc.php';
-require_once 'include/pessoa/clsCadastroFisicaFoto.inc.php';
-require_once 'include/pmieducar/clsPmieducarAluno.inc.php';
-require_once 'include/modules/clsModulesPessoaTransporte.inc.php';
-require_once 'include/modules/clsModulesMotorista.inc.php';
-require_once 'image_check.php';
-
-require_once 'App/Model/ZonaLocalizacao.php';
-
-require_once 'Portabilis/String/Utils.php';
-require_once 'Portabilis/Utils/Database.php';
-require_once 'Portabilis/View/Helper/Application.php';
-require_once 'Portabilis/Utils/Validation.php';
-require_once 'Portabilis/Date/Utils.php';
-
-class clsIndex extends clsBase
-{
-    public function Formular()
-    {
-        $this->SetTitulo($this->_instituicao . ' Pessoas Físicas - Cadastro');
-        $this->processoAp = 43;
-    }
-}
-
-class indice extends clsCadastro
-{
+return new class extends clsCadastro {
     use LegacyAddressingFields;
 
     public $cod_pessoa_fj;
@@ -159,10 +129,6 @@ class indice extends clsCadastro
             $this->estado_civil_id = $this->estado_civil->ideciv;
             $this->pais_origem_id = $this->pais_origem;
             $this->naturalidade_id = $this->naturalidade;
-
-            $raca = new clsCadastroFisicaRaca($this->cod_pessoa_fj);
-            $raca = $raca->detalhe();
-            $this->cod_raca = is_array($raca) ? $raca['ref_cod_raca'] : null;
         }
 
         $this->fexcluir = $obj_permissoes->permissao_excluir(
@@ -226,7 +192,7 @@ class indice extends clsCadastro
 
         $foto = false;
         if (is_numeric($this->cod_pessoa_fj)) {
-            $objFoto = new ClsCadastroFisicaFoto($this->cod_pessoa_fj);
+            $objFoto = new clsCadastroFisicaFoto($this->cod_pessoa_fj);
             $detalheFoto = $objFoto->detalhe();
             if (count($detalheFoto)) {
                 $foto = $detalheFoto['caminho'];
@@ -238,9 +204,9 @@ class indice extends clsCadastro
         if ($foto) {
             $this->campoRotulo('fotoAtual_', 'Foto atual', '<img height="117" src="' . (new UrlPresigner())->getPresignedUrl($foto) . '"/>');
             $this->inputsHelper()->checkbox('file_delete', ['label' => 'Excluir a foto']);
-            $this->campoArquivo('photo', 'Trocar foto', $this->arquivoFoto, 40, '<br/> <span style="font-style: italic; font-size= 10px;">* Recomenda-se imagens nos formatos jpeg, jpg, png e gif. Tamanho máximo: 150KB</span>');
+            $this->campoArquivo('photo', 'Trocar foto', $this->arquivoFoto, 40, '<br/> <span style="font-style: italic; font-size= 10px;">* Recomenda-se imagens nos formatos jpeg, jpg, png e gif. Tamanho máximo: 2MB</span>');
         } else {
-            $this->campoArquivo('photo', 'Foto', $this->arquivoFoto, 40, '<br/> <span style="font-style: italic; font-size= 10px;">* Recomenda-se imagens nos formatos jpeg, jpg, png e gif. Tamanho máximo: 150KB</span>');
+            $this->campoArquivo('photo', 'Foto', $this->arquivoFoto, 40, '<br/> <span style="font-style: italic; font-size= 10px;">* Recomenda-se imagens nos formatos jpeg, jpg, png e gif. Tamanho máximo: 2MB</span>');
         }
 
         // ao cadastrar pessoa do pai ou mãe apartir do cadastro de outra pessoa,
@@ -652,6 +618,10 @@ class indice extends clsCadastro
         $selectOptionsRaca = Portabilis_Array_Utils::sortByValue($selectOptionsRaca);
         $selectOptionsRaca = array_replace([null => 'Selecione'], $selectOptionsRaca);
 
+        $raca = new clsCadastroFisicaRaca($this->cod_pessoa_fj);
+        $raca = $raca->detalhe();
+        $this->cod_raca = is_array($raca) ? $raca['ref_cod_raca'] : null;
+
         $this->campoLista('cor_raca', 'Raça', $selectOptionsRaca, $this->cod_raca, '', false, '', '', '', $obrigarCamposCenso);
 
         // nacionalidade
@@ -1037,6 +1007,7 @@ class indice extends clsCadastro
         $validator = new NameValidator($this->nm_pessoa);
         if (!$validator->isValid()) {
             $this->mensagem = $validator->getMessage();
+
             return false;
         }
 
@@ -1048,6 +1019,7 @@ class indice extends clsCadastro
         $validator = new DifferentiatedLocationValidator($this->localizacao_diferenciada, $this->zona_localizacao_censo);
         if (!$validator->isValid()) {
             $this->mensagem = $validator->getMessage();
+
             return false;
         }
 
@@ -1059,6 +1031,7 @@ class indice extends clsCadastro
         $validator = new BirthDateValidator(Portabilis_Date_Utils::brToPgSQL($this->data_nasc));
         if (!$validator->isValid()) {
             $this->mensagem = $validator->getMessage();
+
             return false;
         }
 
@@ -1160,6 +1133,7 @@ class indice extends clsCadastro
             $validator = new BirthCertificateValidator($this->certidao_nascimento, Portabilis_Date_Utils::brToPgSQL($this->data_nasc));
             if (!$validator->isValid()) {
                 $this->mensagem = $validator->getMessage();
+
                 return false;
             }
         }
@@ -1178,6 +1152,7 @@ class indice extends clsCadastro
         $validator = new NisValidator($this->nis_pis_pasep ?? '');
         if (!$validator->isValid()) {
             $this->mensagem = $validator->getMessage();
+
             return false;
         }
 
@@ -1436,16 +1411,10 @@ class indice extends clsCadastro
             $fileService->deleteFiles($deletedFiles);
         }
     }
-}
 
-// Instancia objeto de página
-$pagina = new clsIndex();
-
-// Instancia objeto de conteúdo
-$miolo = new indice();
-
-// Atribui o conteúdo à página
-$pagina->addForm($miolo);
-
-// Gera o código HTML
-$pagina->MakeAll();
+    public function Formular()
+    {
+        $this->title = 'Pessoas Físicas - Cadastro';
+        $this->processoAp = 43;
+    }
+};

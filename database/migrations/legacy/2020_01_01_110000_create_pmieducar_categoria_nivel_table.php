@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarCategoriaNivelTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarCategoriaNivelTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'categoria_nivel');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.categoria_nivel_cod_categoria_nivel_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -34,14 +31,13 @@ class CreatePmieducarCategoriaNivelTable extends Migration
                     data_exclusao timestamp without time zone,
                     ativo boolean DEFAULT true NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.categoria_nivel
                     ADD CONSTRAINT categoria_nivel_pkey PRIMARY KEY (cod_categoria_nivel);
 
                 SELECT pg_catalog.setval(\'pmieducar.categoria_nivel_cod_categoria_nivel_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

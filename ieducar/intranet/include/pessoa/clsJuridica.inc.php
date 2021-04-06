@@ -1,11 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Session;
-
-require_once('include/clsBanco.inc.php');
-require_once('include/Geral.inc.php');
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
-
 class clsJuridica
 {
     public $idpes;
@@ -26,8 +20,6 @@ class clsJuridica
      */
     public function __construct($idpes = false, $cnpj = false, $fantasia = false, $insc_estadual = false, $capital_social = false, $idpes_cad = false, $idpes_rev = false)
     {
-        $this->pessoa_logada = Session::get('id_pessoa');
-
         $objPessoa = new clsPessoa_($idpes);
         if ($objPessoa->detalhe()) {
             $this->idpes = $idpes;
@@ -41,8 +33,8 @@ class clsJuridica
         $this->cnpj = $cnpj;
         $this->insc_estadual = $insc_estadual;
         $this->capital_social = $capital_social;
-        $this->idpes_cad = $idpes_cad ? $idpes_cad : Session::get('id_pessoa');
-        $this->idpes_rev = $idpes_rev ? $idpes_rev : Session::get('id_pessoa');
+        $this->idpes_cad = $idpes_cad ? $idpes_cad : \Illuminate\Support\Facades\Auth::id();
+        $this->idpes_rev = $idpes_rev ? $idpes_rev : \Illuminate\Support\Facades\Auth::id();
 
         $this->tabela = 'juridica';
         $this->schema = 'cadastro';
@@ -78,8 +70,6 @@ class clsJuridica
 
             if ($this->idpes) {
                 $detalhe = $this->detalhe();
-                $auditoria = new clsModulesAuditoriaGeral('juridica', $this->pessoa_logada, $this->idpes);
-                $auditoria->inclusao($detalhe);
             }
 
             return true;
@@ -99,7 +89,7 @@ class clsJuridica
 
         if (is_numeric($this->idpes) && is_numeric($this->idpes_rev)) {
             $set = [];
-            if (is_string($this->fantasia)){
+            if (is_string($this->fantasia)) {
                 $fantasia = $db->escapeString($this->fantasia);
                 $set[] = " fantasia = '{$fantasia}' ";
             }
@@ -131,9 +121,6 @@ class clsJuridica
                 $detalheAntigo = $this->detalhe();
                 $db->Consulta("UPDATE {$this->schema}.{$this->tabela} SET $campos WHERE idpes = '$this->idpes' ");
 
-                $auditoria = new clsModulesAuditoriaGeral('juridica', $this->pessoa_logada, $this->idpes);
-                $auditoria->alteracao($detalheAntigo, $this->detalhe());
-
                 return true;
             }
         }
@@ -152,8 +139,6 @@ class clsJuridica
             $db = new clsBanco();
             $detalheAntigo = $this->detalhe();
             $db->Consulta("DELETE FROM {$this->schema}.{$this->tabela} WHERE idpes = {$this->idpes}");
-            $auditoria = new clsModulesAuditoriaGeral('juridica', $this->pessoa_logada, $this->idpes);
-            $auditoria->exclusao($detalheAntigo, $this->detalhe());
 
             return true;
         }

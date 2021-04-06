@@ -2,17 +2,17 @@
 
 namespace App\Support\View;
 
+use App\Setting;
 use App\Support\View\Settings\Inputs\BooleanInput;
 use App\Support\View\Settings\Inputs\FloatInput;
 use App\Support\View\Settings\Inputs\IntegerInput;
 use App\Support\View\Settings\Inputs\StringInput;
-use App\Setting;
 
 class SettingView
 {
-    public function makeInput($id, $description, $type, $key, $value)
+    public function makeInput($id, $description, $type, $key, $value, $enabled, $hint)
     {
-        return $this->getInput($type)->getInputView($id, $description, $key, $value);
+        return $this->getInput($type)->getInputView($id, $description, $key, $value, $enabled, $hint);
     }
 
     private function getInput($type)

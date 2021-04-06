@@ -19,19 +19,15 @@ class PersonLogUnificationController extends Controller
         $unificationsQuery = LogUnification::query()->with('main')
             ->where('type', Individual::class)
             ->when($request->get('name'), function ($query, $name) {
-
                 $query->whereHas('personMain', function ($personQuery) use ($name) {
                     $personQuery->where('slug', 'ilike', '%' . $name . '%');
                 })->orWhere('duplicates_name', 'ilike', '%' . $name . '%');
-
             })->when($request->get('cpf'), function ($query, $cpf) {
-
                 $query->whereHas('personMain', function ($personQuery) use ($cpf) {
                     $personQuery->whereHas('individual', function ($individualQuery) use ($cpf) {
-                        $individualQuery->where('cpf', str_replace(['.','-'], '', $cpf));
+                        $individualQuery->where('cpf', str_replace(['.', '-'], '', $cpf));
                     });
                 });
-
             });
 
         return view('unification.person.index', ['unifications' => $unificationsQuery->paginate(20)]);
@@ -41,7 +37,7 @@ class PersonLogUnificationController extends Controller
     {
         $this->breadcrumb('Detalhe da unificação', [
             url('intranet/educar_index.php') => 'Escola',
-            route('person-log-unification.index') => 'Log de unificações de aluno',
+            route('person-log-unification.index') => 'Log de unificações de pessoa',
         ]);
 
         $this->menu(999847);

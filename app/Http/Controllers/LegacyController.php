@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use clsBase;
 use Exception;
-use Illuminate\Validation\ValidationException;
-use Throwable;
-use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class LegacyController extends Controller
 {
@@ -65,10 +64,10 @@ class LegacyController extends Controller
      *
      * @param string $filename
      *
-     * @return void
-     *
      * @throws NotFoundHttpException
      * @throws Exception
+     *
+     * @return void
      */
     private function loadLegacyFile($filename)
     {
@@ -86,14 +85,22 @@ class LegacyController extends Controller
      *
      * @param string $filename
      *
-     * @return void
-     *
      * @throws Exception
+     *
+     * @return void
      */
     private function loadFileOrAbort($filename)
     {
         try {
-            require $filename;
+            $viewToRender = require $filename;
+
+            if (is_object($viewToRender)) {
+                $class = $this->processProperty($viewToRender);
+
+                $class->addForm($viewToRender);
+                $class->MakeAll();
+            }
+
             return;
         } catch (HttpResponseException $exception) {
 
@@ -102,7 +109,6 @@ class LegacyController extends Controller
             // interna que será a resposta devolvida pela aplicação.
 
             throw $exception;
-
         } catch (ValidationException $exception) {
 
             // Trata as exceções geradas pela validação do Laravel.
@@ -118,7 +124,6 @@ class LegacyController extends Controller
             // Exception nativa.
             //
             // http://php.net/manual/en/class.throwable.php
-
         } catch (Throwable $throwable) {
 
             // Converte uma exceção que implementa apenas Throwable para
@@ -126,11 +131,45 @@ class LegacyController extends Controller
             // Handler do Laravel aceitar apenas exceções nativas.
 
             $exception = new Exception(
-                $throwable->getMessage(), $throwable->getCode(), $throwable
+                $throwable->getMessage(),
+                $throwable->getCode(),
+                $throwable
             );
         }
 
         throw $exception;
+    }
+
+    /**
+     * @param object $viewToRender
+     *
+     * @return clsBase
+     */
+    private function processProperty(object $viewToRender): clsBase
+    {
+        $class = new clsBase();
+
+        if (method_exists($viewToRender, 'Formular')) {
+            $viewToRender->Formular();
+        }
+
+        if (property_exists($viewToRender, 'title')) {
+            $class->SetTitulo($viewToRender->title);
+        }
+
+        if (property_exists($viewToRender, 'processoAp')) {
+            $class->processoAp = $viewToRender->processoAp;
+        }
+
+        if (property_exists($viewToRender, 'renderMenu')) {
+            $class->renderMenu = $viewToRender->renderMenu;
+        }
+
+        if (property_exists($viewToRender, 'renderMenuSuspenso')) {
+            $class->renderMenuSuspenso = $viewToRender->renderMenuSuspenso;
+        }
+
+        return $class;
     }
 
     /**
@@ -181,10 +220,10 @@ class LegacyController extends Controller
      *
      * @param string $filename
      *
-     * @return Response
-     *
      * @throws HttpResponseException
      * @throws Exception
+     *
+     * @return Response
      */
     private function requireFileFromLegacy($filename)
     {
@@ -200,7 +239,9 @@ class LegacyController extends Controller
         ob_end_clean();
 
         return new Response(
-            $content, $this->getHttpStatusCode(), $this->getHttpHeaders()
+            $content,
+            $this->getHttpStatusCode(),
+            $this->getHttpHeaders()
         );
     }
 
@@ -224,10 +265,10 @@ class LegacyController extends Controller
      *
      * @param string $uri
      *
-     * @return Response
-     *
      * @throws HttpResponseException
      * @throws Exception
+     *
+     * @return Response
      */
     public function intranet($uri)
     {
@@ -237,10 +278,10 @@ class LegacyController extends Controller
     /**
      * Load module route file and generate a response.
      *
-     * @return Response
-     *
      * @throws HttpResponseException
      * @throws Exception
+     *
+     * @return Response
      */
     public function module()
     {
@@ -252,10 +293,10 @@ class LegacyController extends Controller
      *
      * @param string $uri
      *
-     * @return Response
-     *
      * @throws HttpResponseException
      * @throws Exception
+     *
+     * @return Response
      */
     public function modules($uri)
     {
@@ -265,10 +306,10 @@ class LegacyController extends Controller
     /**
      * Load module route file and generate a response for API.
      *
-     * @return Response
-     *
      * @throws HttpResponseException
      * @throws Exception
+     *
+     * @return Response
      */
     public function api()
     {

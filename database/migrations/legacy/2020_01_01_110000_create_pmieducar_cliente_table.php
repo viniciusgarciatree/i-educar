@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarClienteTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarClienteTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'cliente');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.cliente_cod_cliente_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -37,7 +34,7 @@ class CreatePmieducarClienteTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     observacoes text
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.cliente
                     ADD CONSTRAINT cliente_login_ukey UNIQUE (login);
 
@@ -47,7 +44,6 @@ class CreatePmieducarClienteTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.cliente_cod_cliente_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarEscolaLocalizacaoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarEscolaLocalizacaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'escola_localizacao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.escola_localizacao_cod_escola_localizacao_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -35,7 +32,7 @@ class CreatePmieducarEscolaLocalizacaoTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     ref_cod_instituicao integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.escola_localizacao
                     ADD CONSTRAINT escola_localizacao_pkey PRIMARY KEY (cod_escola_localizacao);
 
@@ -48,7 +45,6 @@ class CreatePmieducarEscolaLocalizacaoTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.escola_localizacao_cod_escola_localizacao_seq\', 1, true);
             '
             );
-        }
     }
 
     /**
