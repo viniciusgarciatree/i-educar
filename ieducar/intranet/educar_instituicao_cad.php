@@ -395,6 +395,7 @@ return new class extends clsCadastro {
             $this->ordenar_alunos_sequencial_enturmacao,
             $this->obrigar_telefone_pessoa
         );
+
         $obj->data_base_remanejamento = Portabilis_Date_Utils::brToPgSQL($this->data_base_remanejamento);
         $obj->data_base_transferencia = Portabilis_Date_Utils::brToPgSQL($this->data_base_transferencia);
         $obj->data_expiracao_reserva_vaga = Portabilis_Date_Utils::brToPgSQL($this->data_expiracao_reserva_vaga);

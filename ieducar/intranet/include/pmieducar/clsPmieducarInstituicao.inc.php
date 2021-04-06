@@ -181,6 +181,10 @@ class clsPmieducarInstituicao extends Model
             $this->logradouro = $logradouro;
         }
 
+        if (is_string($cnpj)) {
+            $this->cnpj = $cnpj;
+        }
+
         if (is_numeric($numero)) {
             $this->numero = $numero;
         }

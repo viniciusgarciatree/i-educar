@@ -376,81 +376,82 @@ return new class extends clsDetalhe {
       ]);
         }
 
-        $obj_permissoes = new clsPermissoes();
-        if ($obj_permissoes->permissao_cadastra(635, $this->pessoa_logada, 7)) {
-            $this->url_novo   = 'educar_servidor_cad.php';
-            $this->url_editar = "educar_servidor_cad.php?cod_servidor={$registro['cod_servidor']}&ref_cod_instituicao={$this->ref_cod_instituicao}";
+    $obj_permissoes = new clsPermissoes();
+    if ($obj_permissoes->permissao_cadastra(635, $this->pessoa_logada, 7)) {
 
-            $get_padrao ="ref_cod_servidor={$registro['cod_servidor']}&ref_cod_instituicao={$this->ref_cod_instituicao}";
+      $this->url_novo   = 'educar_servidor_cad.php';
+      $this->url_editar = "educar_servidor_cad.php?cod_servidor={$registro["cod_servidor"]}&ref_cod_instituicao={$this->ref_cod_instituicao}";
 
-            $this->array_botao = [];
-            $this->array_botao_url_script = [];
+      $get_padrao ="ref_cod_servidor={$registro["cod_servidor"]}&ref_cod_instituicao={$this->ref_cod_instituicao}";
 
-            $this->array_botao[] = 'Avaliação de Desempenho';
-            $this->array_botao_url_script[] = "go(\"educar_avaliacao_desempenho_lst.php?{$get_padrao}\");";
-            /***************************************************************************************************************
-             *** Avaliando remoção pois será criado aba nova no próprio cadastro/edit do servidor com informações de cursos
-             *** e escolaridade normalizados pelo censo
-             ***************************************************************************************************************
-            $this->array_botao[] = 'Formação';
-            $this->array_botao_url_script[] = "go(\"educar_servidor_formacao_lst.php?{$get_padrao}\");";
+      $this->array_botao = array();
+      $this->array_botao_url_script = array();
 
-            $this->array_botao[] = 'Cursos superiores/Licenciaturas';
-            $this->array_botao_url_script[] = sprintf(
-              "go(\"../module/Docente/index?servidor=%d&instituicao=%d\");",
-              $registro['cod_servidor'], $this->ref_cod_instituicao
-            );*/
+      $this->array_botao[] = 'Avaliação de Desempenho';
+      $this->array_botao_url_script[] = "go(\"educar_avaliacao_desempenho_lst.php?{$get_padrao}\");";
+      /***************************************************************************************************************
+       *** Avaliando remoção pois será criado aba nova no próprio cadastro/edit do servidor com informações de cursos
+       *** e escolaridade normalizados pelo censo
+       ***************************************************************************************************************
+      $this->array_botao[] = 'Formação';
+      $this->array_botao_url_script[] = "go(\"educar_servidor_formacao_lst.php?{$get_padrao}\");";
 
-            $this->array_botao[] = 'Faltas/Atrasos';
-            $this->array_botao_url_script[] = "go(\"educar_falta_atraso_lst.php?{$get_padrao}\");";
+      $this->array_botao[] = 'Cursos superiores/Licenciaturas';
+      $this->array_botao_url_script[] = sprintf(
+        "go(\"../module/Docente/index?servidor=%d&instituicao=%d\");",
+        $registro['cod_servidor'], $this->ref_cod_instituicao
+      );*/
 
-            $this->array_botao[] = 'Alocar Servidor';
-            $this->array_botao_url_script[] = "go(\"educar_servidor_alocacao_lst.php?{$get_padrao}\");";
+      $this->array_botao[] = 'Faltas/Atrasos';
+      $this->array_botao_url_script[] = "go(\"educar_falta_atraso_lst.php?{$get_padrao}\");";
 
-            $this->array_botao[] = 'Alterar Nível';
-            $this->array_botao_url_script[] = 'popless();';
+      $this->array_botao[] = 'Alocar Servidor';
+      $this->array_botao_url_script[] = "go(\"educar_servidor_alocacao_lst.php?{$get_padrao}\");";
 
-            $obj_servidor_alocacao = new clsPmieducarServidorAlocacao();
-            $lista_alocacao = $obj_servidor_alocacao->lista(
-                null,
-                $this->ref_cod_instituicao,
-                null,
-                null,
-                null,
-                $this->cod_servidor,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                1
-            );
+      $this->array_botao[] = 'Alterar Nível';
+      $this->array_botao_url_script[] = "popless();";
 
-            if ($lista) {
-                $this->array_botao[] = 'Substituir Horário Servidor';
-                $this->array_botao_url_script[] = "go(\"educar_servidor_substituicao_cad.php?{$get_padrao}\");";
-            }
+      $obj_servidor_alocacao = new clsPmieducarServidorAlocacao();
+      $lista_alocacao = $obj_servidor_alocacao->lista(
+        NULL,
+        $this->ref_cod_instituicao,
+        NULL,
+        NULL,
+        NULL,
+        $this->cod_servidor,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        1
+      );
 
-            $obj_afastamento = new clsPmieducarServidorAfastamento();
-            $afastamento = $obj_afastamento->afastado($this->cod_servidor, $this->ref_cod_instituicao);
+      if ($lista) {
+        $this->array_botao[] = 'Substituir Horário Servidor';
+        $this->array_botao_url_script[] = "go(\"educar_servidor_substituicao_cad.php?{$get_padrao}\");";
+      }
 
-            if (is_numeric($afastamento) && $afastamento == 0) {
-                $this->array_botao[] = 'Afastar Servidor';
-                $this->array_botao_url_script[] = "go(\"educar_servidor_afastamento_cad.php?{$get_padrao}\");";
-            } elseif (is_numeric($afastamento)) {
-                $this->array_botao[] = 'Retornar Servidor';
-                $this->array_botao_url_script[] = "go(\"educar_servidor_afastamento_cad.php?{$get_padrao}&sequencial={$afastamento}&retornar_servidor=" . EmployeeReturn::SIM . '");';
-            }
+      $obj_afastamento = new clsPmieducarServidorAfastamento();
+      $afastamento = $obj_afastamento->afastado( $this->cod_servidor, $this->ref_cod_instituicao );
 
-            if ($this->is_professor) {
-                $this->array_botao[] = 'Vincular professor a turmas';
-                $this->array_botao_url_script[] = "go(\"educar_servidor_vinculo_turma_lst.php?{$get_padrao}\");";
-            }
-        }
+      if (is_numeric($afastamento) && $afastamento == 0) {
+        $this->array_botao[] = 'Afastar Servidor';
+        $this->array_botao_url_script[] = "go(\"educar_servidor_afastamento_cad.php?{$get_padrao}\");";
+      } elseif (is_numeric($afastamento)) {
+        $this->array_botao[] = 'Retornar Servidor';
+        $this->array_botao_url_script[] = "go(\"educar_servidor_afastamento_cad.php?{$get_padrao}&sequencial={$afastamento}&retornar_servidor=" . EmployeeReturn::SIM . "\");";
+      }
+
+      if ($this->is_professor){
+        $this->array_botao[] = _cl('vincular.professor.turmas');
+        $this->array_botao_url_script[] = "go(\"educar_servidor_vinculo_turma_lst.php?{$get_padrao}\");";
+      }
+    }
 
         $withdrawals = EmployeeWithdrawal::query()->where('ref_cod_servidor', $this->cod_servidor)->get();
 

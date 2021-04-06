@@ -17,6 +17,7 @@ return new class extends clsDetalhe {
     public $cidade;
     public $bairro;
     public $logradouro;
+    public $cnpj;
     public $numero;
     public $complemento;
     public $nm_responsavel;
@@ -41,6 +42,7 @@ return new class extends clsDetalhe {
         $this->addDetalhe([ 'Nome da Instituição', "{$registro['nm_instituicao']}"]);
         $this->addDetalhe([ 'CEP', "{$registro['cep']}"]);
         $this->addDetalhe([ 'Logradouro', "{$registro['logradouro']}"]);
+        $this->addDetalhe( array("CNPJ", int2CNPJ("{$registro["cnpj"]}")) );
         $this->addDetalhe([ 'Bairro', "{$registro['bairro']}"]);
         $this->addDetalhe([ 'Cidade', "{$registro['cidade']}"]);
         $this->addDetalhe([ 'Tipo do Logradouro', "{$registro['ref_idtlog']}"]);

@@ -48,7 +48,8 @@ trait JsonDataSource
     {
         $instituicao = $this->args['instituicao'] ?: 0;
         $escola = $this->args['escola'] ?: 0;
-        $notSchool = empty($this->args['escola']) ? 'true' : 'false';
+        $notSchool = $this->args['escola'] ? 'false' : 'true';
+
 
         $sql = "
 
@@ -64,10 +65,10 @@ trait JsonDataSource
                 (CASE WHEN {$notSchool} THEN ' ' ELSE view_dados_escola.email END),
                 instituicao.ref_sigla_uf AS uf,
                 instituicao.cidade,
-                (CASE WHEN {$notSchool} THEN instituicao.logradouro ELSE a.address END) AS logradouro,
-                (CASE WHEN {$notSchool} THEN instituicao.numero::text ELSE a.number END) AS numero,
-                (CASE WHEN {$notSchool} THEN instituicao.cep::text ELSE a.postal_code END) AS cep,
-                (CASE WHEN {$notSchool} THEN NULL ELSE view_dados_escola.inep END) AS inep,
+                (CASE WHEN {$notSchool} THEN (instituicao.ref_idtlog || ': ' || instituicao.logradouro) ELSE a.address::text END) AS logradouro,
+                (CASE WHEN true THEN instituicao.numero::text ELSE a.number::text END) AS numero,
+                (CASE WHEN true THEN instituicao.cep::text ELSE a.postal_code::text END) AS cep,
+                (CASE WHEN true THEN 0 ELSE view_dados_escola.inep END) AS inep,
                 escola.ato_autorizativo,
                 escola.ato_criacao,
                 configuracoes_gerais.emitir_ato_autorizativo,
@@ -97,7 +98,6 @@ trait JsonDataSource
             LIMIT 1
 
         ";
-
         return $sql;
     }
 
