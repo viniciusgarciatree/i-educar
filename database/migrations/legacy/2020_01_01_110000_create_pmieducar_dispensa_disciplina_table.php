@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarDispensaDisciplinaTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarDispensaDisciplinaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'dispensa_disciplina');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.dispensa_disciplina_cod_dispensa_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -40,16 +37,15 @@ class CreatePmieducarDispensaDisciplinaTable extends Migration
                     cod_dispensa integer DEFAULT nextval(\'pmieducar.dispensa_disciplina_cod_dispensa_seq\'::regclass) NOT NULL,
 	                updated_at timestamp NULL DEFAULT now()
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.dispensa_disciplina
                     ADD CONSTRAINT cod_dispensa_pkey PRIMARY KEY (cod_dispensa);
-                    
+
                 CREATE INDEX i_dispensa_disciplina_ref_cod_matricula ON pmieducar.dispensa_disciplina USING btree (ref_cod_matricula);
 
                 SELECT pg_catalog.setval(\'pmieducar.dispensa_disciplina_cod_dispensa_seq\', 1, true);
             '
             );
-        }
     }
 
     /**

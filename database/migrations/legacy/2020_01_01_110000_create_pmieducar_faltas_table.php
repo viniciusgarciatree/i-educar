@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarFaltasTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarFaltasTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'faltas');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.faltas_sequencial_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -32,14 +29,13 @@ class CreatePmieducarFaltasTable extends Migration
                     falta integer NOT NULL,
                     data_cadastro timestamp without time zone NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.faltas
                     ADD CONSTRAINT faltas_pkey PRIMARY KEY (ref_cod_matricula, sequencial);
 
                 SELECT pg_catalog.setval(\'pmieducar.faltas_sequencial_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

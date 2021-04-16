@@ -9,27 +9,7 @@ use iEducar\Support\View\SelectOptions;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
-require_once 'include/clsBase.inc.php';
-require_once 'include/clsCadastro.inc.php';
-require_once 'include/clsBanco.inc.php';
-require_once 'include/pmieducar/geral.inc.php';
-
-require_once 'lib/Portabilis/Utils/Database.php';
-require_once 'lib/Portabilis/String/Utils.php';
-
-require_once 'Educacenso/Model/DocenteDataMapper.php';
-
-class clsIndexBase extends clsBase
-{
-    public function Formular()
-    {
-        $this->SetTitulo($this->_instituicao . ' Servidores - Servidor');
-        $this->processoAp = 635;
-    }
-}
-
-class indice extends clsCadastro
-{
+return new class extends clsCadastro {
     public $pessoa_logada;
     public $cod_servidor;
     public $ref_cod_instituicao;
@@ -91,6 +71,10 @@ class indice extends clsCadastro
 
             $registro = $obj->detalhe();
 
+            if (empty($registro)) {
+                return $this->simpleRedirect(url('intranet/educar_servidor_lst.php'));
+            }
+
             if ($registro) {
                 // passa todos os valores obtidos no registro para atributos do objeto
                 foreach ($registro as $campo => $val) {
@@ -107,32 +91,31 @@ class indice extends clsCadastro
                 $db = new clsBanco();
 
                 // Carga horária alocada no ultimo ano de alocação
-                $sql = sprintf("
+                $sql = sprintf(
+                    '
                     SELECT
-                        carga_horaria
+                        SUM(extract(hours from carga_horaria::interval))
                     FROM
                         pmieducar.servidor_alocacao
                     WHERE
-                        ref_cod_servidor = '%d' AND
-                        ativo            = 1
-                        AND ano = (
-                            SELECT max(ano)
-                            FROM pmieducar.servidor_alocacao
-                            WHERE ref_cod_servidor = $this->cod_servidor
-                        )",
-                    $this->cod_servidor
+                        ref_cod_servidor = %d AND
+                        ativo = 1
+                        AND ano = %d
+                        AND (data_saida > now() or data_saida is null)',
+                    $this->cod_servidor,
+                    $this->ano ?: date('Y')
                 );
 
                 $db->Consulta($sql);
-
-                $carga = 0;
                 while ($db->ProximoRegistro()) {
                     $cargaHoraria = $db->Tupla();
-                    $cargaHoraria = explode(':', $cargaHoraria['carga_horaria']);
-                    $carga += $cargaHoraria[0] * 60 + $cargaHoraria[1];
+                    $cargaHoraria = $cargaHoraria['sum'];
                 }
 
-                $this->total_horas_alocadas = sprintf('%02d:%02d', $carga / 60, $carga % 60);
+                $cargaHoraria = str_pad($cargaHoraria, 2, 0, STR_PAD_LEFT);
+
+                $this->total_horas_alocadas = $cargaHoraria;
+
                 // Funções
                 $obj_funcoes = new clsPmieducarServidorFuncao();
                 $lst_funcoes = $obj_funcoes->lista($this->ref_cod_instituicao, $this->cod_servidor);
@@ -155,9 +138,7 @@ class indice extends clsCadastro
 
                 if ($lst_servidor_disciplina) {
                     foreach ($lst_servidor_disciplina as $disciplina) {
-                        $obj_disciplina = new clsPmieducarDisciplina($disciplina['ref_cod_disciplina']);
-                        $det_disciplina = $obj_disciplina->detalhe();
-                        $this->cursos_disciplina[$det_disciplina['ref_cod_curso']][$disciplina['ref_cod_disciplina']] = $disciplina['ref_cod_disciplina'];
+                        $this->cursos_disciplina[$disciplina['ref_cod_curso']][$disciplina['ref_cod_disciplina']] = $disciplina['ref_cod_disciplina'];
                     }
                 }
 
@@ -187,7 +168,7 @@ class indice extends clsCadastro
 
         $nomeMenu = $retorno == 'Editar' ? $retorno : 'Cadastrar';
 
-        $this->breadcrumb("Funções do servidor", [
+        $this->breadcrumb('Funções do servidor', [
             url('intranet/educar_servidores_index.php') => 'Servidores',
         ]);
 
@@ -252,7 +233,6 @@ class indice extends clsCadastro
             );
         }
 
-        // ----
         $this->inputsHelper()->integer(
             'cod_docente_inep',
             [
@@ -280,17 +260,17 @@ class indice extends clsCadastro
 
         $opcoes = ['' => 'Selecione'];
 
-            if (is_numeric($this->ref_cod_instituicao)) {
-                $objTemp = new clsPmieducarFuncao();
-                $objTemp->setOrderby('nm_funcao ASC');
-                $lista = $objTemp->lista(null, null, null, null, null, null, null, null, null, null, 1, $this->ref_cod_instituicao);
+        if (is_numeric($this->ref_cod_instituicao)) {
+            $objTemp = new clsPmieducarFuncao();
+            $objTemp->setOrderby('nm_funcao ASC');
+            $lista = $objTemp->lista(null, null, null, null, null, null, null, null, null, null, 1, $this->ref_cod_instituicao);
 
-                if (is_array($lista) && count($lista)) {
-                    foreach ($lista as $registro) {
-                        $opcoes[$registro['cod_funcao'] . '-' . $registro['professor']] = $registro['nm_funcao'];
-                    }
+            if (is_array($lista) && count($lista)) {
+                foreach ($lista as $registro) {
+                    $opcoes[$registro['cod_funcao'] . '-' . $registro['professor']] = $registro['nm_funcao'];
                 }
             }
+        }
 
         $this->campoTabelaInicio(
             'funcao',
@@ -327,12 +307,17 @@ class indice extends clsCadastro
 
         $this->campoTabelaFim();
 
-        if (strtoupper($this->tipoacao) == 'EDITAR') {
+        $horas = '00:00';
+        if ($this->total_horas_alocadas) {
+            $horas = $this->total_horas_alocadas . ':00';
+        }
+
+        if (mb_strtoupper($this->tipoacao) == 'EDITAR') {
             $this->campoTextoInv(
                 'total_horas_alocadas_',
                 'Total de Horas Alocadadas',
-                $this->total_horas_alocadas,
-                9,
+                $horas,
+                6,
                 20
             );
 
@@ -353,7 +338,7 @@ class indice extends clsCadastro
             'Carga Horária',
             $hora_formatada,
             true,
-            'Número de horas deve ser maior que horas alocadas',
+            ' Número de horas deve ser maior que horas alocadas',
             '',
             false
         );
@@ -373,14 +358,14 @@ class indice extends clsCadastro
 
         $opcoes = ['' => 'Selecione'];
 
-            $objTemp = new clsCadastroEscolaridade();
-            $lista = $objTemp->lista();
+        $objTemp = new clsCadastroEscolaridade();
+        $lista = $objTemp->lista();
 
-            if (is_array($lista) && count($lista)) {
-                foreach ($lista as $registro) {
-                    $opcoes[$registro['idesco']] = $registro['descricao'];
-                }
+        if (is_array($lista) && count($lista)) {
+            foreach ($lista as $registro) {
+                $opcoes[$registro['idesco']] = $registro['descricao'];
             }
+        }
 
         $obj_permissoes = new clsPermissoes();
         if ($obj_permissoes->permissao_cadastra(632, $this->pessoa_logada, 4)) {
@@ -502,8 +487,6 @@ JS;
 
         $obj   = new clsPmieducarServidor($this->cod_servidor, null, null, null, null, null, null, $this->ref_cod_instituicao);
 
-        $servidorAntes = $obj->detalhe();
-
         if ($obj->detalhe()) {
             $this->carga_horaria = str_replace(',', '.', $this->carga_horaria);
             $obj = new clsPmieducarServidor($this->cod_servidor, null, $this->ref_idesco, $this->carga_horaria, null, null, 1, $this->ref_cod_instituicao);
@@ -514,9 +497,6 @@ JS;
 
             if ($editou) {
                 $servidorDepois = $obj->detalhe();
-
-                $auditoria = new clsModulesAuditoriaGeral('servidor', $this->pessoa_logada, $this->cod_servidor);
-                $auditoria->alteracao($servidorAntes, $servidorDepois);
 
                 $this->cadastraFuncoes();
                 $this->createOrUpdateInep();
@@ -541,12 +521,6 @@ JS;
             $cadastrou = $obj_2->cadastra();
 
             if ($cadastrou) {
-                $servidor = new clsPmieducarServidor($cadastrou, null, null, null, null, null, null, $this->ref_cod_instituicao);
-                $servidor = $servidor->detalhe();
-
-                $auditoria = new clsModulesAuditoriaGeral('servidor', $this->pessoa_logada, $cadastrou);
-                $auditoria->inclusao($servidor);
-
                 $this->cadastraFuncoes();
                 $this->createOrUpdateInep();
                 $this->createOrUpdateDeficiencias();
@@ -576,9 +550,6 @@ JS;
 
         $this->curso_formacao_continuada = '{' . implode(',', $this->curso_formacao_continuada) . '}';
 
-        $servidor = new clsPmieducarServidor($this->cod_servidor, null, null, null, null, null, null, $this->ref_cod_instituicao);
-        $servidorAntes = $servidor->detalhe();
-
         $obj_permissoes = new clsPermissoes();
         $obj_permissoes->permissao_cadastra(635, $this->pessoa_logada, 7, 'educar_servidor_lst.php');
 
@@ -591,11 +562,6 @@ JS;
             $editou = $obj->edita();
 
             if ($editou) {
-                $servidorDepois = $servidor->detalhe();
-
-                $auditoria = new clsModulesAuditoriaGeral('servidor', $this->pessoa_logada, $this->cod_servidor);
-                $auditoria->alteracao($servidorAntes, $servidorDepois);
-
                 $this->cadastraFuncoes();
                 $this->createOrUpdateInep();
                 $this->createOrUpdateDeficiencias();
@@ -774,14 +740,9 @@ JS;
                     $this->ref_cod_instituicao_original
                 );
 
-                $servidor = $obj->detalhe();
-
                 $excluiu = $obj->excluir();
 
                 if ($excluiu) {
-                    $auditoria = new clsModulesAuditoriaGeral('servidor', $this->pessoa_logada, $this->cod_servidor);
-                    $auditoria->exclusao($servidor);
-
                     $this->excluiFuncoes();
                     $this->mensagem = 'Exclusão efetuada com sucesso.<br>';
                     $this->simpleRedirect('educar_servidor_lst.php');
@@ -1070,252 +1031,15 @@ JS;
 
         return $college->ies_id . ' - ' . $college->nome;
     }
-}
 
-// Instancia objeto de página
-$pagina = new clsIndexBase();
-
-// Instancia objeto de conteúdo
-$miolo = new indice();
-
-// Atribui o conteúdo à  página
-$pagina->addForm($miolo);
-
-// Gera o código HTML
-$pagina->MakeAll();
-?>
-<script type="text/javascript">
-/**
- * Carrega as opções de um campo select de funções via Ajax
- */
-function getFuncao(id_campo)
-{
-  var campoInstituicao = document.getElementById('ref_cod_instituicao').value;
-  var campoFuncao      = document.getElementById(id_campo);
-  campoFuncao.length   = 1;
-
-  if (campoFuncao) {
-    campoFuncao.disabled = true;
-    campoFuncao.options[0].text = 'Carregando funções';
-
-    var xml = new ajax(atualizaLstFuncao,id_campo);
-    xml.envia("educar_funcao_xml.php?ins="+campoInstituicao+"&professor=true");
-  }
-  else {
-    campoFuncao.options[0].text = 'Selecione';
-  }
-}
-
-/**
- * Parse de resultado da chamada Ajax de getFuncao(). Adiciona cada item
- * retornado como option do select
- */
-function atualizaLstFuncao(xml)
-{
-  var campoFuncao = document.getElementById(arguments[1]);
-
-  campoFuncao.length = 1;
-  campoFuncao.options[0].text = 'Selecione uma função';
-  campoFuncao.disabled = false;
-
-  funcaoChange(campoFuncao);
-
-  var funcoes = xml.getElementsByTagName('funcao');
-  if (funcoes.length) {
-    for (var i = 0; i < funcoes.length; i++) {
-      campoFuncao.options[campoFuncao.options.length] =
-        new Option(funcoes[i].firstChild.data, funcoes[i].getAttribute('cod_funcao'), false, false);
+    public function makeExtra()
+    {
+        return file_get_contents(__DIR__ . '/scripts/extra/educar-servidor-cad.js');
     }
-  }
-  else {
-    campoFuncao.options[0].text = 'A instituição não possui funções de servidores';
-  }
-}
 
-
-/**
- * Altera a visibilidade de opções extras
- *
- * Quando a função escolhida para o servidor for do tipo professor, torna as
- * opções de escolha de disciplina e cursos visíveis
- *
- * É um toggle on/off
- */
-function funcaoChange(campo)
-{
-  var valor = campo.value.split("-");
-  var id = /[0-9]+/.exec(campo.id)[0];
-  var professor = (valor[1] == true);
-
-  var campo_img  = document.getElementById('td_disciplina['+ id +']').lastChild.lastChild;
-  var campo_img2 = document.getElementById('td_curso['+ id +']').lastChild.lastChild;
-
-  // Se for professor
-  if (professor == true) {
-    setVisibility(campo_img,  true);
-    setVisibility(campo_img2, true);
-  }
-  else {
-    setVisibility(campo_img,  false);
-    setVisibility(campo_img2, false);
-  }
-}
-
-
-/**
- * Chama as funções getFuncao e funcaoChange para todas as linhas da tabela
- * de função de servidor
- */
-function trocaTodasfuncoes() {
-  for (var ct = 0; ct < tab_add_1.id; ct++) {
-    // Não executa durante onload senão, funções atuais são substituídas
-    if (onloadCallOnce == false) {
-      getFuncao('ref_cod_funcao[' + ct + ']');
+    public function Formular()
+    {
+        $this->title = 'Servidores - Servidor';
+        $this->processoAp = 635;
     }
-    funcaoChange(document.getElementById('ref_cod_funcao[' + ct + ']'));
-  }
-}
-
-
-/**
- * Verifica se ref_cod_instituicao existe via DOM e dá um bind no evento
- * onchange do elemento para executar a função trocaTodasfuncoes()
- */
-if (document.getElementById('ref_cod_instituicao')) {
-  var ref_cod_instituicao = document.getElementById('ref_cod_instituicao');
-
-  // Função anônima para evento onchance do select de instituição
-  ref_cod_instituicao.onchange = function() {
-    trocaTodasfuncoes();
-    var xml = new ajax(function(){});
-    xml.envia("educar_limpa_sessao_curso_disciplina_servidor.php");
-  }
-}
-
-
-/**
- * Chama as funções funcaoChange e getFuncao após a execução da função addRow
- */
-tab_add_1.afterAddRow = function () {
-  funcaoChange(document.getElementById('ref_cod_funcao['+(tab_add_1.id - 1)+']'));
-  getFuncao('ref_cod_funcao['+(tab_add_1.id-1)+']');
-}
-
-
-/**
- * Variável de estado, deve ser checada por funções que queiram executar ou
- * não um trecho de código apenas durante o onload
- */
-var onloadCallOnce = true;
-window.onload = function() {
-  trocaTodasfuncoes();
-  onloadCallOnce = false;
-}
-
-
-function getArrayHora(hora) {
-  var array_h;
-  if (hora) {
-    array_h = hora.split(":");
-  }
-  else {
-    array_h = new Array(0,0);
-  }
-
-  return array_h;
-}
-
-function acao2()
-{
-  var total_horas_alocadas = getArrayHora(document.getElementById('total_horas_alocadas').value);
-  var carga_horaria = (document.getElementById('carga_horaria').value).replace(',', '.');
-
-  if (parseFloat(total_horas_alocadas) > parseFloat(carga_horaria)) {
-    alert('Atenção, carga horária deve ser maior que horas alocadas!');
-
-    return false;
-  }
-  else {
-    acao();
-  }
-}
-
-if (document.getElementById('total_horas_alocadas')) {
-  document.getElementById('total_horas_alocadas').style.textAlign='right';
-}
-
-
-function popless()
-{
-  var campoInstituicao = document.getElementById('ref_cod_instituicao').value;
-  var campoServidor = document.getElementById('cod_servidor').value;
-  pesquisa_valores_popless1('educar_servidor_disciplina_lst.php?ref_cod_servidor='+campoServidor+'&ref_cod_instituicao='+campoInstituicao, '');
-}
-
-function popCurso()
-{
-  var campoInstituicao = document.getElementById('ref_cod_instituicao').value;
-  var campoServidor = document.getElementById('cod_servidor').value;
-  pesquisa_valores_popless('educar_servidor_curso_lst.php?ref_cod_servidor='+campoServidor+'&ref_cod_instituicao='+campoInstituicao, '');
-}
-
-function pesquisa_valores_popless1(caminho, campo)
-{
-  new_id = DOM_divs.length;
-  div = 'div_dinamico_' + new_id;
-  if (caminho.indexOf('?') == -1) {
-    showExpansivel(850, 500, '<iframe src="' + caminho + '?campo=' + campo + '&div=' + div + '&popless=1" frameborder="0" height="100%" width="100%" marginheight="0" marginwidth="0" name="temp_win_popless"></iframe>', 'Pesquisa de valores' );
-  }
-  else {
-    showExpansivel(850, 500, '<iframe src="' + caminho + '&campo=' + campo + '&div=' + div + '&popless=1" frameborder="0" height="100%" width="100%" marginheight="0" marginwidth="0" name="temp_win_popless"></iframe>', 'Pesquisa de valores' );
-  }
-}
-
-var handleGetInformacoesServidor = function(dataResponse){
-
-  // deficiencias
-  $j('#deficiencias').closest('tr').show();
-  $j('#cod_docente_inep').val(dataResponse.inep).closest('tr').show();
-
-  $deficiencias = $j('#deficiencias');
-
-  $j.each(dataResponse.deficiencias, function(id, nome) {
-    $deficiencias.children("[value=" + id + "]").attr('selected', '');
-  });
-
-  $deficiencias.trigger('chosen:updated');
 };
-
-function atualizaInformacoesServidor(){
-
-  $j('#deficiencias').closest('tr').hide();
-  $j('#deficiencias option').removeAttr('selected');
-  $j('#deficiencias').trigger('chosen:updated');
-  $j('#cod_docente_inep').closest('tr').hide();
-
-  var servidor_id = $j('#cod_servidor').val();
-
-  if (servidor_id != ''){
-    var data = {
-      servidor_id : servidor_id
-    };
-    var options = {
-      url : getResourceUrlBuilder.buildUrl('/module/Api/pessoa', 'info-servidor', {}),
-        dataType : 'json',
-        data : data,
-        success : handleGetInformacoesServidor
-    };
-    getResources(options);
-  }
-}
-$j(document).ready(function() {
-
-  atualizaInformacoesServidor();
-
-  // fixup multipleSearchDeficiencias size:
-  $j('#deficiencias_chzn ul').css('width', '307px');
-  $j('#deficiencias_chzn input').css('height', '25px');
-
-  $j('#cod_servidor').attr('onchange', 'atualizaInformacoesServidor();');
-});
-</script>

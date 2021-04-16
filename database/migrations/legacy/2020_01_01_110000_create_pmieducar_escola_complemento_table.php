@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarEscolaComplementoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarEscolaComplementoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'escola_complemento');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.escola_complemento (
                     ref_cod_escola integer NOT NULL,
                     ref_usuario_exc integer,
@@ -38,10 +35,10 @@ class CreatePmieducarEscolaComplementoTable extends Migration
                     data_exclusao timestamp without time zone,
                     ativo smallint DEFAULT (1)::smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.escola_complemento
                     ADD CONSTRAINT escola_complemento_pkey PRIMARY KEY (ref_cod_escola);
-                    
+
                 CREATE INDEX i_escola_complemento_ativo ON pmieducar.escola_complemento USING btree (ativo);
 
                 CREATE INDEX i_escola_complemento_bairro ON pmieducar.escola_complemento USING btree (bairro);
@@ -63,7 +60,6 @@ class CreatePmieducarEscolaComplementoTable extends Migration
                 CREATE INDEX i_escola_complemento_ref_usuario_cad ON pmieducar.escola_complemento USING btree (ref_usuario_cad);
             '
             );
-        }
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarQuadroHorarioTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarQuadroHorarioTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'quadro_horario');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.quadro_horario_cod_quadro_horario_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -35,14 +32,13 @@ class CreatePmieducarQuadroHorarioTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     ano integer
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.quadro_horario
                     ADD CONSTRAINT quadro_horario_pkey PRIMARY KEY (cod_quadro_horario);
 
                 SELECT pg_catalog.setval(\'pmieducar.quadro_horario_cod_quadro_horario_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

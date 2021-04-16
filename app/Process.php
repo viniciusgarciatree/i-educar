@@ -36,8 +36,10 @@ class Process
     const SEB_EXPORT = 1021;
     const DATA_EXPORT = 1022;
     const UPDATE_REGISTRATION_DATE = 1023;
+    const UPDATE_SCHOOL_CLASS_REPORT_CARD = 1024;
     const CONFIG = 999909;
     const SETTINGS = 3000;
     const RELEASE_PERIOD = 999848;
     const POST_OUT_PERIOD = 999849;
+    const BATCH_EXEMPTION = 1025;
 }

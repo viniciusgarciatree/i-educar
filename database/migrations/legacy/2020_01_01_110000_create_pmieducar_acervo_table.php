@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarAcervoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarAcervoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'acervo');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.acervo_cod_acervo_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -56,14 +53,13 @@ class CreatePmieducarAcervoTable extends Migration
                     ref_cod_tipo_autor integer,
                     tipo_autor character varying(255)
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.acervo
                     ADD CONSTRAINT acervo_pkey PRIMARY KEY (cod_acervo);
 
                 SELECT pg_catalog.setval(\'pmieducar.acervo_cod_acervo_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesEducacensoCodDocenteTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesEducacensoCodDocenteTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'educacenso_cod_docente');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE TABLE modules.educacenso_cod_docente (
                     cod_servidor integer NOT NULL,
                     cod_docente_inep bigint NOT NULL,
@@ -26,12 +23,11 @@ class CreateModulesEducacensoCodDocenteTable extends Migration
                     created_at timestamp without time zone NOT NULL,
                     updated_at timestamp without time zone
                 );
-                
+
                 ALTER TABLE ONLY modules.educacenso_cod_docente
                     ADD CONSTRAINT educacenso_cod_docente_pk PRIMARY KEY (cod_servidor, cod_docente_inep);
             '
             );
-        }
     }
 
     /**

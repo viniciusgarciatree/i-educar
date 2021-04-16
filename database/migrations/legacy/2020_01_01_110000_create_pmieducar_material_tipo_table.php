@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarMaterialTipoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarMaterialTipoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'material_tipo');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.material_tipo_cod_material_tipo_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -36,14 +33,13 @@ class CreatePmieducarMaterialTipoTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     ref_cod_instituicao integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.material_tipo
                     ADD CONSTRAINT material_tipo_pkey PRIMARY KEY (cod_material_tipo);
 
                 SELECT pg_catalog.setval(\'pmieducar.material_tipo_cod_material_tipo_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

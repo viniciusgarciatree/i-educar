@@ -40,9 +40,9 @@ trait JsonDataSource
     /**
      * Retorna o SQL para buscar os dados que serão adicionados ao cabeçalho.
      *
-     * @return string
-     *
      * @throws Exception
+     *
+     * @return string
      */
     public function getSqlHeaderReport()
     {
@@ -68,9 +68,15 @@ trait JsonDataSource
                 (CASE WHEN {$notSchool} THEN (instituicao.ref_idtlog || ': ' || instituicao.logradouro) ELSE a.address::text END) AS logradouro,
                 (CASE WHEN true THEN instituicao.numero::text ELSE a.number::text END) AS numero,
                 (CASE WHEN true THEN instituicao.cep::text ELSE a.postal_code::text END) AS cep,
-                (CASE WHEN true THEN 0 ELSE view_dados_escola.inep END) AS inep
+                (CASE WHEN true THEN 0 ELSE view_dados_escola.inep END) AS inep,
+                escola.ato_autorizativo,
+                escola.ato_criacao,
+                configuracoes_gerais.emitir_ato_autorizativo,
+                configuracoes_gerais.emitir_ato_criacao_credenciamento AS emitir_ato_criacao
             FROM
                 pmieducar.instituicao
+            INNER JOIN pmieducar.configuracoes_gerais ON TRUE
+                AND configuracoes_gerais.ref_cod_instituicao = instituicao.cod_instituicao
             INNER JOIN pmieducar.escola ON TRUE
                 AND (instituicao.cod_instituicao = escola.ref_cod_instituicao)
             INNER JOIN relatorio.view_dados_escola ON TRUE
@@ -98,9 +104,9 @@ trait JsonDataSource
     /**
      * Retorna o SQL para buscar os dados do relatório principal.
      *
-     * @return string
-     *
      * @throws Exception
+     *
+     * @return string
      */
     public function getSqlMainReport()
     {

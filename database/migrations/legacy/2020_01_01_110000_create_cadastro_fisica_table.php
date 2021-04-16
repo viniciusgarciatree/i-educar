@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateCadastroFisicaTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateCadastroFisicaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'cadastro' AND tablename = 'fisica');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE cadastro.fisica (
                     idpes numeric(8,0) NOT NULL,
                     data_nasc date,
@@ -76,12 +73,11 @@ class CreateCadastroFisicaTable extends Migration
                     CONSTRAINT ck_fisica_origem_gravacao CHECK (((origem_gravacao = \'M\'::bpchar) OR (origem_gravacao = \'U\'::bpchar) OR (origem_gravacao = \'C\'::bpchar) OR (origem_gravacao = \'O\'::bpchar))),
                     CONSTRAINT ck_fisica_sexo CHECK (((sexo = \'M\'::bpchar) OR (sexo = \'F\'::bpchar)))
                 );
-                
+
                 ALTER TABLE ONLY cadastro.fisica
                     ADD CONSTRAINT pk_fisica PRIMARY KEY (idpes);
             '
             );
-        }
     }
 
     /**

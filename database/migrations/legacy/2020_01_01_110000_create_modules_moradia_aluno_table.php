@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesMoradiaAlunoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesMoradiaAlunoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'moradia_aluno');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE TABLE modules.moradia_aluno (
                     ref_cod_aluno integer NOT NULL,
                     moradia character(1),
@@ -50,12 +47,11 @@ class CreateModulesMoradiaAlunoTable extends Migration
                     fossa character(1),
                     lixo character(1)
                 );
-                
+
                 ALTER TABLE ONLY modules.moradia_aluno
                     ADD CONSTRAINT moradia_aluno_pkei PRIMARY KEY (ref_cod_aluno);
             '
             );
-        }
     }
 
     /**

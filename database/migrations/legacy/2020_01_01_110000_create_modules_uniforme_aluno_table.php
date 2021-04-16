@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesUniformeAlunoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesUniformeAlunoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'uniforme_aluno');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE TABLE modules.uniforme_aluno (
                     ref_cod_aluno integer NOT NULL,
                     recebeu_uniforme character(1),
@@ -36,12 +33,11 @@ class CreateModulesUniformeAlunoTable extends Migration
                     quantidade_meia integer,
                     tamanho_meia character(2)
                 );
-                
+
                 ALTER TABLE ONLY modules.uniforme_aluno
                     ADD CONSTRAINT uniforme_aluno_pkey PRIMARY KEY (ref_cod_aluno);
             '
             );
-        }
     }
 
     /**

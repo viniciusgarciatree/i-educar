@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarServidorFuncaoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarServidorFuncaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'servidor_funcao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.servidor_funcao_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -32,14 +29,13 @@ class CreatePmieducarServidorFuncaoTable extends Migration
                     matricula character varying,
                     cod_servidor_funcao integer DEFAULT nextval(\'pmieducar.servidor_funcao_seq\'::regclass) NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.servidor_funcao
                     ADD CONSTRAINT cod_servidor_funcao_pkey PRIMARY KEY (cod_servidor_funcao);
 
                 SELECT pg_catalog.setval(\'pmieducar.servidor_funcao_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

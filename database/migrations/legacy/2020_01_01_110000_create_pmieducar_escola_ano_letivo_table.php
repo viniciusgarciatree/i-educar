@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarEscolaAnoLetivoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarEscolaAnoLetivoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'escola_ano_letivo');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.escola_ano_letivo (
                     ref_cod_escola integer NOT NULL,
                     ano integer NOT NULL,
@@ -29,12 +26,11 @@ class CreatePmieducarEscolaAnoLetivoTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     turmas_por_ano smallint
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.escola_ano_letivo
                     ADD CONSTRAINT escola_ano_letivo_pkey PRIMARY KEY (ref_cod_escola, ano);
             '
             );
-        }
     }
 
     /**

@@ -1,24 +1,12 @@
 <?php
 
+use App\Models\LegacySchoolAcademicYear;
 use iEducar\Support\Navigation\Breadcrumb;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
-require_once 'include/clsCampos.inc.php';
-require_once 'Portabilis/View/Helper/Application.php';
-require_once 'Portabilis/View/Helper/Inputs.php';
-require_once 'Portabilis/Utils/User.php';
-require_once 'include/localizacaoSistema.php';
-
 class clsCadastro extends clsCampos
 {
-    /**
-     * Referencia pega da session para o idpes do usuario atual
-     *
-     * @var int
-     */
-    public $pessoa_logada;
-    public $__nome = 'formcadastro';
     public $target = '_self';
     public $largura;
     public $tipoacao;
@@ -61,29 +49,10 @@ class clsCadastro extends clsCampos
     const NOVO = 'N';
     const EDITAR = 'E';
 
-    /**
-     * @deprecated
-     */
-    public function addBanner(
-        $strBannerUrl = '',
-        $strBannerLateralUrl = '',
-        $strBannerTitulo = '',
-        $boolFechaBanner = true
-    ) {
-        // Método deixado para compatibilidade
-    }
-
     public function __construct()
     {
         parent::__construct();
         $this->tipoacao = @$_POST['tipoacao'];
-    }
-
-    public function enviaLocalizacao($localizao)
-    {
-        if ($localizao) {
-            $this->locale = $localizao;
-        }
     }
 
     public function PreCadastrar()
@@ -159,38 +128,37 @@ class clsCadastro extends clsCampos
         }
     }
 
-
-    function Inicializar()
+    public function Inicializar()
     {
     }
 
-    function Formular()
+    public function Formular()
     {
     }
 
-    function Novo()
+    public function Novo()
     {
-        return FALSE;
+        return false;
     }
 
-    function Editar()
+    public function Editar()
     {
-        return FALSE;
+        return false;
     }
 
-    function Excluir()
+    public function Excluir()
     {
-        return FALSE;
+        return false;
     }
 
-    function ExcluirImg()
+    public function ExcluirImg()
     {
-        return FALSE;
+        return false;
     }
 
-    function Gerar()
+    public function Gerar()
     {
-        return FALSE;
+        return false;
     }
 
     protected function setFlashMessage()
@@ -533,7 +501,7 @@ class clsCadastro extends clsCampos
             $retorno .= "&nbsp;<input type='button' class='botaolistagem' onclick='javascript: $this->acao' value=' $this->nome_acao '>&nbsp;";
         }
         if (!empty($this->url_cancelar) || !empty($this->script_cancelar)) {
-            $retorno .= "&nbsp;<input type='button' class='botaolistagem' onclick='javascript: $this->script_cancelar go( \"$this->url_cancelar\" );' value=' $this->nome_url_cancelar '>&nbsp;";
+            $retorno .= "&nbsp;<input type='button' class='botaolistagem' onclick='javascript: $this->script_cancelar goOrClose( \"$this->url_cancelar\" );' value=' $this->nome_url_cancelar '>&nbsp;";
         }
         if (!empty($this->url_copiar_enturmacoes)) {
             $retorno .= "&nbsp;<input type='button' class='botaolistagem' onclick='javascript: go( \"$this->url_copiar_enturmacoes\" );' value=' $this->nome_url_copiar_enturmacoes '>&nbsp;";
@@ -645,9 +613,18 @@ class clsCadastro extends clsCampos
     protected function sugestaoAnosLetivos()
     {
         $anoAtual = date('Y');
-        $anos = range($anoAtual - 10, $anoAtual + 1);
+        $anos = range($anoAtual - 18, $anoAtual + 1);
 
         return array_combine($anos, $anos);
+    }
+
+    protected function anosLetivosExistentes()
+    {
+        return LegacySchoolAcademicYear::query()
+            ->distinct('ano')
+            ->get()
+            ->pluck('ano', 'ano')
+            ->toArray();
     }
 
     protected function inputsHelper()

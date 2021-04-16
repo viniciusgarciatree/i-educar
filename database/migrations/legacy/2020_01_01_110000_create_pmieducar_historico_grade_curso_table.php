@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarHistoricoGradeCursoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarHistoricoGradeCursoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'historico_grade_curso');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.historico_grade_curso_seq
                     START WITH 3
                     INCREMENT BY 1
@@ -33,14 +30,13 @@ class CreatePmieducarHistoricoGradeCursoTable extends Migration
                     quantidade_etapas integer,
                     ativo smallint DEFAULT (1)::smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.historico_grade_curso
                     ADD CONSTRAINT historico_grade_curso_pk PRIMARY KEY (id);
 
                 SELECT pg_catalog.setval(\'pmieducar.historico_grade_curso_seq\', 3, false);
             '
             );
-        }
     }
 
     /**

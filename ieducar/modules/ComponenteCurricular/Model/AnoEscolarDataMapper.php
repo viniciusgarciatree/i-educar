@@ -1,8 +1,5 @@
 <?php
 
-require_once 'CoreExt/DataMapper.php';
-require_once 'ComponenteCurricular/Model/AnoEscolar.php';
-
 class ComponenteCurricular_Model_AnoEscolarDataMapper extends CoreExt_DataMapper
 {
     protected $_entityClass = 'ComponenteCurricular_Model_AnoEscolar';
@@ -16,7 +13,8 @@ class ComponenteCurricular_Model_AnoEscolarDataMapper extends CoreExt_DataMapper
         'anoEscolar' => 'ano_escolar_id',
         'cargaHoraria' => 'carga_horaria',
         'tipo_nota' => 'tipo_nota',
-        'anosLetivos' => 'anos_letivos'
+        'anosLetivos' => 'anos_letivos',
+        'cargaHorariaAuxiliar' => 'carga_horaria_auxiliar'
     ];
 
     protected $_primaryKey = [
@@ -51,7 +49,6 @@ class ComponenteCurricular_Model_AnoEscolarDataMapper extends CoreExt_DataMapper
     public function getComponenteDataMapper()
     {
         if (is_null($this->_componenteDataMapper)) {
-            require_once 'ComponenteCurricular/Model/ComponenteDataMapper.php';
             $this->_componenteDataMapper = new ComponenteCurricular_Model_ComponenteDataMapper();
         }
 
@@ -118,8 +115,9 @@ class ComponenteCurricular_Model_AnoEscolarDataMapper extends CoreExt_DataMapper
             $id = $componenteAnoEscolar->get('componenteCurricular');
             $list[$id] = $this->getComponenteDataMapper()->find(
                 $componenteAnoEscolar->get('componenteCurricular')
-              );
+            );
             $list[$id]->cargaHoraria = $componenteAnoEscolar->cargaHoraria;
+            $list[$id]->cargaHorariaAuxiliar = $componenteAnoEscolar->cargaHorariaAuxiliar;
         }
 
         ksort($list);

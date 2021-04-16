@@ -393,12 +393,12 @@ class clsPmieducarCandidatoFilaUnica extends Model
         $sqlEscolas = 'null';
 
         if ($getEscolas) {
-            $sqlEscolas = " (SELECT string_agg(j.fantasia, ', ')
+            $sqlEscolas = ' (SELECT string_agg(j.fantasia, \', \')
                           FROM pmieducar.escola_candidato_fila_unica ecfu
                     INNER JOIN pmieducar.escola e ON e.cod_escola = ecfu.ref_cod_escola
                     INNER JOIN cadastro.juridica j ON j.idpes = e.ref_idpes
                          WHERE ecfu.ref_cod_candidato_fila_unica = cfu.cod_candidato_fila_unica
-                      GROUP BY ecfu.ref_cod_candidato_fila_unica) AS escolas";
+                      GROUP BY ecfu.ref_cod_candidato_fila_unica) AS escolas';
         }
 
         $sql = "SELECT {$this->_campos_lista},
@@ -708,7 +708,7 @@ class clsPmieducarCandidatoFilaUnica extends Model
      */
     public function excluir()
     {
-        if (is_numeric($this->cod_canddidato_fila_unica) && is_numeric($this->ref_cod_pessoa_exc)) {
+        if (is_numeric($this->cod_candidato_fila_unica) && is_numeric($this->ref_cod_pessoa_exc)) {
             $this->ativo = 0;
 
             return $this->edita();
@@ -776,6 +776,7 @@ class clsPmieducarCandidatoFilaUnica extends Model
             $db->Consulta("UPDATE pmieducar.candidato_fila_unica
                               SET ref_cod_matricula = '{$ref_cod_matricula}',
                                   situacao = 'A',
+                                  motivo = null,
                                   data_situacao = NOW(),
                                   historico = '{$historico}'
                             WHERE cod_candidato_fila_unica = '{$this->cod_candidato_fila_unica}'");
@@ -794,7 +795,7 @@ class clsPmieducarCandidatoFilaUnica extends Model
         }
 
         $situacao = $situacao ?: 'NULL';
-        $motivo = str_replace("\'", "''", $motivo) ?: 'NULL';
+        $motivo = str_replace("\'", '\'\'', $motivo) ?: null;
         $historico = $this->montaHistorico();
         $data = $data ?: 'NOW()';
 
@@ -803,6 +804,7 @@ class clsPmieducarCandidatoFilaUnica extends Model
                           SET situacao = {$situacao},
                               motivo = '{$motivo}',
                               data_situacao = NOW(),
+                              ref_cod_matricula = null,
                               data_solicitacao = '{$data}',
                               hora_solicitacao = NOW(),
                               historico = '{$historico}'

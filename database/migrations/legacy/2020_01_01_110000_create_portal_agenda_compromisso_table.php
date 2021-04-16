@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePortalAgendaCompromissoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePortalAgendaCompromissoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'portal' AND tablename = 'agenda_compromisso');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE TABLE portal.agenda_compromisso (
                     cod_agenda_compromisso integer NOT NULL,
                     versao integer NOT NULL,
@@ -32,12 +29,11 @@ class CreatePortalAgendaCompromissoTable extends Migration
                     data_cadastro timestamp without time zone NOT NULL,
                     data_fim timestamp without time zone
                 );
-                
+
                 ALTER TABLE ONLY portal.agenda_compromisso
                     ADD CONSTRAINT agenda_compromisso_pkey PRIMARY KEY (cod_agenda_compromisso, versao, ref_cod_agenda);
             '
             );
-        }
     }
 
     /**

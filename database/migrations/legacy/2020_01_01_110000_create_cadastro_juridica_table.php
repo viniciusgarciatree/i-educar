@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateCadastroJuridicaTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateCadastroJuridicaTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'cadastro' AND tablename = 'juridica');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE cadastro.juridica (
                     idpes numeric(8,0) NOT NULL,
                     cnpj numeric(14,0) NOT NULL,
@@ -33,14 +30,13 @@ class CreateCadastroJuridicaTable extends Migration
                     CONSTRAINT ck_juridica_operacao CHECK (((operacao = \'I\'::bpchar) OR (operacao = \'A\'::bpchar) OR (operacao = \'E\'::bpchar))),
                     CONSTRAINT ck_juridica_origem_gravacao CHECK (((origem_gravacao = \'M\'::bpchar) OR (origem_gravacao = \'U\'::bpchar) OR (origem_gravacao = \'C\'::bpchar) OR (origem_gravacao = \'O\'::bpchar)))
                 );
-                
+
                 ALTER TABLE ONLY cadastro.juridica
                     ADD CONSTRAINT pk_juridica PRIMARY KEY (idpes);
-                    
+
                 CREATE UNIQUE INDEX un_juridica_cnpj ON cadastro.juridica USING btree (cnpj);
             '
             );
-        }
     }
 
     /**

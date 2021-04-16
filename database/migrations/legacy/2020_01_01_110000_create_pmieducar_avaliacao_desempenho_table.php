@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarAvaliacaoDesempenhoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarAvaliacaoDesempenhoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'avaliacao_desempenho');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.avaliacao_desempenho (
                     sequencial integer NOT NULL,
                     ref_cod_servidor integer NOT NULL,
@@ -30,12 +27,11 @@ class CreatePmieducarAvaliacaoDesempenhoTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     titulo_avaliacao character varying(255) NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.avaliacao_desempenho
                     ADD CONSTRAINT avaliacao_desempenho_pkey PRIMARY KEY (sequencial, ref_cod_servidor, ref_ref_cod_instituicao);
             '
             );
-        }
     }
 
     /**

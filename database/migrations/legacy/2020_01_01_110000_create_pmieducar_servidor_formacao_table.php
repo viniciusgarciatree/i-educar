@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarServidorFormacaoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarServidorFormacaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'servidor_formacao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.servidor_formacao_cod_formacao_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -38,7 +35,7 @@ class CreatePmieducarServidorFormacaoTable extends Migration
                     data_exclusao timestamp without time zone,
                     ativo smallint DEFAULT (1)::smallint NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.servidor_formacao
                     ADD CONSTRAINT servidor_formacao_pkey PRIMARY KEY (cod_formacao);
 

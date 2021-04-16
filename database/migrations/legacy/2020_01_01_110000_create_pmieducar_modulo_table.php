@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarModuloTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarModuloTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'modulo');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.modulo_cod_modulo_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -39,14 +36,13 @@ class CreatePmieducarModuloTable extends Migration
                     ref_cod_instituicao integer NOT NULL,
                     num_etapas numeric(2,0) DEFAULT 0 NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.modulo
                     ADD CONSTRAINT modulo_pkey PRIMARY KEY (cod_modulo);
 
                 SELECT pg_catalog.setval(\'pmieducar.modulo_cod_modulo_seq\', 1, true);
             '
             );
-        }
     }
 
     /**

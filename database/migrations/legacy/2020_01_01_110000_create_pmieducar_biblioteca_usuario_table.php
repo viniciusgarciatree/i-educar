@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarBibliotecaUsuarioTable extends Migration
 {
@@ -13,23 +13,19 @@ class CreatePmieducarBibliotecaUsuarioTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'biblioteca_usuario');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.biblioteca_usuario (
                     ref_cod_biblioteca integer NOT NULL,
                     ref_cod_usuario integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.biblioteca_usuario
                     ADD CONSTRAINT biblioteca_usuario_pkey PRIMARY KEY (ref_cod_biblioteca, ref_cod_usuario);
-                    
+
                 CREATE INDEX fki_biblioteca_usuario_ref_cod_biblioteca_fk ON pmieducar.biblioteca_usuario USING btree (ref_cod_biblioteca);
             '
             );
-        }
     }
 
     /**

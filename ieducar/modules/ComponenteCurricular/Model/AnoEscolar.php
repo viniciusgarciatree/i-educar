@@ -1,15 +1,13 @@
 <?php
 
-require_once 'CoreExt/Entity.php';
-require_once 'ComponenteCurricular/Model/TipoBase.php';
-
 class ComponenteCurricular_Model_AnoEscolar extends CoreExt_Entity
 {
     protected $_data = [
         'componenteCurricular' => null,
         'anoEscolar' => null,
         'cargaHoraria' => null,
-        'anosLetivos' => null
+        'anosLetivos' => null,
+        'cargaHorariaAuxiliar' => null
     ];
 
     protected $_dataTypes = [
@@ -41,7 +39,6 @@ class ComponenteCurricular_Model_AnoEscolar extends CoreExt_Entity
     public function getDataMapper()
     {
         if (is_null($this->_dataMapper)) {
-            require_once 'ComponenteCurricular/Model/AnoEscolarDataMapper.php';
             $this->setDataMapper(new ComponenteCurricular_Model_AnoEscolarDataMapper());
         }
 

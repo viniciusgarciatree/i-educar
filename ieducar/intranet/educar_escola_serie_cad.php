@@ -1,34 +1,14 @@
 <?php
 
+use App\Models\LegacyDiscipline;
 use App\Models\LegacyGrade;
 use App\Process;
+use App\Services\CheckPostedDataService;
 use App\Services\iDiarioService;
 use App\Services\SchoolLevelsService;
 use Illuminate\Support\Arr;
-use App\Services\CheckPostedDataService;
-use App\Models\LegacyDiscipline;
 
-require_once 'include/clsBase.inc.php';
-require_once 'include/clsCadastro.inc.php';
-require_once 'include/clsBanco.inc.php';
-require_once 'include/pmieducar/geral.inc.php';
-require_once 'ComponenteCurricular/Model/AnoEscolarDataMapper.php';
-require_once 'ComponenteCurricular/Model/ComponenteDataMapper.php';
-require_once 'RegraAvaliacao/Model/RegraDataMapper.php';
-require_once 'Avaliacao/Fixups/CleanComponentesCurriculares.php';
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
-
-class clsIndexBase extends clsBase
-{
-    public function Formular()
-    {
-        $this->SetTitulo($this->_instituicao . ' i-Educar - Escola Série');
-        $this->processoAp = 585;
-    }
-}
-
-class indice extends clsCadastro
-{
+return new class extends clsCadastro {
     public $ref_cod_escola_;
     public $ref_cod_serie;
     public $ref_cod_serie_;
@@ -243,7 +223,12 @@ class indice extends clsCadastro
 
                 foreach ($registros as $campo) {
                     $this->escola_serie_disciplina[$campo['ref_cod_disciplina']] = $campo['ref_cod_disciplina'];
-                    $this->escola_serie_disciplina_carga[$campo['ref_cod_disciplina']] = $campo['carga_horaria'];
+                    if(!empty($campo['carga_horaria_auxiliar'])){
+                        $this->escola_serie_disciplina_carga[$campo['ref_cod_disciplina']] = $campo['carga_horaria_auxiliar'];
+                    }else{
+                        $this->escola_serie_disciplina_carga[$campo['ref_cod_disciplina']] = $campo['carga_horaria'];
+                    }
+
                     $this->escola_serie_disciplina_anos_letivos[$campo['ref_cod_disciplina']] = $campo['anos_letivos'] ?: [];
 
                     if ($this->definirComponentePorEtapa) {
@@ -271,20 +256,36 @@ class indice extends clsCadastro
                 $conteudo .= '  <span style="display: block; float: left; width: 100px;">Nome abreviado</span>';
                 $conteudo .= '  <span style="display: block; float: left; width: 100px;">Carga horária</span>';
                 $conteudo .= '  <span style="display: block; float: left; width: 180px;" >Usar padrão do componente?</span>';
-                $conteudo .= '  <span style="display: block; float: left; width: 150px;">Anos letivos</span>';
 
                 if ($this->definirComponentePorEtapa) {
-                    $conteudo .= '  <span style="display: block; float: left; margin-left: 30px;">Usado em etapas específicas?(Exemplo: 1,2 / 1,3)</span>';
+                    $conteudo .= '  <span style="display: block; width: 280px; float: left; margin-left: 30px;">Usado em etapas específicas?(Exemplo: 1,2 / 1,3)</span>';
                 }
+                $conteudo .= '  <span style="display: block; float: left; width: 150px;">Anos letivos</span>';
 
                 $conteudo .= '</div>';
                 $conteudo .= '<br style="clear: left" />';
                 $conteudo .= '<div style="margin-bottom: 10px; float: left">';
-                $conteudo .= '  <label style=\'display: block; float: left; width: 450px;\'><input type=\'checkbox\' name=\'CheckTodos\' onClick=\'marcarCheck(' . '"disciplinas[]"' . ');\'/>Marcar Todos</label>';
-                $conteudo .= '  <label style=\'display: block; float: left; width: 330px;\'><input type=\'checkbox\' name=\'CheckTodos2\' onClick=\'marcarCheck(' . '"usar_componente[]"' . ');\';/>Marcar Todos</label>';
+                $conteudo .= '  <label style=\'display: block; float: left; width: 250px;\'><input type=\'checkbox\' name=\'CheckTodos\' onClick=\'marcarCheck(' . '"disciplinas[]"' . ');\'/>Marcar Todos</label>';
+                $conteudo .= '<label style="display: block; float: left; width: 100px">&nbsp;</label>
+                                     <label style="display: block; float: left; width: 100px;">
+                                        <a class="clone-values"
+                                            onclick="cloneValues(' . array_key_first($lista). ',\'carga_horaria\')">
+                                            <i class="fa fa-clone" aria-hidden="true"></i>
+                                        </a>
+                                     </label>';
+                $conteudo .= '  <label style=\'display: block; float: left; width: 180px;\'><input type=\'checkbox\' name=\'CheckTodos2\' onClick=\'marcarCheck(' . '"usar_componente[]"' . ');\';/>Marcar Todos</label>';
 
                 if ($this->definirComponentePorEtapa) {
-                    $conteudo .= '  <label style=\'display: block; float: left; width: 100px; margin-left: 84px;\'><input type=\'checkbox\' name=\'CheckTodos3\' onClick=\'marcarCheck(' . '"etapas_especificas[]"' . ');\';/>Marcar Todos</label>';
+                    $conteudo .= '  <label style=\'display: block; float: left; width: 283px; margin-left: 27px;\'><input type=\'checkbox\' name=\'CheckTodos3\' onClick=\'marcarCheck(' . '"etapas_especificas[]"' . ');\';/>Marcar Todos</label>';
+                }
+
+                if ($lista) {
+                    $conteudo .= '<label style="display: block; float: left; width: 231px">
+                                        <a class="clone-values"
+                                            onclick="cloneValues(' . array_key_first($lista) . ',\'anos_letivos\')">
+                                        <i class="fa fa-clone" aria-hidden="true"></i>
+                                        </a>
+                                     </label>';
                 }
 
                 $conteudo .= '</div>';
@@ -315,13 +316,13 @@ class indice extends clsCadastro
                         $anosLetivosComponente = $this->escola_serie_disciplina_anos_letivos[$registro->id];
                     }
 
-                    $cargaComponente = $registro->cargaHoraria;
+                    $cargaComponente = $registro->cargaHorariaAuxiliar ? $registro->cargaHorariaAuxiliar : $registro->cargaHoraria;
                     $etapas_utilizadas = $this->escola_serie_disciplina_etapa_utilizada[$registro->id];
 
                     $conteudo .= '<div style="margin-bottom: 10px; float: left">';
                     $conteudo .= "  <label style='display: block; float: left; width: 250px'><input type=\"checkbox\" $checked name=\"disciplinas[$registro->id]\" class='check_{$registro->id}' id=\"disciplinas[]\" value=\"{$registro->id}\">{$registro}</label>";
                     $conteudo .= "  <span style='display: block; float: left; width: 100px'>{$registro->abreviatura}</span>";
-                    $conteudo .= "  <label style='display: block; float: left; width: 100px;'><input type='text' class='carga_horaria' id='carga_horaria_{$registro->id}' name='carga_horaria[$registro->id]' value='{$cargaHoraria}' size='5' maxlength='7' data-id='$registro->id'></label>";
+                    $conteudo .= "  <label style='display: block; float: left; width: 100px;'><input type='text' class='carga_horaria' id='carga_horaria_{$registro->id}' name='carga_horaria[$registro->id]' value='{$cargaHoraria}' size='7' maxlength='7' data-id='$registro->id'></label>";
                     $conteudo .= "  <label style='display: block; float: left;  width: 180px;'><input type='checkbox' id='usar_componente[]' name='usar_componente[$registro->id]' value='1' " . ($usarComponente == true ? $checked : '') . ">($cargaComponente h)</label>";
 
                     $conteudo .= "
@@ -336,27 +337,10 @@ class indice extends clsCadastro
                     $conteudo .= ' </select>';
 
                     if ($this->definirComponentePorEtapa) {
-                        $conteudo .= "  <input style='margin-left:140px; float:left;' type='checkbox' id='etapas_especificas[]' name='etapas_especificas[$registro->id]' value='1' " . $checkedEtapaEspecifica . '></label>';
-                        $conteudo .= "  <label style='display: block; float: left; width: 100px;'>Etapas utilizadas: <input type='text' class='etapas_utilizadas' name='etapas_utilizadas[$registro->id]' value='{$etapas_utilizadas}' size='5' maxlength='7'></label>";
+                        $conteudo .= "  <input style='margin-left:30px; float:left;' type='checkbox' id='etapas_especificas[]' name='etapas_especificas[$registro->id]' value='1' " . $checkedEtapaEspecifica . '></label>';
+                        $conteudo .= "  <label style='display: block; float: left; width: 260px;'>Etapas utilizadas: <input type='text' class='etapas_utilizadas' name='etapas_utilizadas[$registro->id]' value='{$etapas_utilizadas}' size='5' maxlength='7'></label>";
                     }
 
-                    if ($row == 1) {
-                        $conteudo .= '<label style="display: block; float: left; width: 250px">&nbsp;</label>
-                                     <span style="display: block; float: left; width: 100px">&nbsp;</span>
-                                     <label style="display: block; float: left; width: 100px;">
-                                        <a class="clone-values"
-                                            onclick="cloneValues(' . $registro->id . ',\'carga_horaria\')">
-                                            <i class="fa fa-clone" aria-hidden="true"></i>
-                                        </a>
-                                     </label>
-                                     <label style="display: block; float: left;  width: 180px;">&nbsp</label>
-                                     <label style="display: block; float: left; width: 231px">
-                                        <a class="clone-values"
-                                            onclick="cloneValues(' . $registro->id . ',\'anos_letivos\')">
-                                        <i class="fa fa-clone" aria-hidden="true"></i>
-                                        </a>
-                                     </label>';
-                    }
                     $row++;
 
                     $conteudo .= '</div>';
@@ -429,15 +413,9 @@ class indice extends clsCadastro
         );
 
         if ($obj->existe()) {
-            $detalheAntigo = $obj->detalhe();
             $cadastrou = $obj->edita();
-            $auditoria = new clsModulesAuditoriaGeral('escola_serie', $this->pessoa_logada);
-            $auditoria->alteracao($detalheAntigo, $obj->detalhe());
         } else {
             $cadastrou = $obj->cadastra();
-
-            $auditoria = new clsModulesAuditoriaGeral('escola_serie', $this->pessoa_logada);
-            $auditoria->inclusao($obj->detalhe());
         }
 
         if ($cadastrou) {
@@ -523,11 +501,7 @@ class indice extends clsCadastro
             return $this->simpleRedirect(\Request::getRequestUri());
         }
 
-        $detalheAntigo = $obj->detalhe();
         $editou = $obj->edita();
-
-        $auditoria = new clsModulesAuditoriaGeral('escola_serie', $this->pessoa_logada);
-        $auditoria->alteracao($detalheAntigo, $obj->detalhe());
 
         $obj = new clsPmieducarEscolaSerieDisciplina(
             $this->ref_cod_serie,
@@ -543,8 +517,10 @@ class indice extends clsCadastro
                 foreach ($this->disciplinas as $key => $campo) {
                     if (isset($this->usar_componente[$key])) {
                         $carga_horaria = null;
+                        $carga_horaria_auxiliar = null;
                     } else {
-                        $carga_horaria = $this->carga_horaria[$key];
+                        $carga_horaria = (int)$this->carga_horaria[$key];
+                        $carga_horaria_auxiliar = $this->carga_horaria[$key];;
                     }
 
                     $etapas_especificas = $this->etapas_especificas[$key];
@@ -558,7 +534,8 @@ class indice extends clsCadastro
                         $carga_horaria,
                         $etapas_especificas,
                         $etapas_utilizadas,
-                        $this->componente_anos_letivos[$key] ?: []
+                        $this->componente_anos_letivos[$key] ?: [],
+                        $carga_horaria_auxiliar
                     );
 
                     $existe = $obj->existe();
@@ -618,13 +595,11 @@ class indice extends clsCadastro
         if ($existeDependencia) {
             $this->mensagem = 'Não foi possível remover o componente. Existe registros de dependência neste componente.<br>';
             $this->simpleRedirect("educar_escola_serie_cad.php?ref_cod_escola={$this->ref_cod_escola_}&ref_cod_serie={$this->ref_cod_serie_}");
+
             return false;
         };
 
-        $detalhe = $obj->detalhe();
         $excluiu = $obj->excluir();
-        $auditoria = new clsModulesAuditoriaGeral('escola_serie', $this->pessoa_logada);
-        $auditoria->exclusao($detalhe);
 
         if ($excluiu) {
             $obj = new clsPmieducarEscolaSerieDisciplina($this->ref_cod_serie_, $this->ref_cod_escola_, null, 0);
@@ -893,10 +868,10 @@ class indice extends clsCadastro
 
         return null;
     }
-}
 
-$pagina = new clsIndexBase();
-$miolo = new indice();
-
-$pagina->addForm($miolo);
-$pagina->MakeAll();
+    public function Formular()
+    {
+        $this->title = 'i-Educar - Escola Série';
+        $this->processoAp = 585;
+    }
+};

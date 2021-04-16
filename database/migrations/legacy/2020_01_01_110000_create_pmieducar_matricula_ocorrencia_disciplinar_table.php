@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarMatriculaOcorrenciaDisciplinarTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarMatriculaOcorrenciaDisciplinarTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'matricula_ocorrencia_disciplinar');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.ocorrencia_disciplinar_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -39,14 +36,13 @@ class CreatePmieducarMatriculaOcorrenciaDisciplinarTable extends Migration
                     cod_ocorrencia_disciplinar integer DEFAULT nextval(\'pmieducar.ocorrencia_disciplinar_seq\'::regclass) NOT NULL,
 	                updated_at timestamp NULL DEFAULT now()
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.matricula_ocorrencia_disciplinar
                     ADD CONSTRAINT matricula_ocorrencia_disciplinar_pkey PRIMARY KEY (ref_cod_matricula, ref_cod_tipo_ocorrencia_disciplinar, sequencial);
 
                 SELECT pg_catalog.setval(\'pmieducar.ocorrencia_disciplinar_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

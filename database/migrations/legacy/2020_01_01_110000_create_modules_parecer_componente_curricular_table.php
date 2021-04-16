@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesParecerComponenteCurricularTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesParecerComponenteCurricularTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'parecer_componente_curricular');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE modules.parecer_componente_curricular_id_seq
                     START WITH 1
                     INCREMENT BY 1
@@ -39,13 +36,12 @@ class CreateModulesParecerComponenteCurricularTable extends Migration
                     ADD CONSTRAINT parecer_componente_curricular_pkey PRIMARY KEY (parecer_aluno_id, componente_curricular_id, etapa);
 
                 ALTER TABLE ONLY modules.parecer_componente_curricular ALTER COLUMN id SET DEFAULT nextval(\'modules.parecer_componente_curricular_id_seq\'::regclass);
-                
+
                 CREATE UNIQUE INDEX alunocomponenteetapa ON modules.parecer_componente_curricular USING btree (parecer_aluno_id, componente_curricular_id, etapa);
 
                 SELECT pg_catalog.setval(\'modules.parecer_componente_curricular_id_seq\', 1, false);
             '
             );
-        }
     }
 
     /**

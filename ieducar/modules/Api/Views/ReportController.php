@@ -1,8 +1,8 @@
 <?php
 
-require_once 'lib/Portabilis/Controller/ApiCoreController.php';
-require_once 'Reports/Reports/TeacherReportCardReport.php';
-require_once 'Reports/Reports/StudentsByRelativesReport.php';
+# TODO remove-require
+require_once 'Reports/Reports/BoletimReport.php';
+require_once 'Reports/Reports/BoletimProfessorReport.php';
 
 class ReportController extends ApiCoreController
 {

@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use App\Process;
 use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
 use iEducar\Modules\Notifications\Status;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class NotificationController extends Controller
 {
     /**
      * @param Request $request
-     * @param User $user
+     * @param User    $user
+     *
      * @return View
      */
     public function index(Request $request, User $user)
@@ -87,8 +87,9 @@ class NotificationController extends Controller
     private function getLimit(User $user)
     {
         $notRead = $this->getNotReadCount($user);
+
         if ($notRead > 5) {
-            return $notRead;
+            return 25;
         }
 
         return 5;

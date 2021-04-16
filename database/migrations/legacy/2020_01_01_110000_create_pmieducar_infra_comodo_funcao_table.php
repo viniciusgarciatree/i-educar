@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarInfraComodoFuncaoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreatePmieducarInfraComodoFuncaoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'infra_comodo_funcao');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE SEQUENCE pmieducar.infra_comodo_funcao_cod_infra_comodo_funcao_seq
                     START WITH 0
                     INCREMENT BY 1
@@ -36,14 +33,13 @@ class CreatePmieducarInfraComodoFuncaoTable extends Migration
                     ativo smallint DEFAULT (1)::smallint NOT NULL,
                     ref_cod_escola integer
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.infra_comodo_funcao
                     ADD CONSTRAINT infra_comodo_funcao_pkey PRIMARY KEY (cod_infra_comodo_funcao);
 
                 SELECT pg_catalog.setval(\'pmieducar.infra_comodo_funcao_cod_infra_comodo_funcao_seq\', 1, true);
             '
             );
-        }
     }
 
     /**

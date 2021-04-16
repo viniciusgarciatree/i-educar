@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateModulesRegraAvaliacaoSerieAnoTable extends Migration
 {
@@ -13,11 +13,8 @@ class CreateModulesRegraAvaliacaoSerieAnoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'modules' AND tablename = 'regra_avaliacao_serie_ano');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = false;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE modules.regra_avaliacao_serie_ano (
                     serie_id integer NOT NULL,
                     regra_avaliacao_id integer NOT NULL,
@@ -25,12 +22,11 @@ class CreateModulesRegraAvaliacaoSerieAnoTable extends Migration
                     ano_letivo smallint NOT NULL,
 	                updated_at timestamp NOT NULL DEFAULT now()
                 );
-                
+
                 ALTER TABLE ONLY modules.regra_avaliacao_serie_ano
                     ADD CONSTRAINT regra_avaliacao_serie_ano_pkey PRIMARY KEY (serie_id, ano_letivo);
             '
             );
-        }
     }
 
     /**

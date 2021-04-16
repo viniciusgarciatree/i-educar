@@ -12,6 +12,7 @@ class CyclicRegimeService
      * Retorna todas as matriculas de um ciclo a partir de uma matricula
      *
      * @param int $registration
+     *
      * @return LegacyRegistration[]
      */
     public function getAllRegistrationsOfCycle($registration)
@@ -26,6 +27,7 @@ class CyclicRegimeService
             foreach ($grades as $grade) {
                 $result = LegacyRegistration::where('ref_ref_cod_serie', $grade->getKey())
                     ->where('ref_cod_aluno', $registration->ref_cod_aluno)
+                    ->where('ano', $registration->ano)
                     ->active()
                     ->get()
                     ->first();
@@ -43,6 +45,7 @@ class CyclicRegimeService
 
     /**
      * @param LegacyRegistration $registration
+     *
      * @return LegacyGrade[]
      */
     public function getAllGradesOfCycleByRegistration($registration)

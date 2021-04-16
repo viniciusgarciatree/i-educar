@@ -3,10 +3,6 @@
 use App\Models\LegacyRegistration;
 use App\Services\GlobalAverageService;
 use iEducar\Legacy\Model;
-use Illuminate\Support\Facades\Session;
-
-require_once 'include/pmieducar/geral.inc.php';
-require_once 'include/modules/clsModulesAuditoriaGeral.inc.php';
 
 class clsPmieducarHistoricoEscolar extends Model
 {
@@ -35,32 +31,28 @@ class clsPmieducarHistoricoEscolar extends Model
     public $origem;
     public $extra_curricular;
     public $ref_cod_matricula;
-    public $pessoa_logada;
 
     public function __construct($ref_cod_aluno = null, $sequencial = null, $ref_usuario_exc = null, $ref_usuario_cad = null, $nm_serie = null, $ano = null, $carga_horaria = null, $dias_letivos = null, $escola = null, $escola_cidade = null, $escola_uf = null, $observacao = null, $aprovado = null, $data_cadastro = null, $data_exclusao = null, $ativo = null, $faltas_globalizadas = null, $ref_cod_instituicao = null, $origem = null, $extra_curricular = null, $ref_cod_matricula = null, $frequencia = null, $registro = null, $livro = null, $folha = null, $nm_curso = null, $historico_grade_curso_id = null, $aceleracao = null, $ref_cod_escola = null, $dependencia = false, $posicao = null)
     {
-        $db = new clsBanco();
         $this->_schema = 'pmieducar.';
         $this->_tabela = "{$this->_schema}historico_escolar";
-
-        $this->pessoa_logada = Session::get('id_pessoa');
 
         $this->_campos_lista = $this->_todos_campos = 'ref_cod_aluno, sequencial, ref_usuario_exc, ref_usuario_cad, ano, carga_horaria, dias_letivos, escola, escola_cidade, escola_uf, observacao, aprovado, data_cadastro, data_exclusao, ativo, faltas_globalizadas, ref_cod_instituicao, nm_serie, origem, extra_curricular, ref_cod_matricula, frequencia, registro, livro, folha, nm_curso, historico_grade_curso_id, aceleracao, ref_cod_escola, dependencia, posicao';
 
         if (is_numeric($ref_usuario_exc)) {
-                    $this->ref_usuario_exc = $ref_usuario_exc;
+            $this->ref_usuario_exc = $ref_usuario_exc;
         }
         if (is_numeric($ref_usuario_cad)) {
-                    $this->ref_usuario_cad = $ref_usuario_cad;
+            $this->ref_usuario_cad = $ref_usuario_cad;
         }
         if (is_numeric($ref_cod_aluno)) {
-                    $this->ref_cod_aluno = $ref_cod_aluno;
+            $this->ref_cod_aluno = $ref_cod_aluno;
         }
         if (is_numeric($ref_cod_instituicao)) {
-                    $this->ref_cod_instituicao = $ref_cod_instituicao;
+            $this->ref_cod_instituicao = $ref_cod_instituicao;
         }
         if (is_numeric($ref_cod_matricula)) {
-                    $this->ref_cod_matricula = $ref_cod_matricula;
+            $this->ref_cod_matricula = $ref_cod_matricula;
         }
 
         if (is_numeric($sequencial)) {
@@ -345,8 +337,6 @@ class clsPmieducarHistoricoEscolar extends Model
 
             if ($this->ref_cod_aluno) {
                 $detalhe = $this->detalhe();
-                $auditoria = new clsModulesAuditoriaGeral('historico_escolar', $this->pessoa_logada, $this->ref_cod_aluno);
-                $auditoria->inclusao($detalhe);
             }
 
             return $this->sequencial;
@@ -519,8 +509,6 @@ class clsPmieducarHistoricoEscolar extends Model
             if ($set) {
                 $detalheAntigo = $this->detalhe();
                 $db->Consulta("UPDATE {$this->_tabela} SET $set WHERE ref_cod_aluno = '{$this->ref_cod_aluno}' AND sequencial = '{$this->sequencial}'");
-                $auditoria = new clsModulesAuditoriaGeral('historico_escolar', $this->pessoa_logada, $this->ref_cod_aluno);
-                $auditoria->alteracao($detalheAntigo, $this->detalhe());
 
                 return true;
             }
@@ -768,10 +756,10 @@ class clsPmieducarHistoricoEscolar extends Model
                 $ref_usuario_cad = $pessoa_logada,
                 $detMatricula['nome_serie'],
                 $detMatricula['ano'],
-                1000,
+                $detMatricula['carga_horaria'],
                 null,
-                strtoupper($dadosEscola['nome']),
-                strtoupper($dadosEscola['cidade']),
+                mb_strtoupper($dadosEscola['nome']),
+                mb_strtoupper($dadosEscola['cidade']),
                 $dadosEscola['uf'],
                 '',
                 4,
@@ -829,7 +817,7 @@ class clsPmieducarHistoricoEscolar extends Model
 
     protected static function dadosMatricula($ref_cod_matricula)
     {
-        $sql = "SELECT m.ref_cod_aluno, nm_serie as nome_serie, s.cod_serie, m.ano, m.ref_ref_cod_escola, c.ref_cod_instituicao, c.nm_curso as nome_curso
+        $sql = "SELECT m.ref_cod_aluno, nm_serie as nome_serie, s.cod_serie, m.ano, m.ref_ref_cod_escola, c.ref_cod_instituicao, c.nm_curso as nome_curso, s.carga_horaria
             FROM pmieducar.matricula m
             INNER JOIN pmieducar.serie s ON m.ref_ref_cod_serie = s.cod_serie
             INNER JOIN pmieducar.curso c ON m.ref_cod_curso = c.cod_curso
@@ -896,7 +884,8 @@ class clsPmieducarHistoricoEscolar extends Model
         }
     }
 
-    private function arredondaNota($codMatricula, $nota, $tipoNota) {
+    private function arredondaNota($codMatricula, $nota, $tipoNota)
+    {
         $regraAvaliacao = App_Model_IedFinder::getRegraAvaliacaoPorMatricula(
             $codMatricula
         );

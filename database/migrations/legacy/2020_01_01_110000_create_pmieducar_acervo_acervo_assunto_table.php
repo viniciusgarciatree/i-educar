@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Migrations\Migration;
 
 class CreatePmieducarAcervoAcervoAssuntoTable extends Migration
 {
@@ -13,21 +13,17 @@ class CreatePmieducarAcervoAcervoAssuntoTable extends Migration
      */
     public function up()
     {
-        if((DB::select("select EXISTS (SELECT FROM pg_catalog.pg_tables WHERE schemaname = 'pmieducar' AND tablename = 'acervo_acervo_assunto');"))[0]->exists == false) {
-            DB::unprepared(
-                '
-                SET default_with_oids = true;
-                
+        DB::unprepared(
+            '
                 CREATE TABLE pmieducar.acervo_acervo_assunto (
                     ref_cod_acervo integer NOT NULL,
                     ref_cod_acervo_assunto integer NOT NULL
                 );
-                
+
                 ALTER TABLE ONLY pmieducar.acervo_acervo_assunto
                     ADD CONSTRAINT acervo_acervo_assunto_pkey PRIMARY KEY (ref_cod_acervo, ref_cod_acervo_assunto);
             '
             );
-        }
     }
 
     /**
