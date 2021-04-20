@@ -13,7 +13,7 @@ class UpdateComponenteCurricularAnoEscola extends Migration
      */
     public function up()
     {
-        if (Schema::hasColumn('modules.componente_curricular_ano_escolar', 'carga_horaria_auxiliar')) {
+        if (!Schema::hasColumn('modules.componente_curricular_ano_escolar', 'carga_horaria_auxiliar')) {
             Schema::table('modules.componente_curricular_ano_escolar', function (Blueprint $table)
             {
                 $table->string('carga_horaria_auxiliar',8)->nullable();
