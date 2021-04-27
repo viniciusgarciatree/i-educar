@@ -212,6 +212,7 @@ SQL;
             $sql = "
                 INSERT INTO
                     {$this->_tabela}
+                    (componente_curricular_id, ano_escolar_id, carga_horaria, tipo_nota, anos_letivos, carga_horaria_auxiliar)
                 VALUES(
                     $componente_curricular_id,
                     $this->ano_escolar_id,
