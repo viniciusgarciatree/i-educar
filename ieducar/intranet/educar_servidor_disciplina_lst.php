@@ -252,7 +252,7 @@ return new class extends clsCadastro {
     {
         $this->title = 'i-Educar - Servidor Disciplina';
         $this->processoAp         = 0;
-        $this->renderMenu         = false;
+        $this->renderMenu         = true;
         $this->renderMenuSuspenso = false;
     }
 };
