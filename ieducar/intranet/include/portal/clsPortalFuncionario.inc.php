@@ -568,7 +568,7 @@ class clsPortalFuncionario extends Model
     }
 
     /**
-     * Retorna a string com o nome do vinculo cujo código foi passado por parâmetro
+     * Retorna a string com o nome do vínculo cujo código foi passado por parâmetro
      *
      * @return string
      */

@@ -80,7 +80,7 @@ class PessoatransporteController extends ApiCoreController
             if (is_numeric($id)) {
                 $this->messenger->append('Cadastro realizado com sucesso', 'success', false, 'error');
             } else {
-                $this->messenger->append('Aparentemente o vinculo não pode ser cadastrada, por favor, verifique.');
+                $this->messenger->append('Aparentemente o vínculo não pode ser cadastrada, por favor, verifique.');
             }
         }
 
@@ -96,7 +96,7 @@ class PessoatransporteController extends ApiCoreController
             if ($editou) {
                 $this->messenger->append('Alteração realizada com sucesso', 'success', false, 'error');
             } else {
-                $this->messenger->append('Aparentemente o vinculo não pode ser alterado, por favor, verifique.');
+                $this->messenger->append('Aparentemente o vínculo não pode ser alterado, por favor, verifique.');
             }
         }
 

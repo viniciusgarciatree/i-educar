@@ -173,7 +173,7 @@ class EditController extends Core_Controller_Page_EditController
             $db->Consulta($sql);
 
             if ($db->numLinhas()) {
-                $this->mensagem = 'Não é possível excluir esta área de conhecimento, pois a mesma possui vinculo com componentes curriculares.';
+                $this->mensagem = 'Não é possível excluir esta área de conhecimento, pois a mesma possui vínculo com componentes curriculares.';
 
                 return false;
             }
