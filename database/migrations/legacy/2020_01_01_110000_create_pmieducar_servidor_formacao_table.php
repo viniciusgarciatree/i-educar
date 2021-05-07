@@ -42,7 +42,6 @@ class CreatePmieducarServidorFormacaoTable extends Migration
                 SELECT pg_catalog.setval(\'pmieducar.servidor_formacao_cod_formacao_seq\', 1, false);
             '
             );
-        }
     }
 
     /**
