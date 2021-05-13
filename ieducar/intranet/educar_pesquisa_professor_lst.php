@@ -118,7 +118,7 @@ return new class extends clsListagem {
     {
         $this->title = 'i-Educar - Servidor';
         $this->processoAp = '0';
-        $this->renderMenu = false;
+        $this->renderMenu = true;
         $this->renderMenuSuspenso = false;
     }
 };

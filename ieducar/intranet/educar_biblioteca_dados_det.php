@@ -150,7 +150,7 @@ return new class extends clsDetalhe {
         ]);
     }
 
-    public function Formular(): bool
+    public function Formular(): void
     {
         $this->titulo = 'i-Educar - Dados Biblioteca';
         $this->processoAp = '629';
