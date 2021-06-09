@@ -8,7 +8,7 @@
         @elseif (isset($title))
             {!! $title !!}
         @else
-            i-Educar
+            Versa Educa
         @endif
     </title>
 
